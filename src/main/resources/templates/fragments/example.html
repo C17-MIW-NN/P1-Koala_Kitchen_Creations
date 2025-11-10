@@ -5,15 +5,15 @@
 </head>
 
 <body>
+<div class="page-wrapper">
+    <nav th:replace="~{fragments/general :: navbar}"></nav>
 
-<div th:replace="~{fragments/general :: navbar}"></div>
+    <main class="page-main">
 
-<div class="container">
+    </main>
 
+    <footer th:replace="~{fragments/general :: footer}"></footer>
+    <div th:replace="~{fragments/general :: bottomScripts}"></div>
 </div>
-
-<div th:replace="~{fragments/general :: footer}"></div>
-<div th:replace="~{fragments/general :: bottomScripts}"></div>
-
 </body>
 </html>
