@@ -36,22 +36,29 @@ public class InitializeController {
     private void initializeDB() {
         Recipe lunch = makeRecipe("Wraps met pompoen", "Laat je inspireren door de herfst " +
                 "met deze wraps met pompoen. Met smaakvolle pompoenblokjes, romige avocado en afgemaakt met " +
-                "feta en amandelen. Perfect voor een koude lunch.", List.of("pompoen", "advocado", "feta"));
+                "feta en amandelen. Perfect voor een koude lunch.", List.of(
+                        new RecipeIngredients("pompoen", "200 gram"),
+                        new RecipeIngredients("advocado", "1 stuks"),
+                        new RecipeIngredients("feta", "100 gram")));
+
         Recipe voorgerecht = makeRecipe("Tomaat paprika soep", "Met geroosterde groenten " +
                 "en een vleugje tijm zit hij boordevol smaak, zonder dat je er uren voor in de keuken hoeft te staan."
-                , List.of("tomaat", "paprika", "tijm"));
+                , List.of(new RecipeIngredients("tomaatblokjes", "500 gram"),
+                new RecipeIngredients("paprika", "3 stuks"),
+                new RecipeIngredients("tijm", "paar takjes")));
+
         Recipe stamppot = makeRecipe("Boerenkool stamppot","Deze klassieke Hollandse stamppot met " +
                 "rookworst mag niet ontbreken tijdens de winter. Lekker met appelmoes of gebakken spekjes.",
-                List.of("boerenkool", "aardappelen", "speklap"));
+                List.of(new RecipeIngredients("boerenkool", "400 gram"),
+                new RecipeIngredients("aardappelen", "500 gram"),
+                new RecipeIngredients("speklap", "4 stuks")));
     }
 
-    private Recipe makeRecipe(String name, String description, List<String> ingredients) {
+    private Recipe makeRecipe(String name, String description, List<RecipeIngredients> ingredients) {
         Recipe recipe = new Recipe(name, description);
 
         recipeRepository.save(recipe);
-        for (String ingredient : ingredients) {
-            RecipeIngredients recipeIngredients = new RecipeIngredients();
-            recipeIngredients.setName(ingredient);
+        for (RecipeIngredients recipeIngredients: ingredients) {
             recipeIngredients.setRecipe(recipe);
             recipeIngredientsRepository.save(recipeIngredients);
         }
