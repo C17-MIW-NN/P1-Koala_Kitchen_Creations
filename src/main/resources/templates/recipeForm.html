@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head th:replace="~{fragments/general :: baseheader(~{:: title})}">
-    <title>Replace this title</title>
-</head>
+    <title th:if="${formRecipe.recipeId == null}">Create recipe</title>
+    <title th:unless="${formRecipe.recipeId == null}">Edit recipe</title></head>
 
 <body>
 <div class="page-wrapper">

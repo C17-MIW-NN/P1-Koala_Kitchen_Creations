@@ -11,11 +11,13 @@
     <main class="page-main">
         <h1>List of all recipes</h1>
         <div th:replace="~{fragments/recipe :: recipeList(${recipes})}"></div>
+        <a class="btn btn-primary" th:href="@{/recipe/add}">Add recipe</a>
     </main>
 
     <footer th:replace="~{fragments/general :: footer}"></footer>
     <div th:replace="~{fragments/general :: bottomScripts}"></div>
 </div>
+
 
 </body>
 </html>
