@@ -20,8 +20,10 @@ public class Recipe {
     Long recipeId;
 
     String name;
+    private Long description;
 
-    public Recipe(String name) {
+    public Recipe(Long description, String name) {
+        this.description = description;
         this.name = name;
     }
 

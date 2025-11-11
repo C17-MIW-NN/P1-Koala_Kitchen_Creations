@@ -7,9 +7,11 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 /**
  * @author Jantine van der Schaaf
@@ -49,9 +51,21 @@ public class RecipeController {
         return "redirect:/recipe/all";
     }
 
+    @GetMapping("/recipe/delete/{recipeId}")
+    public String deleteRecipe(@PathVariable("recipeId") Long recipeId) {
+        recipeRepository.deleteById(recipeId);
+        return "redirect:/recipe/all";
+    }
 
+    @GetMapping("/recipe/edit/{recipeId}")
+    public String showEditRecipeform(@PathVariable("recipeId") Long recipeId, Model datamodel) {
+        Optional<Recipe> optionalRecipe = recipeRepository.findById(recipeId);
 
+        if (optionalRecipe.isPresent()) {
+            datamodel.addAttribute("formRecipe", optionalRecipe);
+            return "recipeForm";
+        }
 
-
-
+        return "redirect:/recipe/all";
+    }
 }
