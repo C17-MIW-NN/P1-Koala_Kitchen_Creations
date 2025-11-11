@@ -3,16 +3,20 @@
 
 <body>
 
+<!--/*@thymesVar id="recipe" type="nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.Recipe"*/-->
 <div th:fragment="recipeCard(recipe)" th:object="${recipe}" class="col" style="width: 18rem;">
     <div class="card h-100">
         <div class="card-body">
-            <h5 class="card-title" th:text="${recipe.name}">Recipe title</h5>
-            <p class="card-text" th:text="${recipe.description}"}></p>
-            <a th:href="@{/recipe/edit/{recipeId}(recipeId=*{recipeId})}"  class="btn btn-primary stretched-link">View recipe</a>
+            <h5 class="card-title" th:text="*{name}">Recipe title</h5>
+            <p class="card-text" th:text="*{description}"></p>
+            <a th:href="@{/recipe/edit/{recipeId}(recipeId=*{recipeId})}"  class="btn btn-primary stretched-link">
+                View recipe
+            </a>
         </div>
     </div>
 </div>
 
+<!--/*@thymesVar id="recipes" type="java.util.List<nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.Recipe>"*/-->
 <div th:fragment="recipeList(recipes)" class="row row-cols-1 row-cols-md-3 g-4">
     <th:block th:each="recipe : ${recipes}"><div th:replace="this :: recipeCard(${recipe})"></div></th:block>
 </div>
