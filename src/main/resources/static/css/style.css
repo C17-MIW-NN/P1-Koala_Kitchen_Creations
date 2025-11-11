@@ -1,3 +1,8 @@
+:root {
+    --main-color: #ea5c21;
+    --light-color: #f3dfd7;
+}
+
 * {
     box-sizing: inherit;
 }
@@ -17,10 +22,12 @@ body {
     grid-template-rows: auto 1fr auto;
 }
 
-.page-navbar,
 .page-footer {
-    background-color: rgb(230 245 245);
+    background-color: var(--light-color);
     color: white;
+}
+.page-navbar {
+    border-bottom: 1px solid var(--main-color);
 }
 .page-footer > p {
     margin-top: .5rem;
