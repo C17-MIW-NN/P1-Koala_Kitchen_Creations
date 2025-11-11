@@ -9,6 +9,7 @@ import lombok.Setter;
 
 /**
  * @author Jantine van der Schaaf
+ * @author Josse Muller
  * Concept of a recipe
  */
 @Getter
@@ -25,9 +26,9 @@ public class Recipe {
     @Column(columnDefinition = "TEXT")
     String description;
 
-    public Recipe(String description, String name) {
-        this.description = description;
+    public Recipe(String name, String description) {
         this.name = name;
+        this.description = description;
     }
 
     public Recipe() {
