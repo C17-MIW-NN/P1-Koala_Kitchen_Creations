@@ -62,7 +62,7 @@ public class RecipeController {
         Optional<Recipe> optionalRecipe = recipeRepository.findById(recipeId);
 
         if (optionalRecipe.isPresent()) {
-            datamodel.addAttribute("formRecipe", optionalRecipe);
+            datamodel.addAttribute("formRecipe", optionalRecipe.get());
             return "recipeForm";
         }
 

@@ -8,7 +8,7 @@
         <div class="card-body">
             <h5 class="card-title" th:text="${recipe.name}">Recipe title</h5>
             <p class="card-text" th:text="${recipe.description}"}></p>
-            <a href="#" class="btn btn-primary stretched-link">View recipe</a>
+            <a th:href="@{/recipe/edit/{recipeId}(recipeId=*{recipeId})}"  class="btn btn-primary stretched-link">View recipe</a>
         </div>
     </div>
 </div>
