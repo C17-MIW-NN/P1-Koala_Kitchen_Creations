@@ -28,11 +28,11 @@ public class RecipeController {
         this.recipeRepository = recipeRepository;
     }
 
-    @GetMapping({"/recipes/all", "/"})
-    private String showRecipeOverview(Model datamoldel) {
+    @GetMapping({"/recipe/all", "/"})
+    private String showRecipeOverview(Model datamodel) {
         ArrayList<Recipe> recipes = new ArrayList<>();
 
-        datamoldel.addAttribute("recipes", recipeRepository.findAll());
+        datamodel.addAttribute("recipes", recipeRepository.findAll());
         return "recipeList";
     }
 

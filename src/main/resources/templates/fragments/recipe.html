@@ -3,21 +3,18 @@
 
 <body>
 
-<div th:fragment="recipeCard" class="col" style="width: 18rem;">
-    <div class="card">
-        <img class="card-img-top" src="..." alt="(Recipe image goes here)">
+<div th:fragment="recipeCard(recipe)" th:object="${recipe}" class="col" style="width: 18rem;">
+    <div class="card h-100">
         <div class="card-body">
-            <h5 class="card-title">Recipe title</h5>
-            <p class="card-text"></p>
+            <h5 class="card-title" th:text="${recipe.name}">Recipe title</h5>
+            <p class="card-text" th:text="${recipe.description}"}></p>
             <a href="#" class="btn btn-primary stretched-link">View recipe</a>
         </div>
     </div>
 </div>
 
-<div th:fragment="recipeList" class="row row-cols-1 row-cols-md-3 g-4">
-    <div th:replace="this :: recipeCard"></div>
-    <div th:replace="this :: recipeCard"></div>
-    <div th:replace="this :: recipeCard"></div>
+<div th:fragment="recipeList(recipes)" class="row row-cols-1 row-cols-md-3 g-4">
+    <th:block th:each="recipe : ${recipes}"><div th:replace="this :: recipeCard(${recipe})"></div></th:block>
 </div>
 </body>
 </html>

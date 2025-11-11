@@ -10,7 +10,7 @@
 
     <main class="page-main">
         <h1>List of all recipes</h1>
-        <div th:replace="~{fragments/recipe :: recipeList}"></div>
+        <div th:replace="~{fragments/recipe :: recipeList(${recipes})}"></div>
     </main>
 
     <footer th:replace="~{fragments/general :: footer}"></footer>
