@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+<div th:fragment="recipeCard" class="col" style="width: 18rem;">
+    <div class="card">
+        <img class="card-img-top" src="..." alt="(Recipe image goes here)">
+        <div class="card-body">
+            <h5 class="card-title">Recipe title</h5>
+            <p class="card-text"></p>
+            <a href="#" class="btn btn-primary stretched-link">View recipe</a>
+        </div>
+    </div>
+</div>
+
+<div th:fragment="recipeList" class="row row-cols-1 row-cols-md-3 g-4">
+    <div th:replace="this :: recipeCard"></div>
+    <div th:replace="this :: recipeCard"></div>
+    <div th:replace="this :: recipeCard"></div>
+</div>
+</body>
+</html>
