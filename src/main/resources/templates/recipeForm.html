@@ -19,6 +19,11 @@
                 <label for="recipeDescription" class="form-label">Description</label>
                 <textarea type="text" class="form-control" id="recipeDescription" th:field="*{description}"></textarea>
             </div>
+            <div class="input-group mb-3" th:each="ingredient, itemStat : *{recipeIngredients}">
+                <input type="hidden" th:field="*{recipeIngredients[__${itemStat.index}__].recipeIngredientsId}" />
+                <input class="form-control" th:field="*{recipeIngredients[__${itemStat.index}__].name}" />
+                <input class="form-control" th:field="*{recipeIngredients[__${itemStat.index}__].quantity}" />
+            </div>
             <button type="submit" class="btn btn-primary">
                 <span th:if="${formRecipe.recipeId == null}">Add recipe</span>
                 <span th:unless="${formRecipe.recipeId == null}">Update recipe</span>
