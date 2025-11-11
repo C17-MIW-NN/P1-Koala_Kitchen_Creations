@@ -1,5 +1,6 @@
 package nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -21,7 +22,11 @@ public class Recipe {
 
     String name;
 
-    public Recipe(String name) {
+    @Column(columnDefinition = "TEXT")
+    String description;
+
+    public Recipe(String description, String name) {
+        this.description = description;
         this.name = name;
     }
 
