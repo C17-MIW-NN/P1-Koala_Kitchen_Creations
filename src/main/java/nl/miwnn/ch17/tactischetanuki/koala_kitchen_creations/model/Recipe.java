@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Jantine van der Schaaf
@@ -25,6 +26,9 @@ public class Recipe {
 
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<RecipeIngredients> recipeIngredients;
+
+    @ManyToMany
+    private Set<Category> categories;
 
     @Column(columnDefinition = "TEXT")
     String description;
