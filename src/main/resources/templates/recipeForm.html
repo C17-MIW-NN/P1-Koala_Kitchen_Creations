@@ -5,31 +5,42 @@
     <title th:unless="${formRecipe.recipeId == null}">Edit recipe</title></head>
 
 <body>
+<script src="/js/ingredientList.js"></script>
 <div class="page-wrapper">
     <nav th:replace="~{fragments/general :: navbar}"></nav>
 
-    <main class="page-main">
-        <form method="post" th:action="@{/recipe/save}" th:object="${formRecipe}">
-            <input type="hidden" th:field="*{recipeId}" />
-            <div class="mb-3">
-                <label for="recipeName" class="form-label">Name</label>
-                <input type="text" class="form-control" id="recipeName" th:field="*{name}">
+    <main class="page-main container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-8 col-lg-6">
+                <form method="post" th:action="@{/recipe/save}" th:object="${formRecipe}">
+                        <input type="hidden" th:field="*{recipeId}" />
+                        <input type="hidden" name="ingredientCount" th:value="*{recipeIngredients.size()}" />
+                        <div class="mb-3">
+                            <label for="recipeName" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="recipeName" th:field="*{name}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="recipeDescription" class="form-label">Description</label>
+                            <textarea type="text" class="form-control" id="recipeDescription" th:field="*{description}"></textarea>
+                        </div>
+                        <div class="input-group mb-3" th:each="ingredient, itemStat : *{recipeIngredients}">
+                            <input class="form-control" th:field="*{recipeIngredients[__${itemStat.index}__].name}" />
+                            <input type="hidden" th:field="*{recipeIngredients[__${itemStat.index}__].recipeIngredientsId}" />
+                            <input type="hidden" th:field="*{recipeIngredients[__${itemStat.index}__].recipe}" />
+                            <input class="form-control" th:field="*{recipeIngredients[__${itemStat.index}__].quantity}" />
+                            <button type="button" class="btn btn-danger" onclick="deleteIngredient()">
+                                <i class="btn-danger bi bi-trash-fill"></i>
+                            </button>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <span th:if="${formRecipe.recipeId == null}">Add recipe</span>
+                            <span th:unless="${formRecipe.recipeId == null}">Update recipe</span>
+                        </button >
+                    </form>
+                </div>
             </div>
-            <div class="mb-3">
-                <label for="recipeDescription" class="form-label">Description</label>
-                <textarea type="text" class="form-control" id="recipeDescription" th:field="*{description}"></textarea>
-            </div>
-            <div class="input-group mb-3" th:each="ingredient, itemStat : *{recipeIngredients}">
-                <input type="hidden" th:field="*{recipeIngredients[__${itemStat.index}__].recipeIngredientsId}" />
-                <input class="form-control" th:field="*{recipeIngredients[__${itemStat.index}__].name}" />
-                <input class="form-control" th:field="*{recipeIngredients[__${itemStat.index}__].quantity}" />
-            </div>
-            <button type="submit" class="btn btn-primary">
-                <span th:if="${formRecipe.recipeId == null}">Add recipe</span>
-                <span th:unless="${formRecipe.recipeId == null}">Update recipe</span>
-            </button >
-        </form>
     </main>
+
 
     <footer th:replace="~{fragments/general :: footer}"></footer>
     <div th:replace="~{fragments/general :: bottomScripts}"></div>

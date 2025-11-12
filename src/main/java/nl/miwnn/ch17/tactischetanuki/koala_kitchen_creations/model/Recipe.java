@@ -22,7 +22,7 @@ public class Recipe {
 
     String name;
 
-    @OneToMany(mappedBy = "recipe")
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<RecipeIngredients> recipeIngredients;
 
     @Column(columnDefinition = "TEXT")
@@ -34,5 +34,16 @@ public class Recipe {
     }
 
     public Recipe() {
+    }
+
+    public void setRecipeIngredients(List<RecipeIngredients> recipeIngredients) {
+        this.recipeIngredients = recipeIngredients;
+        for (RecipeIngredients ingredient : recipeIngredients) {
+            ingredient.setRecipe(this);
+        }
+    }
+    public void addRecipeIngredient(RecipeIngredients recipeIngredients) {
+        recipeIngredients.setRecipe(this);
+        this.recipeIngredients.add(recipeIngredients);
     }
 }

@@ -1,6 +1,7 @@
 package nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.controller;
 
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.Recipe;
+import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.RecipeIngredients;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.repositories.RecipeRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -62,7 +63,9 @@ public class RecipeController {
         Optional<Recipe> optionalRecipe = recipeRepository.findById(recipeId);
 
         if (optionalRecipe.isPresent()) {
-            datamodel.addAttribute("formRecipe", optionalRecipe.get());
+            Recipe recipe = optionalRecipe.get();
+            recipe.addRecipeIngredient(new RecipeIngredients());
+            datamodel.addAttribute("formRecipe", recipe);
             return "recipeForm";
         }
 

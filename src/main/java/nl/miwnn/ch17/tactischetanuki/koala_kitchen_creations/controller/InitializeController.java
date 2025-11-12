@@ -56,12 +56,8 @@ public class InitializeController {
 
     private Recipe makeRecipe(String name, String description, List<RecipeIngredients> ingredients) {
         Recipe recipe = new Recipe(name, description);
-
+        recipe.setRecipeIngredients(ingredients);
         recipeRepository.save(recipe);
-        for (RecipeIngredients recipeIngredients: ingredients) {
-            recipeIngredients.setRecipe(recipe);
-            recipeIngredientsRepository.save(recipeIngredients);
-        }
 
         System.out.printf("Recipe: recipeId:%s, name: %s, description: %s",
                 recipe.getRecipeId(), recipe.getName(), recipe.getDescription());
