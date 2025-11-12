@@ -9,7 +9,7 @@
         <div class="card-body">
             <h5 class="card-title" th:text="*{name}">Recipe title</h5>
             <p class="card-text" th:text="*{description}"></p>
-            <a th:href="@{/recipe/edit/{recipeId}(recipeId=*{recipeId})}"  class="btn btn-primary stretched-link">
+            <a th:href="@{/recipe/detail/{recipeId}(recipeId=*{recipeId})}"  class="btn btn-primary stretched-link">
                 View recipe
             </a>
         </div>

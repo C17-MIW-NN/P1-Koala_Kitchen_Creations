@@ -69,9 +69,9 @@ public class RecipeController {
         return "redirect:/recipe/all";
     }
 
-    @GetMapping("/recipe/detail/{name}")
-    public String showRecipeDetailPage(@PathVariable("name") String name, Model datamodel) {
-        Optional<Recipe> recipeToShow = recipeRepository.findByName(name);
+    @GetMapping("/recipe/detail/{recipeId}")
+    public String showRecipeDetailPage(@PathVariable("recipeId") Long recipeId, Model datamodel) {
+        Optional<Recipe> recipeToShow = recipeRepository.findById(recipeId);
 
         if (recipeToShow.isEmpty()) {
             return "redirect:/recipe/all";
@@ -79,6 +79,6 @@ public class RecipeController {
 
         datamodel.addAttribute("recipe", recipeToShow.get());
 
-        return "recipeDetails";
+        return "recipeDetail";
     }
 }
