@@ -12,23 +12,23 @@
         <h1 class="text-center" th:text="| ${recipe.name}|"></h1>
         <p class="lead mt-5" th:text="| ${recipe.description}|"></p>
         <div class="container overflow-hidden">
-        <div class="row g-2">
-            <div class="col-6">
-                <div class="p-3">Ingredients</div>
-                    <ul>
-                        <li th:each="recipeIngredient : ${recipe.recipeIngredients}">
-                        <span th:text="${recipeIngredient.name}"></span>
-                        <i th:text="${recipeIngredient.quantity}"></i>
+            <div class="row g-2">
+                <div class="col-6">
+                    <div class="p-3">Ingredients</div>
+                        <ul>
+                            <li th:each="recipeIngredient : ${recipe.recipeIngredients}">
+                            <span th:text="${recipeIngredient.name}"></span>
+                            <i th:text="${recipeIngredient.quantity}"></i>
+                            </li>
 
+                        </ul>
 
-                        </li>
-                    </ul>
-
-            </div>
-            <div class="col-6">
-                <div class="p-3">Method</div>
-
-
+                </div>
+                <div class="col-6">
+                    <div class="p-3">Method</div>
+                </div>
+                <a class="btn btn-primary" th:href="@{/recipe/edit/{recipeId}(recipeId=*{recipeId})}">Edit recipe</a>
+                <a class="btn btn-primary" th:href="@{/recipe/delete/{recipeId}(recipeId=*{recipeId})}">Delete recipe</a>
             </div>
         </div>
     </main>
