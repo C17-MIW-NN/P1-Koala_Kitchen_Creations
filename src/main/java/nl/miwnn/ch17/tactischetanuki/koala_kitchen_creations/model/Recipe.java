@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -34,6 +35,7 @@ public class Recipe {
     }
 
     public Recipe() {
+        this.recipeIngredients = new ArrayList<>();
     }
 
     public void setRecipeIngredients(List<RecipeIngredients> recipeIngredients) {
