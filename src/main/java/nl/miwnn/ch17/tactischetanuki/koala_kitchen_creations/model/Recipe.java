@@ -30,6 +30,9 @@ public class Recipe {
     @ManyToMany
     private Set<Category> categories;
 
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<RecipeStep> recipeSteps;
+
     @Column(columnDefinition = "TEXT")
     String description;
 
