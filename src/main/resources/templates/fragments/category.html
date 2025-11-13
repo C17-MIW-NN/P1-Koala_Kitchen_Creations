@@ -22,5 +22,34 @@
 <div th:fragment="categoryList(categories)" class="row row-cols-1 row-cols-md-3 g-4">
     <th:block th:each="category : ${categories}"><div th:replace="~{this :: categoryCard(${category})}"></div></th:block>
 </div>
+
+<div th:fragment="categoryForm(formCategory)">
+    <!--@thymesVar id="formCategory" type="nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.Category" -->
+    <form class="row g-3" th:action="@{/category/save}" method="post" th:object="${formCategory}">
+        <input type="hidden" th:field="*{categoryId}" />
+        <div class="col-md-12">
+            <div class="mb-3 form-floating">
+                <input type="text" id="name" class="form-control" th:field="*{name}">
+                <label for="name">Name</label>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary mb-3">Add category</button>
+    </form>
+</div>
+
+<!-- Modal -->
+<div th:fragment="categoryModal(formCategory)" class="modal fade" id="newForm" tabindex="-1" aria-labelledby="newCategoryForm" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <h1 class="modal-title text-center" id="newCategory">Add a category</h1>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div th:replace="~{:: categoryForm(${formCategory})}"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

@@ -15,7 +15,9 @@
                 <div th:replace="~{fragments/category :: categoryList(${categories})}"></div>
                 <br />
                 <br />
-                <a class="btn btn-primary" th:href="@{/category/add}">Add category</a>
+                <a class="btn btn-primary" onclick="new bootstrap.Modal(document.getElementById('newForm'), {}).toggle()">
+                    Add category
+                </a>
             </div>
         </div>
     </main>
@@ -23,5 +25,7 @@
     <footer th:replace="~{fragments/general :: footer}"></footer>
     <div th:replace="~{fragments/general :: bottomScripts}"></div>
 </div>
+
+<div th:replace="~{fragments/category :: categoryModal(${formCategory})}"></div>
 </body>
 </html>

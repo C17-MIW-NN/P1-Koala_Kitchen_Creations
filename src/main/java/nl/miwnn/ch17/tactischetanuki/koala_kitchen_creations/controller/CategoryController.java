@@ -5,9 +5,7 @@ import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.repositories.Catego
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -29,6 +27,7 @@ public class CategoryController {
     public String showCategoryOverview(Model dataModel) {
         List<Category> categories = categoryRepository.findAll();
         dataModel.addAttribute("categories", categories);
+        dataModel.addAttribute("formCategory", new Category());
         return "categoryOverview";
     }
 
@@ -41,5 +40,13 @@ public class CategoryController {
         dataModel.addAttribute("category", maybeCategory.get());
         dataModel.addAttribute("recipes", maybeCategory.get().getRecipes());
         return "categoryRecipes";
+    }
+
+    @PostMapping("/save")
+    public String saveCategory(@ModelAttribute Category formCategory, BindingResult result) {
+        if (!result.hasErrors()) {
+            categoryRepository.save(formCategory);
+        }
+        return "redirect:/category/all";
     }
 }
