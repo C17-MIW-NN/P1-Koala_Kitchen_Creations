@@ -8,41 +8,46 @@
 <div class="page-wrapper">
     <nav th:replace="~{fragments/general :: navbar}"></nav>
 
-        <div class="container-fluid">
-            <div class="row">
-                <main class="col-md-2 col-lg-2 py-4"></main>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2 col-lg-2 py-4">
+                <!--/* Empty left sidebar */-->
+            </div>
 
-                <main class="col-md-8 col-lg-8 py-4">
-                    <h1 class="text-center" th:text="${recipe.name}"></h1>
-                    <p class="lead mt-5" th:text="${recipe.description}"></p>
-                    <div class="container overflow-hidden">
-                        <div class="row g-2">
-                            <div class="col-6">
-                                <div class="p-3">Ingredients</div>
-                                    <ul>
-                                        <li th:each="recipeIngredient : ${recipe.recipeIngredients}">
-                                        <span th:text="${recipeIngredient.name}"></span>
-                                        <i th:text="${recipeIngredient.quantity}"></i>
-                                        </li>
-                                    </ul>
-                            </div>
-                            <div class="col-6">
-                                <div class="p-3">Method</div>
-                            </div>
+            <main class="col-md-8 col-lg-8 py-4">
+                <h1 class="text-center" th:text="${recipe.name}"></h1>
+                <p class="lead mt-5" th:text="${recipe.description}"></p>
+                <div class="container overflow-hidden">
+                    <div class="row g-2">
+                        <div class="col-6">
+                            <div class="p-3">Ingredients</div>
+                            <ul>
+                                <li th:each="recipeIngredient : ${recipe.recipeIngredients}">
+                                    <span th:text="${recipeIngredient.name}"></span>
+                                    <i th:text="${recipeIngredient.quantity}"></i>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-6">
+                            <div class="p-3">Method</div>
                         </div>
                     </div>
-                </main>
+                </div>
+            </main>
 
-                <main class="col-md-2 col-lg-2 d-flex flex-column justify-content-center align-items-center">
-                    <aside class="position-fixed text-center d-grid gap-2 col-2">
-                            <a class="btn btn-primary" th:href="@{/recipe/edit/{recipeId}(recipeId=*{recipeId})}"
-                            >Edit recipe</a>
-                            <a class="btn btn-primary btn btn-danger" th:href="@{/recipe/delete/{recipeId}(recipeId=*{recipeId})}"
-                            >Delete recipe</a>
-                    </aside>
-                </main>
+            <div class="col-md-2 col-lg-2 d-flex flex-column justify-content-center align-items-center">
+                <aside class="position-fixed text-center d-grid gap-2 col-2">
+                    <a class="btn btn-primary" th:href="@{/recipe/edit/{recipeId}(recipeId=*{recipeId})}">
+                        Edit recipe
+                    </a>
+                    <a class="btn btn-primary btn btn-danger"
+                       th:href="@{/recipe/delete/{recipeId}(recipeId=*{recipeId})}">
+                        Delete recipe
+                    </a>
+                </aside>
             </div>
         </div>
+    </div>
 
     <footer th:replace="~{fragments/general :: footer}"></footer>
     <div th:replace="~{fragments/general :: bottomScripts}"></div>
