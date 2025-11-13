@@ -44,9 +44,7 @@ public class RecipeController {
 
     @GetMapping("/recipe/add")
     public String showRecipeForm(Model datamodel) {
-        datamodel.addAttribute("formRecipe", new Recipe());
-
-        return "recipeForm";
+        return returnRecipeForm(datamodel, new Recipe());
     }
 
     @PostMapping("/recipe/save")
@@ -70,12 +68,16 @@ public class RecipeController {
         if (optionalRecipe.isPresent()) {
             Recipe recipe = optionalRecipe.get();
             recipe.addRecipeIngredient(new RecipeIngredients());
-            datamodel.addAttribute("formRecipe", recipe);
-            datamodel.addAttribute("availableCategories", categoryRepository.findAll());
-            return "recipeForm";
+            return returnRecipeForm(datamodel, recipe);
         }
 
         return "redirect:/recipe/all";
+    }
+
+    private String returnRecipeForm(Model datamodel, Recipe recipe) {
+        datamodel.addAttribute("formRecipe", recipe);
+        datamodel.addAttribute("availableCategories", categoryRepository.findAll());
+        return "recipeForm";
     }
 
     @GetMapping("/recipe/detail/{recipeId}")
