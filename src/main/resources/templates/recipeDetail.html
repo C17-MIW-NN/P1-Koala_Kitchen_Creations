@@ -1,59 +1,48 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head th:replace="~{fragments/general :: baseheader(~{:: title})}">
-    <title th:text="| ${recipe.name}|"></title>
+    <title th:text="${recipe.name}"></title>
 </head>
 
 <body>
 <div class="page-wrapper">
     <nav th:replace="~{fragments/general :: navbar}"></nav>
 
-
-
-    <main class="page-main">
-        <h1 class="text-center" th:text="| ${recipe.name}|"></h1>
         <div class="container-fluid">
             <div class="row">
-                <main class="col-md-2 col-lg-2 py-4">
-                </main>
+                <main class="col-md-2 col-lg-2 py-4"></main>
 
                 <main class="col-md-8 col-lg-8 py-4">
-                    <p class="lead mt-5" th:text="| ${recipe.description}|"></p>
+                    <h1 class="text-center" th:text="${recipe.name}"></h1>
+                    <p class="lead mt-5" th:text="${recipe.description}"></p>
                     <div class="container overflow-hidden">
-                    <div class="row g-2">
-                        <div class="col-6">
-                            <div class="p-3">Ingredients</div>
-                                <ul>
-                                    <li th:each="recipeIngredient : ${recipe.recipeIngredients}">
-                                    <span th:text="${recipeIngredient.name}"></span>
-                                    <i th:text="${recipeIngredient.quantity}"></i>
-                                    </li>
-
-                                </ul>
-
+                        <div class="row g-2">
+                            <div class="col-6">
+                                <div class="p-3">Ingredients</div>
+                                    <ul>
+                                        <li th:each="recipeIngredient : ${recipe.recipeIngredients}">
+                                        <span th:text="${recipeIngredient.name}"></span>
+                                        <i th:text="${recipeIngredient.quantity}"></i>
+                                        </li>
+                                    </ul>
+                            </div>
+                            <div class="col-6">
+                                <div class="p-3">Method</div>
+                            </div>
                         </div>
-                        <div class="col-6">
-                        <div class="p-3">Method</div>
-                    </div>
-                    </div>
                     </div>
                 </main>
 
-                <main class="col-md-2 col-lg-2 py-4">
-                    <nav th:fragment="navbar" class="navbar position-fixed top-0 end-0
-                        d-flex flex-column justify-content-center p-3" style="height: calc(100vh - 72px);">
-                        <ul class="nav nav-pills flex-column text-center">
-                            <li class="nav-item mb-2 ">
-                                <a class="btn btn-primary" th:href="@{/recipe/edit/{recipeId}(recipeId=*{recipeId})}">Edit recipe</a>
-                            </li>
-                            <li class="nav-item mb-2">
-                                <a class="btn btn-primary" th:href="@{/recipe/delete/{recipeId}(recipeId=*{recipeId})}">Delete recipe</a>
-                            </li>
-                        </ul>
-                    </nav>
+                <main class="col-md-2 col-lg-2 d-flex flex-column justify-content-center align-items-center">
+                    <aside class="position-fixed text-center d-grid gap-2 col-2">
+                            <a class="btn btn-primary" th:href="@{/recipe/edit/{recipeId}(recipeId=*{recipeId})}"
+                            >Edit recipe</a>
+                            <a class="btn btn-primary btn btn-danger" th:href="@{/recipe/delete/{recipeId}(recipeId=*{recipeId})}"
+                            >Delete recipe</a>
+                    </aside>
                 </main>
+            </div>
         </div>
-    </main>
 
     <footer th:replace="~{fragments/general :: footer}"></footer>
     <div th:replace="~{fragments/general :: bottomScripts}"></div>
