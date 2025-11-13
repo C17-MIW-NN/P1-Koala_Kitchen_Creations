@@ -11,12 +11,19 @@ import java.util.List;
 public class RecipeStepService {
     private final RecipeStepRepository recipeStepRepository;
 
-
     public RecipeStepService(RecipeStepRepository recipeStepRepository) {
         this.recipeStepRepository = recipeStepRepository;
     }
 
     public List<RecipeStep> getStepsByRecipe(Long recipeId) {
-        return recipeStepRepository.findByRecipeIdOrderByStepNumber(recipeId);
+        return recipeStepRepository.findByRecipeRecipeIdOrderByStepNumber(recipeId);
+    }
+
+    public RecipeStep addStep(RecipeStep recipeStep) {
+        return recipeStepRepository.save(recipeStep);
+    }
+
+    public void deleteStep(Long recipeStepId) {
+        recipeStepRepository.deleteById(recipeStepId);
     }
 }
