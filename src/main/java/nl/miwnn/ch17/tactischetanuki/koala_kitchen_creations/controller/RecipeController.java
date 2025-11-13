@@ -1,7 +1,9 @@
 package nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.controller;
 
+import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.Category;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.Recipe;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.RecipeIngredients;
+import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.repositories.CategoryRepository;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.repositories.RecipeRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -24,9 +27,11 @@ import java.util.Optional;
 public class RecipeController {
 
     private final RecipeRepository recipeRepository;
+    private final CategoryRepository categoryRepository;
 
-    public RecipeController(RecipeRepository recipeRepository) {
+    public RecipeController(RecipeRepository recipeRepository, CategoryRepository categoryRepository) {
         this.recipeRepository = recipeRepository;
+        this.categoryRepository = categoryRepository;
     }
 
     @GetMapping({"/recipe/all", "/"})
@@ -66,6 +71,7 @@ public class RecipeController {
             Recipe recipe = optionalRecipe.get();
             recipe.addRecipeIngredient(new RecipeIngredients());
             datamodel.addAttribute("formRecipe", recipe);
+            datamodel.addAttribute("availableCategories", categoryRepository.findAll());
             return "recipeForm";
         }
 

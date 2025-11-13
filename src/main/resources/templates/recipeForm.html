@@ -20,6 +20,15 @@
                             <input type="text" class="form-control" id="recipeName" th:field="*{name}">
                         </div>
                         <div class="mb-3">
+                            <label for="authors" class="form-label">Categories</label>
+                            <select class="form-select" id="authors" th:field="*{categories}" multiple>
+                                <option th:each="category : ${availableCategories}"
+                                        th:text="${category.name}"
+                                        th:value="${category.categoryId}">
+                                </option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
                             <label for="recipeDescription" class="form-label">Description</label>
                             <textarea type="text" class="form-control" id="recipeDescription" th:field="*{description}"></textarea>
                         </div>
