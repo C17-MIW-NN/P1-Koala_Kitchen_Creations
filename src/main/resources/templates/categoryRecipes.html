@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head th:replace="~{fragments/general :: baseheader(~{:: title})}">
-    <title>List of recipes</title>
+    <title th:text="|${category.name} - Recipes|">Recipes</title>
 </head>
 <body>
 
