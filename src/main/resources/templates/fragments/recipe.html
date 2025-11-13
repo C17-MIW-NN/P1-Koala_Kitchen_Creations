@@ -18,7 +18,7 @@
 
 <!--/*@thymesVar id="recipes" type="java.util.List<nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.Recipe>"*/-->
 <div th:fragment="recipeList(recipes)" class="row row-cols-1 row-cols-md-3 g-4">
-    <th:block th:each="recipe : ${recipes}"><div th:replace="this :: recipeCard(${recipe})"></div></th:block>
+    <th:block th:each="recipe : ${recipes}"><div th:replace="~{this :: recipeCard(${recipe})}"></div></th:block>
 </div>
 </body>
 </html>
