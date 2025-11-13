@@ -39,3 +39,8 @@ body {
 .bottom-scripts {
     display: none;
 }
+
+.link-card:hover {
+    border-color: var(--main-color);
+    transition: border-color 0.5s ease;
+}

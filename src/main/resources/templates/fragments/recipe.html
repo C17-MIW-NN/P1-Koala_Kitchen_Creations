@@ -5,13 +5,21 @@
 
 <!--/*@thymesVar id="recipe" type="nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.Recipe"*/-->
 <div th:fragment="recipeCard(recipe)" th:object="${recipe}" class="col" style="width: 18rem;">
-    <div class="card h-100">
+    <div class="card h-100 link-card">
+        <a class="stretched-link" th:href="@{/recipe/detail/{recipeId}(recipeId=*{recipeId})}" ></a>
+        <div class="card-header">
+            <h5 class="card-title">
+                <span th:text="*{name}">Recipe name</span>
+            </h5>
+            <h6 class="card-subtitle mb-2">
+                <a th:each="category : *{categories}"
+                   class="nav-link active badge badge-pill bg-danger rounded-pill  position-relative z-2"
+                   th:href="@{/category/{categoryId}/recipes(categoryId=${category.categoryId})}"
+                   th:text="${category.name}" />
+            </h6>
+        </div>
         <div class="card-body">
-            <h5 class="card-title" th:text="*{name}">Recipe title</h5>
             <p class="card-text" th:text="*{description}"></p>
-            <a th:href="@{/recipe/detail/{recipeId}(recipeId=*{recipeId})}"  class="btn btn-primary stretched-link">
-                View recipe
-            </a>
         </div>
     </div>
 </div>
