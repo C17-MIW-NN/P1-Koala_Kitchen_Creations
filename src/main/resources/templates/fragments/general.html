@@ -13,13 +13,12 @@
 
 <body>
 
-<nav th:fragment="navbar" class="sticky-top page-navbar navbar-light bg-light">
-    <ul class="nav justify-content-center">
-        <li class="nav-item">
-            <a class="nav-link" th:href="@{/recipe/all}">Recipes</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" th:href="@{/category/all}">Categories</a>
+<!--/*@thymesVar id="navItems" type="java.util.List<nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.NavItem>"*/-->
+<nav th:fragment="navbar(navItems, activeItem)" class="sticky-top navbar-expand-lg navbar navbar-light bg-light justify-content-center">
+    <ul class="navbar-nav mr-auto">
+        <li class="nav-item" th:each="navItem : ${navItems}">
+            <a class="nav-link" th:classappend="${activeItem == navItem.name} ? 'active'"
+               th:href="@{${navItem.href}}" th:text="${navItem.name}"></a>
         </li>
     </ul>
 </nav>

@@ -7,7 +7,7 @@
 <body>
 <script src="/js/ingredientList.js"></script>
 <div class="page-wrapper">
-    <nav th:replace="~{fragments/general :: navbar}"></nav>
+    <nav th:replace="~{fragments/general :: navbar(${navItems}, '')}"></nav>
 
     <main class="page-main container">
         <div class="row justify-content-center">
