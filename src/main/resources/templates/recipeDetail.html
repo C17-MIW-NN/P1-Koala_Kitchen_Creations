@@ -39,6 +39,9 @@
                         </div>
                         <div class="col-6">
                             <div class="p-3">Method</div>
+                            <ol>
+                                <li th:each="recipeStep : ${steps}" th:text="${recipeStep.stepDescription}"></li>
+                            </ol>
                         </div>
                     </div>
                 </div>

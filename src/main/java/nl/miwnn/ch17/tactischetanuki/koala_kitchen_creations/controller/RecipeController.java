@@ -4,7 +4,9 @@ import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.Category;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.Recipe;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.RecipeIngredients;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.repositories.CategoryRepository;
+import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.RecipeStep;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.repositories.RecipeRepository;
+import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.service.RecipeStepService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -27,10 +29,12 @@ import java.util.Optional;
 public class RecipeController {
 
     private final RecipeRepository recipeRepository;
+    private final RecipeStepService recipeStepService;
     private final CategoryRepository categoryRepository;
 
-    public RecipeController(RecipeRepository recipeRepository, CategoryRepository categoryRepository) {
+    public RecipeController(RecipeRepository recipeRepository, RecipeStepService recipeStepService, CategoryRepository categoryRepository) {
         this.recipeRepository = recipeRepository;
+        this.recipeStepService = recipeStepService;
         this.categoryRepository = categoryRepository;
     }
 
@@ -81,14 +85,17 @@ public class RecipeController {
     }
 
     @GetMapping("/recipe/detail/{recipeId}")
-    public String showRecipeDetailPage(@PathVariable("recipeId") Long recipeId, Model datamodel) {
-        Optional<Recipe> recipeToShow = recipeRepository.findById(recipeId);
-
-        if (recipeToShow.isEmpty()) {
+    public String showRecipeDetail(@PathVariable Long recipeId, Model model) {
+        Optional<Recipe> recipeOpt = recipeRepository.findById(recipeId);
+        if (recipeOpt.isEmpty()) {
             return "redirect:/recipe/all";
         }
+        Recipe recipe = recipeOpt.get();
 
-        datamodel.addAttribute("recipe", recipeToShow.get());
+        List<RecipeStep> steps = recipeStepService.getStepsByRecipe(recipeId);
+
+        model.addAttribute("recipe", recipe);
+        model.addAttribute("steps", steps);
 
         return "recipeDetail";
     }
