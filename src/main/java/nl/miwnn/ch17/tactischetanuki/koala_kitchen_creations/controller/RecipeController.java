@@ -92,30 +92,4 @@ public class RecipeController {
 
         return "recipeDetail";
     }
-
-//    @GetMapping("/recipe/detail/{recipeId}")
-//    public String showRecipeDetailPage(@PathVariable("recipeId") Long recipeId, Model datamodel) {
-//        Optional<Recipe> recipeToShow = recipeRepository.findById(recipeId);
-//
-//        if (recipeToShow.isEmpty()) {
-//            return "redirect:/recipe/all";
-//        }
-//
-//        datamodel.addAttribute("recipe", recipeToShow.get());
-//
-//        return "recipeDetail";
-//    }
-
-//    @GetMapping("/recipe/detail/{recipeId}/steps")
-//    public String showRecipeSteps(@PathVariable("recipeId") Long recipeId, Model datamodel) {
-//        List<RecipeStep> steps = recipeStepService.getStepsByRecipe(recipeId);
-//
-//        Recipe recipe = null;
-//        if (!steps.isEmpty()) {
-//            recipe = steps.get(0).getRecipe();
-//        }
-//        datamodel.addAttribute("recipe", recipe);
-//        datamodel.addAttribute("steps", steps);
-//    return "recipe/detail";
-//    }
 }
