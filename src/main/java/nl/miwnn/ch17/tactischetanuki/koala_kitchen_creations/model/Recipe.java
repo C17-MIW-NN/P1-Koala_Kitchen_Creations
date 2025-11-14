@@ -43,6 +43,7 @@ public class Recipe {
 
     public Recipe() {
         this.recipeIngredients = new ArrayList<>();
+        this.recipeSteps = new ArrayList<>();
     }
 
     public void setRecipeIngredients(List<RecipeIngredients> recipeIngredients) {
@@ -54,5 +55,17 @@ public class Recipe {
     public void addRecipeIngredient(RecipeIngredients recipeIngredients) {
         recipeIngredients.setRecipe(this);
         this.recipeIngredients.add(recipeIngredients);
+    }
+
+    public void setRecipeSteps(List<RecipeStep> recipeSteps) {
+        this.recipeSteps = recipeSteps;
+        for (RecipeStep step : recipeSteps) {
+            step.setRecipe(this);
+        }
+    }
+
+    public void addRecipeStep(RecipeStep step) {
+        step.setRecipe(this);
+        this.recipeSteps.add(step);
     }
 }
