@@ -60,11 +60,11 @@
                             </div>
                         </div>
 
-                        <button type="button" class="btn btn-secondary mb-3" onclick="addStep()">
+                        <button type="button" class="btn btn-secondary mb-3 btn btn-success" onclick="addStep()">
                             Add step
                         </button>
 
-                        <button type="submit" class="btn btn-primary">
+                        <button type="submit" class="btn btn-primary btn-lg form-control mb-4">
                             <span th:if="${formRecipe.recipeId == null}">Add recipe</span>
                             <span th:unless="${formRecipe.recipeId == null}">Update recipe</span>
                         </button >
