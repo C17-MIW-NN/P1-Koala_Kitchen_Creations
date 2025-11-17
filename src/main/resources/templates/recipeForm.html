@@ -44,7 +44,6 @@
                                     th:field="*{recipeSteps[__${stat.index}__].stepDescription}"
                                     placeholder="Describe step..." />
                                 <input type="hidden" th:field="*{recipeSteps[__${stat.index}__].stepId}" />
-                                <input type="hidden" th:field="*{recipeSteps[__${stat.index}__].stepNumber}" />
                                 <input type="hidden" th:field="*{recipeSteps[__${stat.index}__].recipe}">
                                 <button type="button" class="btn btn-danger" onclick="deleteStep(this)">
                                     <i class="bi bi-trash-fill"></i>

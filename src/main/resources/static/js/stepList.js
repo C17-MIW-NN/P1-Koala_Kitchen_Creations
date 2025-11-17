@@ -2,13 +2,12 @@
     function addStep() {
     const container = document.getElementById("stepsContainer");
     const index = container.children.length;
-
+    const recipeId= document.getElementById("recipeId").getAttribute("value");
     const html = `
         <div class="input-group mb-3">
             <input class="form-control" name="recipeSteps[${index}].stepDescription" placeholder="Describe step..." />
-            <input type="hidden" name="recipeSteps[${index}].recipeStepId" value="">
-            <input type="hidden" name="recipeSteps[${index}].stepNumber" value="">
-            <input type="hidden" name="recipeSteps[${index}].recipe" value="">
+            <input type="hidden" name="recipeSteps[${index}].stepId" value="">
+            <input type="hidden" name="recipeSteps[${index}].recipe" value="${recipeId}">
             <button type="button" class="btn btn-danger" onclick="deleteStep(this)">
                 <i class="bi bi-trash-fill"></i>
             </button>

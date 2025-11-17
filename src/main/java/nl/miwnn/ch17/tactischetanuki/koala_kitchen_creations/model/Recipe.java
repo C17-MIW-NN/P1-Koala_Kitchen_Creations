@@ -30,6 +30,7 @@ public class Recipe {
     @ManyToMany
     private Set<Category> categories;
 
+    @OrderColumn
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<RecipeStep> recipeSteps;
 
@@ -37,6 +38,7 @@ public class Recipe {
     String description;
 
     public Recipe(String name, String description) {
+        this();
         this.name = name;
         this.description = description;
     }

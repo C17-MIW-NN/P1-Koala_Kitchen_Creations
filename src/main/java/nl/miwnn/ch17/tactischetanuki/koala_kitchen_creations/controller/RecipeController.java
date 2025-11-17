@@ -53,11 +53,6 @@ public class RecipeController {
     public String saveOrUpdateRecipe(@ModelAttribute("formRecipe") Recipe recipe, BindingResult result) {
         if (!result.hasErrors()) {
 
-            if (recipe.getRecipeSteps() != null) {
-                for (RecipeStep step : recipe.getRecipeSteps()) {
-                    step.setRecipe(recipe);
-                }
-            }
             recipeRepository.save(recipe);
         }
         return "redirect:/recipe/all";
