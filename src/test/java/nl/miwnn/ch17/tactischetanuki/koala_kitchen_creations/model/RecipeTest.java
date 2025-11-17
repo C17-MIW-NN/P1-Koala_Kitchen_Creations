@@ -6,7 +6,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Jantine van der Schaaf
- * Doel methode
+ * @author Josse Muller
+ * Test methods from the Recipe class
  */
 class RecipeTest {
 
