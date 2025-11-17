@@ -12,6 +12,7 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -62,9 +63,10 @@ public class InitializeController {
         );
 
         for (int i = 0; i < wrapSteps.size(); i++) {
-            RecipeStep step = new RecipeStep(lunch, wrapSteps.get(i), i + 1);
-            recipeStepRepository.save(step);
+            RecipeStep step = new RecipeStep(lunch, wrapSteps.get(i));
+            lunch.addRecipeStep(step);
         }
+        recipeRepository.save(lunch);
 
         Recipe voorgerecht = makeRecipe("Tomaat paprika soep", "Met geroosterde groenten " +
                 "en een vleugje tijm zit hij boordevol smaak, zonder dat je er uren voor in de keuken hoeft te staan."
@@ -81,9 +83,10 @@ public class InitializeController {
                 "Verwijder de takjes tijm en serveer warm."
         );
         for (int i = 0; i < stepsDescriptions.size(); i++) {
-            RecipeStep step = new RecipeStep(voorgerecht, stepsDescriptions.get(i), i + 1);
-            recipeStepRepository.save(step);
+            RecipeStep step = new RecipeStep(voorgerecht, stepsDescriptions.get(i));
+            voorgerecht.addRecipeStep(step);
         }
+        recipeRepository.save(voorgerecht);
 
         Recipe stamppot = makeRecipe("Boerenkool stamppot","Deze klassieke Hollandse stamppot met " +
                 "rookworst mag niet ontbreken tijdens de winter. Lekker met appelmoes of gebakken spekjes.",
@@ -103,9 +106,10 @@ public class InitializeController {
         );
 
         for (int i = 0; i < stamppotSteps.size(); i++) {
-            RecipeStep step = new RecipeStep(stamppot, stamppotSteps.get(i), i + 1);
-            recipeStepRepository.save(step);
+            RecipeStep step = new RecipeStep(stamppot, stamppotSteps.get(i));
+            stamppot.addRecipeStep(step);
         }
+        recipeRepository.save(stamppot);
     }
 
     private Recipe makeRecipe(String name, String description, List<RecipeIngredients> ingredients,

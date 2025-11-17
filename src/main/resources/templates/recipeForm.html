@@ -6,6 +6,7 @@
 
 <body>
 <script src="/js/ingredientList.js"></script>
+<script src="/js/stepList.js"></script>
 <div class="page-wrapper">
     <nav th:replace="~{fragments/general :: navbar(${navItems}, '')}"></nav>
 
@@ -41,13 +42,35 @@
                                 <i class="btn-danger bi bi-trash-fill"></i>
                             </button>
                         </div>
+
+                        <div class="my-3">
+                            <label class="form-label">Preperation steps</label>
+                        </div>
+
+                        <div id="stepsContainer">
+                            <div class="input-group mb-3" th:each="step, stat : *{recipeSteps}">
+                                <input class="form-control"
+                                    th:field="*{recipeSteps[__${stat.index}__].stepDescription}"
+                                    placeholder="Describe step..." />
+                                <input type="hidden" th:field="*{recipeSteps[__${stat.index}__].stepId}" />
+                                <input type="hidden" th:field="*{recipeSteps[__${stat.index}__].recipe}">
+                                <button type="button" class="btn btn-danger" onclick="deleteStep(this)">
+                                    <i class="bi bi-trash-fill"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <button type="button" class="btn btn-secondary mb-3" onclick="addStep()">
+                            Add step
+                        </button>
+
                         <button type="submit" class="btn btn-primary">
                             <span th:if="${formRecipe.recipeId == null}">Add recipe</span>
                             <span th:unless="${formRecipe.recipeId == null}">Update recipe</span>
                         </button >
-                    </form>
-                </div>
+                </form>
             </div>
+        </div>
     </main>
 
 

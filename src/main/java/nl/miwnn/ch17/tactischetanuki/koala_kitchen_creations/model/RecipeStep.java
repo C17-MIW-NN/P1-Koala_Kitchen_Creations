@@ -17,18 +17,15 @@ public class RecipeStep {
     @GeneratedValue
     private Long stepId;
 
-    private int stepNumber;
-
     @Column(columnDefinition = "TEXT")
     private String stepDescription;
 
     @ManyToOne
     private Recipe recipe;
 
-    public RecipeStep(Recipe recipe, String stepDescription, int stepNumber) {
+    public RecipeStep(Recipe recipe, String stepDescription) {
         this.recipe = recipe;
         this.stepDescription = stepDescription;
-        this.stepNumber = stepNumber;
     }
 
     public RecipeStep() {

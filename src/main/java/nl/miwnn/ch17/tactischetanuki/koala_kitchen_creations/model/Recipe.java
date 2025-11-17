@@ -30,6 +30,7 @@ public class Recipe {
     @ManyToMany
     private Set<Category> categories;
 
+    @OrderColumn
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<RecipeStep> recipeSteps;
 
@@ -37,12 +38,14 @@ public class Recipe {
     String description;
 
     public Recipe(String name, String description) {
+        this();
         this.name = name;
         this.description = description;
     }
 
     public Recipe() {
         this.recipeIngredients = new ArrayList<>();
+        this.recipeSteps = new ArrayList<>();
     }
 
     public void setRecipeIngredients(List<RecipeIngredients> recipeIngredients) {
@@ -54,5 +57,17 @@ public class Recipe {
     public void addRecipeIngredient(RecipeIngredients recipeIngredients) {
         recipeIngredients.setRecipe(this);
         this.recipeIngredients.add(recipeIngredients);
+    }
+
+    public void setRecipeSteps(List<RecipeStep> recipeSteps) {
+        this.recipeSteps = recipeSteps;
+        for (RecipeStep step : recipeSteps) {
+            step.setRecipe(this);
+        }
+    }
+
+    public void addRecipeStep(RecipeStep step) {
+        step.setRecipe(this);
+        this.recipeSteps.add(step);
     }
 }

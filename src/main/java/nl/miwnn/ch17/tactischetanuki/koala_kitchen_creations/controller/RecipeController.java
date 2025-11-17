@@ -54,6 +54,7 @@ public class RecipeController {
     @PostMapping("/recipe/save")
     public String saveOrUpdateRecipe(@ModelAttribute("formRecipe") Recipe recipe, BindingResult result) {
         if (!result.hasErrors()) {
+
             recipeRepository.save(recipe);
         }
         return "redirect:/recipe/all";

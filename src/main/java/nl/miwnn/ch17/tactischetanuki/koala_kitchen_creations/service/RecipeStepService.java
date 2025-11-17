@@ -16,7 +16,7 @@ public class RecipeStepService {
     }
 
     public List<RecipeStep> getStepsByRecipe(Long recipeId) {
-        return recipeStepRepository.findByRecipeRecipeIdOrderByStepNumber(recipeId);
+        return recipeStepRepository.findByRecipeRecipeId(recipeId);
     }
 
     public RecipeStep addStep(RecipeStep recipeStep) {
