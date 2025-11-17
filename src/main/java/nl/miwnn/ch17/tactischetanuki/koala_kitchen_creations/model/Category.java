@@ -32,4 +32,12 @@ public class Category {
         this();
         this.name = name;
     }
+    public boolean equals(Category other) {
+        return categoryId.equals(other.categoryId);
+    }
+
+    @Override
+    public int hashCode() {
+        return categoryId.hashCode();
+    }
 }

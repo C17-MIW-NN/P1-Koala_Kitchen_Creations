@@ -56,6 +56,8 @@ public class RecipeController {
         if (!result.hasErrors()) {
 
             recipeRepository.save(recipe);
+        } else {
+            System.err.println("Error saving recipe: " + result.toString());;
         }
         return "redirect:/recipe/all";
     }

@@ -48,6 +48,9 @@ public class Recipe {
         this.recipeSteps = new ArrayList<>();
     }
 
+    public List<Long> categoryIds() {
+        return categories.stream().map(Category::getCategoryId).toList();
+    }
     public void setRecipeIngredients(List<RecipeIngredients> recipeIngredients) {
         this.recipeIngredients = recipeIngredients;
         for (RecipeIngredients ingredient : recipeIngredients) {
