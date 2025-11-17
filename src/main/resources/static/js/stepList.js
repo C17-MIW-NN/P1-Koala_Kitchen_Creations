@@ -5,7 +5,7 @@
     const recipeId= document.getElementById("recipeId").getAttribute("value");
     const html = `
         <div class="input-group mb-3">
-            <input class="form-control" name="recipeSteps[${index}].stepDescription" placeholder="Describe step..." />
+            <textarea class="form-control" name="recipeSteps[${index}].stepDescription" placeholder="Describe step..." />
             <input type="hidden" name="recipeSteps[${index}].stepId" value="">
             <input type="hidden" name="recipeSteps[${index}].recipe" value="${recipeId}">
             <button type="button" class="btn btn-danger" onclick="deleteStep(this)">
@@ -24,7 +24,7 @@
     function reindexSteps() {
     const rows = document.querySelectorAll("#stepsContainer .input-group");
     rows.forEach((row, index) => {
-    row.querySelectorAll("input").forEach(input => {
+    row.querySelectorAll("input, textarea" ).forEach(input => {
     const field = input.name.substring(input.name.indexOf('.') + 1);
     input.name = `recipeSteps[${index}].${field}`;
 });

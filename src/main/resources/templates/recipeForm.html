@@ -49,7 +49,7 @@
 
                         <div id="stepsContainer">
                             <div class="input-group mb-3" th:each="step, stat : *{recipeSteps}">
-                                <input class="form-control"
+                                <textarea class="form-control"
                                     th:field="*{recipeSteps[__${stat.index}__].stepDescription}"
                                     placeholder="Describe step..." />
                                 <input type="hidden" th:field="*{recipeSteps[__${stat.index}__].stepId}" />
