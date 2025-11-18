@@ -21,19 +21,19 @@
                             <input type="text" class="form-control" id="recipeName" th:field="*{name}">
                         </div>
                         <div class="mb-3">
-                            <label for="categories" class="form-label">Categories</label>
-                            <select id="categories" name="categories" class="form-select category-select"
+                            <label for="selectedCategories" class="form-label">Categories</label>
+                            <select id="selectedCategories" name="selectedCategories" class="form-select category-select"
                                     data-searchable="true"
-                                    data-creatable="false"
-                                    data-creatable-text="Add &lt;b&gt;{value}&lt;/b&gt;..."
+                                    data-creatable="true"
+                                    data-creatable-text="New category: &lt;b&gt;{value}&lt;/b&gt;..."
                                     multiple>
                                 <option th:each="optionCategory : ${availableCategories}"
                                         th:text="${optionCategory.name}"
-                                        th:value="${optionCategory.categoryId}"
+                                        th:value="${optionCategory.name}"
                                         th:selected="${formRecipe.categories.contains(optionCategory)}"/>
                             </select>
                             <script>
-                                const categoriesSelect = new UseBootstrapSelect(document.getElementById('categories'));
+                                const categoriesSelect = new UseBootstrapSelect(document.getElementById('selectedCategories'));
                             </script>
                         </div>
                         <div class="mb-3">

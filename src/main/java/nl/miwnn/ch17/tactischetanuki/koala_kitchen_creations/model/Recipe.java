@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -46,11 +47,9 @@ public class Recipe {
     public Recipe() {
         this.recipeIngredients = new ArrayList<>();
         this.recipeSteps = new ArrayList<>();
+        this.categories = new HashSet<>();
     }
 
-    public List<Long> categoryIds() {
-        return categories.stream().map(Category::getCategoryId).toList();
-    }
     public void setRecipeIngredients(List<RecipeIngredients> recipeIngredients) {
         this.recipeIngredients = recipeIngredients;
         for (RecipeIngredients ingredient : recipeIngredients) {

@@ -6,18 +6,14 @@ import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.RecipeIngredi
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.repositories.CategoryRepository;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.RecipeStep;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.repositories.RecipeRepository;
+import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.service.CategoryService;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.service.RecipeStepService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * @author Jantine van der Schaaf
@@ -31,11 +27,13 @@ public class RecipeController {
     private final RecipeRepository recipeRepository;
     private final RecipeStepService recipeStepService;
     private final CategoryRepository categoryRepository;
+    private final CategoryService categoryService;
 
-    public RecipeController(RecipeRepository recipeRepository, RecipeStepService recipeStepService, CategoryRepository categoryRepository) {
+    public RecipeController(RecipeRepository recipeRepository, RecipeStepService recipeStepService, CategoryRepository categoryRepository, CategoryService categoryService) {
         this.recipeRepository = recipeRepository;
         this.recipeStepService = recipeStepService;
         this.categoryRepository = categoryRepository;
+        this.categoryService = categoryService;
     }
 
     @GetMapping({"/recipe/all", "/"})
@@ -52,9 +50,12 @@ public class RecipeController {
     }
 
     @PostMapping("/recipe/save")
-    public String saveOrUpdateRecipe(@ModelAttribute("formRecipe") Recipe recipe, BindingResult result) {
+    public String saveOrUpdateRecipe(@ModelAttribute("formRecipe") Recipe recipe,
+                                     @RequestParam("selectedCategories") List<String> formSelectedCategories,
+                                     BindingResult result) {
         if (!result.hasErrors()) {
-
+            Set<Category> selectedCategories = categoryService.findOrCreateByNames(formSelectedCategories);
+            recipe.setCategories(selectedCategories);
             recipeRepository.save(recipe);
         } else {
             System.err.println("Error saving recipe: " + result.toString());;
@@ -84,6 +85,7 @@ public class RecipeController {
     private String returnRecipeForm(Model datamodel, Recipe recipe) {
         datamodel.addAttribute("formRecipe", recipe);
         datamodel.addAttribute("availableCategories", categoryRepository.findAll());
+//        datamodel.addAttribute("selectedCategories", recipe.getCategories().stream().map(Category::getCategoryId).map(Long::toString));
         return "recipeForm";
     }
 
