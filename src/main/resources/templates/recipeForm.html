@@ -5,7 +5,7 @@
     <title th:unless="${formRecipe.recipeId == null}">Edit recipe</title></head>
 
 <body>
-<script src="/js/ingredientList.js"></script>
+<script src="/js/dynamicList.js"></script>
 <script src="/js/stepList.js"></script>
 <div class="page-wrapper">
     <nav th:replace="~{fragments/general :: navbar(${navItems}, '')}"></nav>
@@ -40,15 +40,20 @@
                             <label for="recipeDescription" class="form-label">Description</label>
                             <textarea type="text" class="form-control" id="recipeDescription" th:field="*{description}"></textarea>
                         </div>
-                        <div class="input-group mb-3" th:each="ingredient, itemStat : *{recipeIngredients}">
-                            <input class="form-control" th:field="*{recipeIngredients[__${itemStat.index}__].name}" />
-                            <input type="hidden" th:field="*{recipeIngredients[__${itemStat.index}__].recipeIngredientsId}" />
-                            <input type="hidden" th:field="*{recipeIngredients[__${itemStat.index}__].recipe}" />
-                            <input class="form-control" th:field="*{recipeIngredients[__${itemStat.index}__].quantity}" />
-                            <button type="button" class="btn btn-danger" onclick="deleteIngredient()">
-                                <i class="btn-danger bi bi-trash-fill"></i>
-                            </button>
+                        <div data-list-container id="ingredient-list">
+                            <div data-list-row class="input-group mb-3" th:each="ingredient, itemStat : *{recipeIngredients}">
+                                <input class="form-control" th:field="*{recipeIngredients[__${itemStat.index}__].name}" />
+                                <input type="hidden" th:field="*{recipeIngredients[__${itemStat.index}__].recipeIngredientsId}" />
+                                <input type="hidden" th:field="*{recipeIngredients[__${itemStat.index}__].recipe}" data-list-keep/>
+                                <input class="form-control" th:field="*{recipeIngredients[__${itemStat.index}__].quantity}" />
+                                <button type="button" class="btn btn-danger" onclick="deleteListRow(this)">
+                                    <i class="btn-danger bi bi-trash-fill"></i>
+                                </button>
+                            </div>
                         </div>
+                        <button type="button" class="btn btn-secondary mb-3 btn btn-success" onclick="addListRow('ingredient-list')">
+                            Add ingredient
+                        </button>
 
                         <div class="my-3">
                             <label class="form-label">Preperation steps</label>

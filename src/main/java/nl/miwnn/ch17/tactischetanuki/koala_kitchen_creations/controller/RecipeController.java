@@ -2,7 +2,6 @@ package nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.controller;
 
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.Category;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.Recipe;
-import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.RecipeIngredients;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.repositories.CategoryRepository;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.RecipeStep;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.repositories.RecipeRepository;
@@ -12,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.*;
 
@@ -52,7 +52,8 @@ public class RecipeController {
     @PostMapping("/recipe/save")
     public String saveOrUpdateRecipe(@ModelAttribute("formRecipe") Recipe recipe,
                                      @RequestParam("selectedCategories") List<String> formSelectedCategories,
-                                     BindingResult result) {
+                                     BindingResult result,
+                                     RedirectAttributes redirectAttributes) {
         if (!result.hasErrors()) {
             Set<Category> selectedCategories = categoryService.findOrCreateByNames(formSelectedCategories);
             recipe.setCategories(selectedCategories);
@@ -60,7 +61,8 @@ public class RecipeController {
         } else {
             System.err.println("Error saving recipe: " + result.toString());;
         }
-        return "redirect:/recipe/all";
+        redirectAttributes.addAttribute("recipeId", recipe.getRecipeId());
+        return "redirect:/recipe/detail/{recipeId}";
     }
 
     @GetMapping("/recipe/delete/{recipeId}")
@@ -75,7 +77,6 @@ public class RecipeController {
 
         if (optionalRecipe.isPresent()) {
             Recipe recipe = optionalRecipe.get();
-            recipe.addRecipeIngredient(new RecipeIngredients());
             return returnRecipeForm(datamodel, recipe);
         }
 
@@ -85,7 +86,6 @@ public class RecipeController {
     private String returnRecipeForm(Model datamodel, Recipe recipe) {
         datamodel.addAttribute("formRecipe", recipe);
         datamodel.addAttribute("availableCategories", categoryRepository.findAll());
-//        datamodel.addAttribute("selectedCategories", recipe.getCategories().stream().map(Category::getCategoryId).map(Long::toString));
         return "recipeForm";
     }
 
