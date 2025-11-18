@@ -14,12 +14,19 @@
 <body>
 
 <!--/*@thymesVar id="navItems" type="java.util.List<nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.NavItem>"*/-->
-<nav th:fragment="navbar(navItems, activeItem)" class="sticky-top navbar-expand-lg navbar navbar-light bg-light justify-content-center">
-    <ul class="navbar-nav mr-auto">
-        <img src="/images/koalaKitchenCreations.png" alt="Logo" style="max-height:50px">
+<nav th:fragment="navbar(navItems, activeItem)" class="sticky-top navbar-expand-lg navbar navbar-light
+        justify-content-center" style="background-color: rgb(214,206,181);">
+    <div class="container">
+        <a class="navbar-brand" th:href="@{/homepage}" style="margin-left:210px;">
+            <img th:src="@{/images/koalaCreations.png}" alt="KoalaKitchenCreations" style="height:85px;" >
+        </a>
+    </div>
+
+    <ul class="navbar-nav mr-auto" style="margin-right: 250px;">
+
         <li class="nav-item" th:each="navItem : ${navItems}">
             <a class="nav-link" th:classappend="${activeItem == navItem.name} ? 'active'"
-               th:href="@{${navItem.href}}" th:text="${navItem.name}"></a>
+               th:href="@{${navItem.href}}" th:text="${navItem.name}" ></a>
         </li>
     </ul>
 </nav>
