@@ -28,10 +28,6 @@ public class ImageService {
     public String saveImage(MultipartFile file) throws IOException {
         String uniqueFileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
 
-//        if (imageRepository.existsByFileName(file.getOriginalFilename())) {
-//            throw new IllegalIdentifierException(file.getOriginalFilename() + " already exists");
-//        }
-
         MediaType contentType = MediaType.IMAGE_JPEG;
         if (file.getContentType() != null) {
             contentType = MediaType.parseMediaType(file.getContentType());

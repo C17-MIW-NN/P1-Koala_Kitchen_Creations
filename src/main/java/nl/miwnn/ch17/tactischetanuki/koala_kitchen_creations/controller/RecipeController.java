@@ -59,7 +59,6 @@ public class RecipeController {
                                     @RequestParam(value = "recipeImage", required = false) MultipartFile recipeImage) {
 
         try {
-            // Alleen opslaan als er een nieuwe file is geüpload
             if (recipeImage != null && !recipeImage.isEmpty()) {
                 String uniqueFileName = imageService.saveImage(recipeImage);
                 recipe.setImageURL("/image/" + uniqueFileName);
@@ -67,16 +66,8 @@ public class RecipeController {
         } catch (IOException e) {
             result.rejectValue("imageURL", "imageNotSaved", "Image could not be saved");
         } catch (IllegalIdentifierException e) {
-            // Bestaand bestand behouden als het al bestaat
             result.rejectValue("imageURL", "imageExists", "Image already exists");
         }
-
-//        try {
-//            imageService.saveImage(recipeImage);
-//            recipe.setImageURL("/image/" + recipeImage.getOriginalFilename());
-//        } catch (IOException imageError) {
-//            result.rejectValue("recipeImage", "imageNotSaved", "Image not saved");
-//        }
 
         if (!result.hasErrors()) {
 
