@@ -46,6 +46,9 @@
                             <label for="recipeDescription" class="form-label">Description</label>
                             <textarea type="text" class="form-control" id="recipeDescription" th:field="*{description}"></textarea>
                         </div>
+                        <div class="my-3">
+                            <label class="form-label">Ingredients</label>
+                        </div>
                         <div data-list-container id="ingredient-list">
                             <div data-list-row class="input-group mb-3" th:each="ingredient, itemStat : *{recipeIngredients}">
                                 <input class="form-control" th:field="*{recipeIngredients[__${itemStat.index}__].name}" />
@@ -69,7 +72,7 @@
                             <div class="input-group mb-3" th:each="step, stat : *{recipeSteps}">
                                 <textarea class="form-control"
                                     th:field="*{recipeSteps[__${stat.index}__].stepDescription}"
-                                    placeholder="Describe step..." />
+                                          placeholder="Describe step..." ></textarea>
                                 <input type="hidden" th:field="*{recipeSteps[__${stat.index}__].stepId}" />
                                 <input type="hidden" th:field="*{recipeSteps[__${stat.index}__].recipe}">
                                 <button type="button" class="btn btn-danger" onclick="deleteStep(this)">
@@ -94,6 +97,11 @@
 
     <footer th:replace="~{fragments/general :: footer}"></footer>
     <div th:replace="~{fragments/general :: bottomScripts}"></div>
+    <script>
+        for (let selectElement of document.querySelectorAll("[data-use-bootstrap-select]")) {
+            new UseBootstrapSelect(selectElement);
+        }
+    </script>
 </div>
 </body>
 </html>

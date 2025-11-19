@@ -5,7 +5,8 @@
     const recipeId= document.getElementById("recipeId").getAttribute("value");
     const html = `
         <div class="input-group mb-3">
-            <textarea class="form-control" name="recipeSteps[${index}].stepDescription" placeholder="Describe step..." />
+            <textarea class="form-control" name="recipeSteps[${index}].stepDescription" placeholder="Describe step..." >
+            </textarea>
             <input type="hidden" name="recipeSteps[${index}].stepId" value="">
             <input type="hidden" name="recipeSteps[${index}].recipe" value="${recipeId}">
             <button type="button" class="btn btn-danger" onclick="deleteStep(this)">

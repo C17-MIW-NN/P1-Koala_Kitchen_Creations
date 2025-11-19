@@ -2,6 +2,7 @@ package nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.controller;
 
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.Category;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.Recipe;
+import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.RecipeIngredients;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.repositories.CategoryRepository;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.RecipeStep;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.repositories.RecipeRepository;
@@ -56,7 +57,9 @@ public class RecipeController {
 
     @GetMapping("/recipe/add")
     public String showRecipeForm(Model datamodel) {
-        return returnRecipeForm(datamodel, new Recipe());
+        Recipe newRecipe = new Recipe();
+        newRecipe.addRecipeIngredient(new RecipeIngredients());
+        return returnRecipeForm(datamodel, newRecipe);
     }
 
     @PostMapping("/recipe/save")
