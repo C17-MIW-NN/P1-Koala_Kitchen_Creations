@@ -1,6 +1,9 @@
 :root {
     --main-color: #ea5c21;
     --light-color: #f3dfd7;
+    --category-color: #5e36ac;
+    --category-color-hover: #bea1ec;
+    --category-font-color: white;
 }
 
 * {
@@ -44,3 +47,51 @@ body {
     border-color: var(--main-color);
     transition: border-color 0.5s ease;
 }
+/*.category-select > div > div {*/
+/*    !*all: unset !important;*!*/
+/*    border-radius: var(--bs-border-radius-pill) !important;*/
+/*    background-color: rgba(var(--bs-danger-rgb),var(--bs-bg-opacity)) !important;*/
+/*    --bs-badge-padding-x: 0.65em;*/
+/*    --bs-badge-padding-y: 0.35em;*/
+/*    --bs-badge-font-size: 0.75em;*/
+/*    --bs-badge-font-weight: 700;*/
+/*    --bs-badge-color: #fff;*/
+/*    --bs-badge-border-radius: var(--bs-border-radius);*/
+/*    display: inline-block !important;*/
+/*    padding: var(--bs-badge-padding-y) var(--bs-badge-padding-x) !important;*/
+/*    font-size: var(--bs-badge-font-size) !important;*/
+/*    font-weight: var(--bs-badge-font-weight) !important;*/
+/*    line-height: 1 !important;*/
+/*    color: var(--bs-badge-color) !important;*/
+/*    text-align: center !important;*/
+/*    white-space: nowrap !important;*/
+/*    vertical-align: baseline !important;*/
+/*}*/
+
+.category-select > div > div.btn,
+.category-tag {
+    background-color: var(--category-color) !important;
+    color: var(--category-font-color);
+}
+.category-tag.nav-link:hover, .category-tag.nav-link:focus{
+    background-color: var(--category-color-hover) !important;
+}
+
+/* Override default tag style for use-bootstrap-select */
+.category-select > div > div.btn {
+        --bs-badge-padding-x: 0.65em;
+        --bs-badge-padding-y: 0.35em;
+        --bs-badge-font-size: 0.75em;
+        --bs-badge-font-weight: 700;
+        --bs-badge-color: #fff;
+        --bs-badge-border-radius: var(--bs-border-radius);
+    border-radius: var(--bs-border-radius-pill) !important;
+    display: inline-block !important;
+    padding: var(--bs-badge-padding-y) var(--bs-badge-padding-x);
+    font-weight: var(--bs-badge-font-weight);
+    line-height: 1.2;
+    color: var(--bs-badge-color);
+    text-align: center !important;
+    vertical-align: baseline !important;
+}
+

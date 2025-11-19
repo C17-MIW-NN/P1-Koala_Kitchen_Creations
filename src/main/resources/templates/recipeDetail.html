@@ -21,7 +21,7 @@
                 <h4 th:if="${recipe.categories.size() > 0}">
                     Categories:
                     <a th:each="category : *{recipe.categories}"
-                       class="nav-link active badge bg-danger rounded-pill text-decoration-none me-2"
+                       class="nav-link active badge category-tag rounded-pill text-decoration-none me-2"
                        th:href="@{/category/{categoryId}/recipes(categoryId=${category.categoryId})}"
                        th:text="${category.name}"/>
                 </h4>

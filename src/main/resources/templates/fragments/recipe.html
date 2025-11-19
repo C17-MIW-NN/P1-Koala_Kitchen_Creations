@@ -13,7 +13,7 @@
             </h5>
             <h6 class="card-subtitle mb-2">
                 <a th:each="category : *{categories}"
-                   class="nav-link active badge badge-pill bg-danger rounded-pill  position-relative z-2 me-2"
+                   class="nav-link active badge badge-pill category-tag rounded-pill  position-relative z-2 me-2"
                    th:href="@{/category/{categoryId}/recipes(categoryId=${category.categoryId})}"
                    th:text="${category.name}" />
             </h6>

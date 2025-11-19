@@ -5,7 +5,7 @@
     <title th:unless="${formRecipe.recipeId == null}">Edit recipe</title></head>
 
 <body>
-<script src="/js/ingredientList.js"></script>
+<script src="/js/dynamicList.js"></script>
 <script src="/js/stepList.js"></script>
 <div class="page-wrapper">
     <nav th:replace="~{fragments/general :: navbar(${navItems}, '')}"></nav>
@@ -13,7 +13,7 @@
     <main class="page-main container">
         <div class="row justify-content-center">
             <div class="col-12 col-md-8 col-lg-6">
-                <form method="post" th:action="@{/recipe/save}" th:object="${formRecipe}" enctype="multipart/form-data">
+                    <form method="post" id="recipeForm" th:action="@{/recipe/save}" th:object="${formRecipe}" enctype="multipart/form-data">
                         <input type="hidden" th:field="*{recipeId}" />
                         <input type="hidden" name="ingredientCount" th:value="*{recipeIngredients.size()}" />
                         <div class="mb-3">
@@ -27,27 +27,39 @@
                             <span id="imageFileHelp" class="form-text" th:if="${#fields.hasErrors('imageURL')}" th:errors="*{imageURL}"></span>
                         </div>
                         <div class="mb-3">
-                            <label for="authors" class="form-label">Categories</label>
-                            <select class="form-select" id="authors" th:field="*{categories}" multiple>
-                                <option th:each="category : ${availableCategories}"
-                                        th:text="${category.name}"
-                                        th:value="${category.categoryId}">
-                                </option>
+                            <label for="selectedCategories" class="form-label">Categories</label>
+                            <select id="selectedCategories" name="selectedCategories" class="form-select category-select"
+                                    data-searchable="true"
+                                    data-creatable="true"
+                                    data-creatable-text="New category: &lt;b&gt;{value}&lt;/b&gt;..."
+                                    multiple>
+                                <option th:each="optionCategory : ${availableCategories}"
+                                        th:text="${optionCategory.name}"
+                                        th:value="${optionCategory.name}"
+                                        th:selected="${formRecipe.categories.contains(optionCategory)}"/>
                             </select>
+                            <script>
+                                const categoriesSelect = new UseBootstrapSelect(document.getElementById('selectedCategories'));
+                            </script>
                         </div>
                         <div class="mb-3">
                             <label for="recipeDescription" class="form-label">Description</label>
                             <textarea type="text" class="form-control" id="recipeDescription" th:field="*{description}"></textarea>
                         </div>
-                        <div class="input-group mb-3" th:each="ingredient, itemStat : *{recipeIngredients}">
-                            <input class="form-control" th:field="*{recipeIngredients[__${itemStat.index}__].name}" />
-                            <input type="hidden" th:field="*{recipeIngredients[__${itemStat.index}__].recipeIngredientsId}" />
-                            <input type="hidden" th:field="*{recipeIngredients[__${itemStat.index}__].recipe}" />
-                            <input class="form-control" th:field="*{recipeIngredients[__${itemStat.index}__].quantity}" />
-                            <button type="button" class="btn btn-danger" onclick="deleteIngredient()">
-                                <i class="btn-danger bi bi-trash-fill"></i>
-                            </button>
+                        <div data-list-container id="ingredient-list">
+                            <div data-list-row class="input-group mb-3" th:each="ingredient, itemStat : *{recipeIngredients}">
+                                <input class="form-control" th:field="*{recipeIngredients[__${itemStat.index}__].name}" />
+                                <input type="hidden" th:field="*{recipeIngredients[__${itemStat.index}__].recipeIngredientsId}" />
+                                <input type="hidden" th:field="*{recipeIngredients[__${itemStat.index}__].recipe}" data-list-keep/>
+                                <input class="form-control" th:field="*{recipeIngredients[__${itemStat.index}__].quantity}" />
+                                <button type="button" class="btn btn-danger" onclick="deleteListRow(this)">
+                                    <i class="btn-danger bi bi-trash-fill"></i>
+                                </button>
+                            </div>
                         </div>
+                        <button type="button" class="btn btn-secondary mb-3 btn btn-success" onclick="addListRow('ingredient-list')">
+                            Add ingredient
+                        </button>
 
                         <div class="my-3">
                             <label class="form-label">Preperation steps</label>
