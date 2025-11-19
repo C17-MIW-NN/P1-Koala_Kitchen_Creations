@@ -79,6 +79,13 @@
             <artifactId>bootstrap-icons</artifactId>
             <version>1.11.3</version>
         </dependency>
+
+        <!--	This dependency is for loading the example data from csv	-->
+        <dependency>
+            <groupId>com.opencsv</groupId>
+            <artifactId>opencsv</artifactId>
+            <version>5.7.1</version>
+        </dependency>
     </dependencies>
 
     <build>
