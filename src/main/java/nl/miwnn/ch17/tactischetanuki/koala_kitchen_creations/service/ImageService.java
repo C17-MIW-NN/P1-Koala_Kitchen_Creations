@@ -2,6 +2,7 @@ package nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.service;
 
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.Image;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.repositories.ImageRepository;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.hibernate.boot.model.naming.IllegalIdentifierException;
 import org.springframework.core.io.ClassPathResource;
@@ -49,12 +50,13 @@ public class ImageService {
                 .orElseThrow(() -> new NoSuchElementException(fileName));
     }
 
-    public void saveImage(ClassPathResource imageResource) throws IOException {
+    public Image saveImage(Resource imageResource) throws IOException {
         Image image = new Image();
-        image.setFileName(imageResource.getFilename());
+        String uniqueFileName = UUID.randomUUID().toString() + "_" + imageResource.getFilename();
+        image.setFileName(uniqueFileName);
         image.setContentType(MediaType.IMAGE_JPEG);
         image.setData(imageResource.getInputStream().readAllBytes());
-        imageRepository.save(image);
+        return imageRepository.save(image);
     }
 }
 
