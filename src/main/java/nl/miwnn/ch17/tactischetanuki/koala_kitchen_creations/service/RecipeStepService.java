@@ -26,4 +26,8 @@ public class RecipeStepService {
     public void deleteStep(Long recipeStepId) {
         recipeStepRepository.deleteById(recipeStepId);
     }
+    // The steps should NOT be saved through repository before they are added to a recipe
+    public List<RecipeStep> createFromStrings(List<String> stepDescriptions) {
+        return stepDescriptions.stream().map((name) -> new RecipeStep(name.trim())).toList();
+    }
 }

@@ -22,8 +22,8 @@ public class CategoryService {
     }
 
     public Set<Category> findOrCreateByNames(List<String> categoryNames) {
+        categoryNames = categoryNames.stream().map(String::trim).toList();
         Set<Category> selectedCategories = new HashSet<>();
-
         List<Category> existingCategories = categoryRepository.findAllByNameIn(categoryNames);
         selectedCategories.addAll(existingCategories);
         Set<String> existingNames = existingCategories.stream().map(Category::getName).collect(Collectors.toSet());
@@ -31,6 +31,7 @@ public class CategoryService {
         Set<String> newCategoryNames = new HashSet<>(categoryNames);
         newCategoryNames.removeAll(existingNames);
         for (String name : newCategoryNames) {
+            name = name.trim();
             selectedCategories.add(categoryRepository.save(new Category(name)));
         }
 

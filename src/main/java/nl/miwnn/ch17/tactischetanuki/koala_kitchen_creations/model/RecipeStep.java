@@ -24,7 +24,12 @@ public class RecipeStep {
     private Recipe recipe;
 
     public RecipeStep(Recipe recipe, String stepDescription) {
+        this(stepDescription);
         this.recipe = recipe;
+    }
+
+    public RecipeStep(String stepDescription) {
+        this();
         this.stepDescription = stepDescription;
     }
 
