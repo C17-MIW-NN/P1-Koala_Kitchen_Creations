@@ -10,6 +10,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.NoSuchElementException;
+import java.util.UUID;
+
 /**
  * @author Jantine van der Schaaf
  * Doel methode
@@ -23,24 +25,28 @@ public class ImageService {
         this.imageRepository = imageRepository;
     }
 
-    public void saveImage(MultipartFile file) throws IOException {
-        if (imageRepository.existsByFileName(file.getOriginalFilename())) {
-            throw new IllegalIdentifierException(file.getOriginalFilename() + " already exists");
-        }
+    public String saveImage(MultipartFile file) throws IOException {
+        String uniqueFileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
+
+//        if (imageRepository.existsByFileName(file.getOriginalFilename())) {
+//            throw new IllegalIdentifierException(file.getOriginalFilename() + " already exists");
+//        }
 
         MediaType contentType = MediaType.IMAGE_JPEG;
         if (file.getContentType() != null) {
-            // TODO: Filter to only allow image types
             contentType = MediaType.parseMediaType(file.getContentType());
         }
 
         Image image = new Image();
-        image.setFileName(file.getOriginalFilename());
+        image.setFileName(uniqueFileName);
         image.setContentType(contentType);
         image.setData(file.getBytes());
 
         imageRepository.save(image);
+
+        return uniqueFileName;
     }
+
 
     public Image getImage(String fileName) {
         return imageRepository.findByFileName(fileName)

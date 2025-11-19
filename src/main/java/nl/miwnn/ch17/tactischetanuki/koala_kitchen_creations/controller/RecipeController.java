@@ -6,15 +6,16 @@ import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.RecipeIngredi
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.repositories.CategoryRepository;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.RecipeStep;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.repositories.RecipeRepository;
+import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.service.ImageService;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.service.RecipeStepService;
+import org.hibernate.boot.model.naming.IllegalIdentifierException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -31,11 +32,13 @@ public class RecipeController {
     private final RecipeRepository recipeRepository;
     private final RecipeStepService recipeStepService;
     private final CategoryRepository categoryRepository;
+    private final ImageService imageService;
 
-    public RecipeController(RecipeRepository recipeRepository, RecipeStepService recipeStepService, CategoryRepository categoryRepository) {
+    public RecipeController(RecipeRepository recipeRepository, RecipeStepService recipeStepService, CategoryRepository categoryRepository, ImageService imageService) {
         this.recipeRepository = recipeRepository;
         this.recipeStepService = recipeStepService;
         this.categoryRepository = categoryRepository;
+        this.imageService = imageService;
     }
 
     @GetMapping({"/recipe/all", "/"})
@@ -52,7 +55,29 @@ public class RecipeController {
     }
 
     @PostMapping("/recipe/save")
-    public String saveOrUpdateRecipe(@ModelAttribute("formRecipe") Recipe recipe, BindingResult result) {
+    public String saveOrUpdateRecipe(@ModelAttribute("formRecipe") Recipe recipe, BindingResult result,
+                                    @RequestParam(value = "recipeImage", required = false) MultipartFile recipeImage) {
+
+        try {
+            // Alleen opslaan als er een nieuwe file is geüpload
+            if (recipeImage != null && !recipeImage.isEmpty()) {
+                String uniqueFileName = imageService.saveImage(recipeImage);
+                recipe.setImageURL("/image/" + uniqueFileName);
+            }
+        } catch (IOException e) {
+            result.rejectValue("imageURL", "imageNotSaved", "Image could not be saved");
+        } catch (IllegalIdentifierException e) {
+            // Bestaand bestand behouden als het al bestaat
+            result.rejectValue("imageURL", "imageExists", "Image already exists");
+        }
+
+//        try {
+//            imageService.saveImage(recipeImage);
+//            recipe.setImageURL("/image/" + recipeImage.getOriginalFilename());
+//        } catch (IOException imageError) {
+//            result.rejectValue("recipeImage", "imageNotSaved", "Image not saved");
+//        }
+
         if (!result.hasErrors()) {
 
             recipeRepository.save(recipe);

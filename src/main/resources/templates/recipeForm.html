@@ -13,12 +13,18 @@
     <main class="page-main container">
         <div class="row justify-content-center">
             <div class="col-12 col-md-8 col-lg-6">
-                <form method="post" th:action="@{/recipe/save}" th:object="${formRecipe}">
+                <form method="post" th:action="@{/recipe/save}" th:object="${formRecipe}" enctype="multipart/form-data">
                         <input type="hidden" th:field="*{recipeId}" />
                         <input type="hidden" name="ingredientCount" th:value="*{recipeIngredients.size()}" />
                         <div class="mb-3">
                             <label for="recipeName" class="form-label">Name</label>
                             <input type="text" class="form-control" id="recipeName" th:field="*{name}">
+                        </div>
+                        <div class="col-md-12">
+                            <label for="imageFile" class="col-form-label">Image recipe</label>
+                            <input class="form-control" th:classappend="${#fields.hasErrors('imageURL')} ? 'is-invalid' : ''" type="file" id="imageFile" name="recipeImage" accept="image/*">
+                            <input type="hidden" name="imageURL" th:value="*{imageURL}"/>
+                            <span id="imageFileHelp" class="form-text" th:if="${#fields.hasErrors('imageURL')}" th:errors="*{imageURL}"></span>
                         </div>
                         <div class="mb-3">
                             <label for="authors" class="form-label">Categories</label>

@@ -18,12 +18,6 @@
                 <a class="btn btn-primary" th:href="@{/recipe/add}">Add recipe</a>
             </div>
         </div>
-
-        <div class="col-md-12">
-            <label for="imageFile" class="col-form-label">Image for the author</label>
-            <input class="form-control" th:classappend="${#fields.hasErrors('name')} ? 'is-invalid' : ''" type="file" id="imageFile" name="authorImage" accept="image/*">
-            <span id="imageFileHelp" class="form-text" th:if="${#fields.hasErrors('imageURL')}" th:errors="*{imageURL}"></span>
-        </div>
     </main>
 
     <footer th:replace="~{fragments/general :: footer}"></footer>

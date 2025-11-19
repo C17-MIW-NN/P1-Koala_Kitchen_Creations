@@ -23,6 +23,7 @@ public class Recipe {
     Long recipeId;
 
     String name;
+    private String imageURL;
 
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<RecipeIngredients> recipeIngredients;
@@ -48,12 +49,22 @@ public class Recipe {
         this.recipeSteps = new ArrayList<>();
     }
 
+    @Override
+    public String toString() {
+        return "Recipe{" +
+                "recipeId=" + recipeId +
+                ", name='" + name + '\'' +
+                ", imageURL='" + imageURL + '\'' +
+                '}';
+    }
+
     public void setRecipeIngredients(List<RecipeIngredients> recipeIngredients) {
         this.recipeIngredients = recipeIngredients;
         for (RecipeIngredients ingredient : recipeIngredients) {
             ingredient.setRecipe(this);
         }
     }
+
     public void addRecipeIngredient(RecipeIngredients recipeIngredients) {
         recipeIngredients.setRecipe(this);
         this.recipeIngredients.add(recipeIngredients);
