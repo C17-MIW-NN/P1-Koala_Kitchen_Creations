@@ -9,15 +9,15 @@
     <nav th:replace="~{fragments/general :: navbar(${navItems}, 'Recipes')}"></nav>
 
     <main class="page-main container">
-        <div class="row justify-content-center">
-            <div class="col-12 col-md-10 col-lg-8">
-                <h1>List of all recipes</h1>
-                <div th:replace="~{fragments/recipe :: recipeList(${recipes})}"></div>
-                <br />
-                <br />
-                <a class="btn btn-primary" th:href="@{/recipe/add}">Add recipe</a>
-            </div>
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-10 col-lg-8">
+            <h1>List of all recipes</h1>
+            <div th:replace="~{fragments/recipe :: recipeList(${recipes})}"></div>
+            <br />
+            <br />
+            <a class="btn btn-primary" th:href="@{/recipe/add}">Add recipe</a>
         </div>
+    </div>
     </main>
 
     <footer th:replace="~{fragments/general :: footer}"></footer>
