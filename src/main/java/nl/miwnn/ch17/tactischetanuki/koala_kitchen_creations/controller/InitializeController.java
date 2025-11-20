@@ -40,7 +40,9 @@ public class InitializeController {
     private final CategoryService categoryService;
     private final ImageService imageService;
 
-    public InitializeController(RecipeRepository recipeRepository, CategoryRepository categoryRepository, RecipeStepRepository recipeStepRepository, RecipeStepService recipeStepService, CategoryService categoryService, ImageService imageService) {
+    public InitializeController(RecipeRepository recipeRepository, CategoryRepository categoryRepository,
+                                RecipeStepRepository recipeStepRepository, RecipeStepService recipeStepService,
+                                CategoryService categoryService, ImageService imageService) {
         this.recipeRepository = recipeRepository;
         this.categoryRepository = categoryRepository;
         this.recipeStepRepository = recipeStepRepository;
@@ -62,19 +64,13 @@ public class InitializeController {
     }
 
     private Recipe makeRecipe(String name, String description, Set<Category> categories,
-          List<RecipeIngredients> ingredients, List<RecipeStep> steps, Image image) {
+        List<RecipeIngredients> ingredients, List<RecipeStep> steps) {
         Recipe recipe = new Recipe(name, description);
         recipe.setCategories(categories);
         recipe.setRecipeIngredients(ingredients);
         recipe.setRecipeSteps(steps);
-        recipe.setImageURL("/image/" + image.getFileName());
         recipeRepository.save(recipe);
-
-         return recipe;
-    }
-
-    private Category makeCategory(String name) {
-        return categoryRepository.save(new Category(name));
+        return recipe;
     }
 
     private RecipeIngredients makeRecipeIngredient(String description) {
@@ -98,21 +94,26 @@ public class InitializeController {
         return loadedImages;
     }
 
+    private Recipe parseRecipeLineAndMakeRecipe(String[] recipeLine) {
+        String name = recipeLine[0];
+        String description = recipeLine[1];
+        Set<Category> categories = categoryService.findOrCreateByNames(List.of(recipeLine[2].split(";")));
+        List<RecipeIngredients> recipeIngredients = Stream.of(recipeLine[3].split(";"))
+                .map(this::makeRecipeIngredient).toList();
+        List<RecipeStep> steps = recipeStepService.createFromStrings(List.of(recipeLine[4].split(";")));
+        return makeRecipe(name, description, categories, recipeIngredients, steps);
+    }
+
     private void loadRecipes(String filename, List<Image> sampleImages) {
-        List<Recipe> recipes = new ArrayList<>();
         try (CSVReader reader = new CSVReader(new FileReader(new ClassPathResource(filename).getFile()))) {
             // skip header
             reader.skip(1);
 
             for (String[] recipeLine : reader) {
-                String name = recipeLine[0];
-                String description = recipeLine[1];
-                Set<Category> categories = categoryService.findOrCreateByNames(List.of(recipeLine[2].split(";")));
-                List<RecipeIngredients> recipeIngredients = Stream.of(recipeLine[3].split(";"))
-                        .map(this::makeRecipeIngredient).toList();
-                List<RecipeStep> steps = recipeStepService.createFromStrings(List.of(recipeLine[4].split(";")));
+                Recipe recipe = parseRecipeLineAndMakeRecipe(recipeLine);
                 Image randomImage = sampleImages.get((int) (Math.random() * sampleImages.size()));
-                makeRecipe(name, description, categories, recipeIngredients, steps, randomImage);
+                recipe.setImageURL("/image/" + randomImage.getFileName());
+                recipeRepository.save(recipe);
             }
         } catch (IOException e) {
             throw new RuntimeException(e);

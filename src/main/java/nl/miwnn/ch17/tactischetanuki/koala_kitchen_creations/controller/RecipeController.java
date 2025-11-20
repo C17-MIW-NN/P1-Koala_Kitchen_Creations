@@ -1,10 +1,7 @@
 package nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.controller;
 
-import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.Category;
-import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.Recipe;
-import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.RecipeIngredients;
+import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.*;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.repositories.CategoryRepository;
-import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.RecipeStep;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.repositories.RecipeRepository;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.service.CategoryService;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.service.ImageService;
@@ -62,29 +59,30 @@ public class RecipeController {
         return returnRecipeForm(datamodel, newRecipe);
     }
 
-    @PostMapping("/recipe/save")
-    public String saveOrUpdateRecipe(@ModelAttribute("formRecipe") Recipe recipe, @RequestParam(value = "recipeImage", required = false) MultipartFile recipeImage,
-                                     @RequestParam("selectedCategories") List<String> formSelectedCategories,
-                                     BindingResult result,
-                                     RedirectAttributes redirectAttributes )  {
-
+    public void processSubmittedImage(Recipe recipe, MultipartFile recipeImage, BindingResult result) {
         try {
             if (recipeImage != null && !recipeImage.isEmpty()) {
-                String uniqueFileName = imageService.saveImage(recipeImage);
-                recipe.setImageURL("/image/" + uniqueFileName);
+                Image image = imageService.saveImage(recipeImage);
+                recipe.setImageURL("/image/" + image.getFileName());
             }
         } catch (IOException e) {
             result.rejectValue("imageURL", "imageNotSaved", "Image could not be saved");
-        } catch (IllegalIdentifierException e) {
-            result.rejectValue("imageURL", "imageExists", "Image already exists");
         }
-
+    }
+    @PostMapping("/recipe/save")
+    public String saveOrUpdateRecipe(@ModelAttribute("formRecipe") Recipe recipe,
+                                     @RequestParam(value = "recipeImage", required = false) MultipartFile recipeImage,
+                                     @RequestParam("selectedCategories") List<String> formSelectedCategories,
+                                     BindingResult result,
+                                     RedirectAttributes redirectAttributes )  {
         if (!result.hasErrors()) {
+            processSubmittedImage(recipe, recipeImage, result);
             Set<Category> selectedCategories = categoryService.findOrCreateByNames(formSelectedCategories);
             recipe.setCategories(selectedCategories);
             recipeRepository.save(recipe);
         } else {
-            System.err.println("Error saving recipe: " + result.toString());;
+            System.err.println("Error saving recipe: " + result.toString());
+
         }
         redirectAttributes.addAttribute("recipeId", recipe.getRecipeId());
         return "redirect:/recipe/detail/{recipeId}";

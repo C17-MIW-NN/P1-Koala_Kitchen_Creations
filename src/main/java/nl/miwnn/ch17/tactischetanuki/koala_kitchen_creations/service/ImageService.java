@@ -26,37 +26,38 @@ public class ImageService {
         this.imageRepository = imageRepository;
     }
 
-    public String saveImage(MultipartFile file) throws IOException {
-        String uniqueFileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
+    public void setUniqueFilename(Image image, String originalFilename) {
+        String uniqueFileName = UUID.randomUUID().toString() + "_" + originalFilename;
+        image.setFileName(uniqueFileName);
+    }
 
+    public Image saveImage(MultipartFile file) throws IOException {
         MediaType contentType = MediaType.IMAGE_JPEG;
         if (file.getContentType() != null) {
             contentType = MediaType.parseMediaType(file.getContentType());
         }
 
         Image image = new Image();
-        image.setFileName(uniqueFileName);
+        setUniqueFilename(image, file.getOriginalFilename());
         image.setContentType(contentType);
         image.setData(file.getBytes());
 
-        imageRepository.save(image);
-
-        return uniqueFileName;
-    }
-
-
-    public Image getImage(String fileName) {
-        return imageRepository.findByFileName(fileName)
-                .orElseThrow(() -> new NoSuchElementException(fileName));
+        return imageRepository.save(image);
     }
 
     public Image saveImage(Resource imageResource) throws IOException {
         Image image = new Image();
+        setUniqueFilename(image, imageResource.getFilename());
         String uniqueFileName = UUID.randomUUID().toString() + "_" + imageResource.getFilename();
         image.setFileName(uniqueFileName);
         image.setContentType(MediaType.IMAGE_JPEG);
         image.setData(imageResource.getInputStream().readAllBytes());
         return imageRepository.save(image);
+    }
+
+    public Image getImage(String fileName) {
+        return imageRepository.findByFileName(fileName)
+                .orElseThrow(() -> new NoSuchElementException(fileName));
     }
 }
 
