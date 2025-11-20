@@ -3,6 +3,7 @@ package nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.service;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.Image;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.repositories.ImageRepository;
 import org.springframework.core.io.Resource;
+import org.springframework.http.MediaTypeFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.http.MediaType;
 import org.springframework.web.multipart.MultipartFile;
@@ -39,16 +40,14 @@ public class ImageService {
         setUniqueFilename(image, file.getOriginalFilename());
         image.setContentType(contentType);
         image.setData(file.getBytes());
-
         return imageRepository.save(image);
     }
 
     public Image saveImage(Resource imageResource) throws IOException {
         Image image = new Image();
         setUniqueFilename(image, imageResource.getFilename());
-        String uniqueFileName = UUID.randomUUID().toString() + "_" + imageResource.getFilename();
-        image.setFileName(uniqueFileName);
-        image.setContentType(MediaType.IMAGE_JPEG);
+        MediaType contentType = MediaTypeFactory.getMediaType(imageResource).orElse(MediaType.IMAGE_JPEG);
+        image.setContentType(contentType);
         image.setData(imageResource.getInputStream().readAllBytes());
         return imageRepository.save(image);
     }
