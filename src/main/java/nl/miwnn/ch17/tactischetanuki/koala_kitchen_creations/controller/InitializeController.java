@@ -51,7 +51,7 @@ public class InitializeController {
 
     private void initializeDB() {
         List<Image> sampleImages = loadImages("/sampledata/images/");
-        loadRecipes("sampledata/recipes.csv", sampleImages);
+        loadRecipes("sampledata/recipes_50_detailed.csv", sampleImages);
     }
 
     private Recipe makeRecipe(String name, String description, Set<Category> categories,
