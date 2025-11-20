@@ -60,11 +60,9 @@ public class Recipe {
                 '}';
     }
 
-    public void setRecipeIngredients(List<RecipeIngredients> recipeIngredients) {
-        this.recipeIngredients = recipeIngredients;
-        for (RecipeIngredients ingredient : recipeIngredients) {
-            ingredient.setRecipe(this);
-        }
+    public void addRecipeStep(RecipeStep step) {
+        step.setRecipe(this);
+        this.recipeSteps.add(step);
     }
 
     public void addRecipeIngredient(RecipeIngredients recipeIngredients) {
@@ -72,15 +70,17 @@ public class Recipe {
         this.recipeIngredients.add(recipeIngredients);
     }
 
+    public void setRecipeIngredients(List<RecipeIngredients> recipeIngredients) {
+        this.recipeIngredients = recipeIngredients;
+        for (RecipeIngredients ingredient : recipeIngredients) {
+            ingredient.setRecipe(this);
+        }
+    }
+
     public void setRecipeSteps(List<RecipeStep> recipeSteps) {
         this.recipeSteps = recipeSteps;
         for (RecipeStep step : recipeSteps) {
             step.setRecipe(this);
         }
-    }
-
-    public void addRecipeStep(RecipeStep step) {
-        step.setRecipe(this);
-        this.recipeSteps.add(step);
     }
 }

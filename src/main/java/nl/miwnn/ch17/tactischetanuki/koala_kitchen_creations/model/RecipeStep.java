@@ -6,6 +6,7 @@ import lombok.Setter;
 
 /**
  * @author Jantine van der Schaaf
+ * @author Josse Muller
  * The steps form the preparation method of a dish
  */
 @Getter

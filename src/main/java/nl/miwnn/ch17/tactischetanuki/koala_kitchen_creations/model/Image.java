@@ -6,10 +6,9 @@ import lombok.Setter;
 import jakarta.persistence.*;
 import org.springframework.http.MediaType;
 
-
-
 /**
  * @author Jantine van der Schaaf
+ * @author Josse Muller
  * Doel methode
  */
 @Getter

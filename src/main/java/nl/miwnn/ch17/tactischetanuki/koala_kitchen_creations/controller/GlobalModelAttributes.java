@@ -9,6 +9,7 @@ import java.util.List;
 
 
 /**
+ * @author jantine van der Schaaf
  * @author Josse Muller
  * Automatically add model parameter for every controller, like navItems needed in Thymeleaf nav bar
  */

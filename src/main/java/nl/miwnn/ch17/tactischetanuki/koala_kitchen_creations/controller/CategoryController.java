@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
+ * @author Jantine van der Schaaf
  * @author Josse Muller
  * View category overview or all recipes belonging to a category
  */

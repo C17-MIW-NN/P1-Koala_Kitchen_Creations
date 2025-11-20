@@ -6,7 +6,6 @@ import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.repositories.Recipe
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.service.CategoryService;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.service.ImageService;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.service.RecipeStepService;
-import org.hibernate.boot.model.naming.IllegalIdentifierException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -36,7 +35,9 @@ public class RecipeController {
     private final ImageService imageService;
     private final CategoryService categoryService;
 
-    public RecipeController(RecipeRepository recipeRepository, RecipeStepService recipeStepService, CategoryRepository categoryRepository, CategoryService categoryService, ImageService imageService) {
+    public RecipeController(RecipeRepository recipeRepository, RecipeStepService recipeStepService,
+                            CategoryRepository categoryRepository, CategoryService categoryService,
+                            ImageService imageService) {
         this.recipeRepository = recipeRepository;
         this.recipeStepService = recipeStepService;
         this.categoryRepository = categoryRepository;

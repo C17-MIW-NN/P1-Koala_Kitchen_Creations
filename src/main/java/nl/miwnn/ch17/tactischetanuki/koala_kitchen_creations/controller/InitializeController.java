@@ -2,13 +2,10 @@ package nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.controller;
 
 import com.opencsv.CSVReader;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.*;
-import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.repositories.CategoryRepository;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.repositories.RecipeRepository;
-import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.repositories.RecipeStepRepository;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.service.CategoryService;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.service.ImageService;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.service.RecipeStepService;
-import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.io.ClassPathResource;
@@ -17,7 +14,6 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.stereotype.Controller;
 
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -34,18 +30,13 @@ import java.util.stream.Stream;
 @Controller
 public class InitializeController {
     private final RecipeRepository recipeRepository;
-    private final CategoryRepository categoryRepository;
-    private final RecipeStepRepository recipeStepRepository;
     private final RecipeStepService recipeStepService;
     private final CategoryService categoryService;
     private final ImageService imageService;
 
-    public InitializeController(RecipeRepository recipeRepository, CategoryRepository categoryRepository,
-                                RecipeStepRepository recipeStepRepository, RecipeStepService recipeStepService,
+    public InitializeController(RecipeRepository recipeRepository, RecipeStepService recipeStepService,
                                 CategoryService categoryService, ImageService imageService) {
         this.recipeRepository = recipeRepository;
-        this.categoryRepository = categoryRepository;
-        this.recipeStepRepository = recipeStepRepository;
         this.recipeStepService = recipeStepService;
         this.categoryService = categoryService;
         this.imageService = imageService;

@@ -13,7 +13,7 @@ import java.util.Optional;
 
 /**
  * @author Jantine van der Schaaf
- * @author Josse Mulle
+ * @author Josse Muller
  * Handle requests regarding RecipeIngredients
  */
 
@@ -23,9 +23,8 @@ public class RecipeIngredientsController {
     private final RecipeRepository recipeRepository;
     private final RecipeIngredientsRepository recipeIngredientsRepository;
 
-
-    public RecipeIngredientsController(RecipeRepository recipeRepository, RecipeIngredientsRepository
-            recipeIngredientsRepository) {
+    public RecipeIngredientsController(RecipeRepository recipeRepository,
+                                       RecipeIngredientsRepository recipeIngredientsRepository) {
         this.recipeRepository = recipeRepository;
         this.recipeIngredientsRepository = recipeIngredientsRepository;
     }
@@ -39,6 +38,5 @@ public class RecipeIngredientsController {
             recipeIngredientsRepository.save(recipeIngredients);
         }
         return "redirect:/recipe/all";
-
     }
 }

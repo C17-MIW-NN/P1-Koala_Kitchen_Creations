@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
+ * @author Jantine van der Schaaf
  * @author Josse Muller
  * Provides the list of links in the navbar
  */

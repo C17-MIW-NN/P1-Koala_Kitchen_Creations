@@ -13,6 +13,7 @@ import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.Image;
 
 /**
  * @author Jantine van der Schaaf
+ * @author Josse Muller
  * Doel methode
  */
 

@@ -4,9 +4,9 @@ import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
+ * @author Jantine van der Schaaf
  * @author Josse Muller
  */
 public interface CategoryRepository extends JpaRepository<Category, Long> {

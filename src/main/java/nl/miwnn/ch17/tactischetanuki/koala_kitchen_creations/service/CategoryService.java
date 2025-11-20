@@ -10,6 +10,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
+ * @author Jantine van der Schaaf
  * @author Josse Muller
  * Used to create and find categories from one list
  */

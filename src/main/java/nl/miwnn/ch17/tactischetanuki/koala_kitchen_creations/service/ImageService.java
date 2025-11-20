@@ -4,8 +4,6 @@ import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.Image;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.repositories.ImageRepository;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
-import org.hibernate.boot.model.naming.IllegalIdentifierException;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,7 +13,7 @@ import java.util.UUID;
 
 /**
  * @author Jantine van der Schaaf
- * Doel methode
+ * @author Josse Muller
  */
 
 @Service

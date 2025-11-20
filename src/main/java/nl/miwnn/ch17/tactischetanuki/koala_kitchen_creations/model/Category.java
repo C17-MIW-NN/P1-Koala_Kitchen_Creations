@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
+ * @author Jantine van der Schaaf
  * @author Josse Muller
  * A cagtegory that could contain multiple recipes
  */

@@ -7,6 +7,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * @author Jantine van der Schaaf
+ * @author Josse Muller
+ */
+
 @Service
 public class RecipeStepService {
     private final RecipeStepRepository recipeStepRepository;
@@ -26,6 +31,7 @@ public class RecipeStepService {
     public void deleteStep(Long recipeStepId) {
         recipeStepRepository.deleteById(recipeStepId);
     }
+
     // The steps should NOT be saved through repository before they are added to a recipe
     public List<RecipeStep> createFromStrings(List<String> stepDescriptions) {
         return stepDescriptions.stream().map((name) -> new RecipeStep(name.trim())).toList();

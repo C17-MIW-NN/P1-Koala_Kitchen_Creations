@@ -7,7 +7,7 @@ import java.util.Optional;
 
 /**
  * @author Jantine van der Schaaf
- * Doel methode
+ * @author Josse Muller
  */
 public interface ImageRepository extends JpaRepository<Image, Long>{
     Optional<Image> findByFileName(String fileName);
