@@ -8,13 +8,14 @@
 <div class="page-wrapper">
     <nav th:replace="~{fragments/general :: navbar(${navItems}, '')}"></nav>
 
-    <div class="container-fluid">
+    <main class="page-main container">
         <div class="row">
             <div class="col-md-2 col-lg-2 py-4">
-                <!--/* Empty left sidebar */-->
+                <div class="sticky-top" style="top: 150px;">
+                    <img th:src="${recipe.imageURL}" alt="Recipe image" class="img-fluid rounded">
+                </div>
             </div>
-
-            <main class="col-md-8 col-lg-8 py-4">
+            <div class="col-12 col-md-10 col-lg-8">
                 <h1 class="text-center">
                     <span th:text="${recipe.name}" />
                 </h1>
@@ -40,12 +41,14 @@
                         <div class="col-6">
                             <div class="p-3">Method</div>
                             <ol>
-                                <li th:each="recipeStep : ${steps}" th:text="${recipeStep.stepDescription}"></li>
+                                <li th:each="recipeStep : ${steps}" th:text="${recipeStep.stepDescription}">
+                                </li>
                             </ol>
+
                         </div>
                     </div>
                 </div>
-            </main>
+            </div>
 
             <div class="col-md-2 col-lg-2 d-flex flex-column justify-content-center align-items-center">
                 <aside class="position-fixed text-center d-grid gap-2 col-2">
@@ -59,7 +62,9 @@
                 </aside>
             </div>
         </div>
-    </div>
+    </main>
+
+
 
     <footer th:replace="~{fragments/general :: footer}"></footer>
     <div th:replace="~{fragments/general :: bottomScripts}"></div>
