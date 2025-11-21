@@ -8,9 +8,9 @@
 <div class="page-wrapper">
     <nav th:replace="~{fragments/general :: navbar(${navItems}, '')}"></nav>
 
-    <main class="page-main container">
+    <main class="container">
         <div class="row">
-            <div class="col-md-2 col-lg-2 py-4">
+            <div class="col-md-1 col-lg-2 py-4">
                 <div class="sticky-top" style="top: 150px;">
                     <img th:src="${recipe.imageURL}" alt="Recipe image" class="img-fluid rounded">
                 </div>
@@ -50,8 +50,8 @@
                 </div>
             </div>
 
-            <div class="col-md-2 col-lg-2 d-flex flex-column justify-content-center align-items-center">
-                <aside class="position-fixed text-center d-grid gap-2 col-2">
+            <div class="col-md-1 col-lg-2 d-flex flex-column justify-content-center align-items-center">
+                <aside class="position-fixed d-flex flex-column gap-2 mx-auto">
                     <a class="btn btn-primary" th:href="@{/recipe/edit/{recipeId}(recipeId=*{recipeId})}">
                         Edit recipe
                     </a>
