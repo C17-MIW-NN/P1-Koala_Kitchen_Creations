@@ -20,18 +20,24 @@
 <nav th:fragment="navbar(navItems, activeItem)" class="navbar navbar-expand-lg navbar-light sticky-top
         justify-content-center fs-3" style="background-color: rgb(214,206,181);">
     <div class="container">
-        <a class="navbar-brand" th:href="@{/}" style="margin-left:251px;">
-            <img th:src="@{/images/logoKoalaKitchenCreations.png}" alt="KoalaKitchenCreations" style="height:80px;" >
-        </a>
+        <div class="row justify-content-center w-100">
+            <div class="col-lg-8 col-md-10 col-12 d-flex align-items-center">
+                <a class="navbar-brand me-auto" th:href="@{/}">
+                    <img th:src="@{/images/logoKoalaKitchenCreations.png}" alt="KoalaKitchenCreations" style="height:80px;" >
+                </a>
+                <ul class="navbar-nav">
+
+                    <li class="nav-item" th:each="navItem : ${navItems}">
+                        <a class="nav-link" th:classappend="${activeItem == navItem.name} ? 'active'"
+                           th:href="@{${navItem.href}}" th:text="${navItem.name}" ></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
     </div>
 
-    <ul class="navbar-nav mr-auto" style="margin-right: 253px;">
 
-        <li class="nav-item" th:each="navItem : ${navItems}">
-            <a class="nav-link" th:classappend="${activeItem == navItem.name} ? 'active'"
-               th:href="@{${navItem.href}}" th:text="${navItem.name}" ></a>
-        </li>
-    </ul>
 </nav>
 
 <footer th:fragment="footer" class="page-footer w-100 py-3">
