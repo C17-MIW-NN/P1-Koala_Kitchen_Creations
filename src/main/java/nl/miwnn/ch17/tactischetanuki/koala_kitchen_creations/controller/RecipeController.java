@@ -1,10 +1,11 @@
 package nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.controller;
 
+import lombok.RequiredArgsConstructor;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.*;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.repositories.CategoryRepository;
-import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.repositories.RecipeRepository;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.service.CategoryService;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.service.ImageService;
+import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.service.RecipeService;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.service.RecipeStepService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,30 +27,22 @@ import java.util.Optional;
  * Handle requests regarding recipes
  */
 
+@RequiredArgsConstructor
 @Controller
 public class RecipeController {
 
-    private final RecipeRepository recipeRepository;
+    private final RecipeService recipeService;
     private final RecipeStepService recipeStepService;
     private final CategoryRepository categoryRepository;
     private final ImageService imageService;
     private final CategoryService categoryService;
 
-    public RecipeController(RecipeRepository recipeRepository, RecipeStepService recipeStepService,
-                            CategoryRepository categoryRepository, CategoryService categoryService,
-                            ImageService imageService) {
-        this.recipeRepository = recipeRepository;
-        this.recipeStepService = recipeStepService;
-        this.categoryRepository = categoryRepository;
-        this.imageService = imageService;
-        this.categoryService = categoryService;
-    }
 
     @GetMapping({"/recipe/all", "/"})
     private String showRecipeOverview(Model datamodel) {
         ArrayList<Recipe> recipes = new ArrayList<>();
 
-        datamodel.addAttribute("recipes", recipeRepository.findAll());
+        datamodel.addAttribute("recipes", recipeService.findAll());
         return "recipeList";
     }
 
@@ -80,7 +73,7 @@ public class RecipeController {
             processSubmittedImage(recipe, recipeImage, result);
             Set<Category> selectedCategories = categoryService.findOrCreateByNames(formSelectedCategories);
             recipe.setCategories(selectedCategories);
-            recipeRepository.save(recipe);
+            recipeService.save(recipe);
         } else {
             System.err.println("Error saving recipe: " + result.toString());
 
@@ -91,13 +84,13 @@ public class RecipeController {
 
     @GetMapping("/recipe/delete/{recipeId}")
     public String deleteRecipe(@PathVariable("recipeId") Long recipeId) {
-        recipeRepository.deleteById(recipeId);
+        recipeService.deleteById(recipeId);
         return "redirect:/recipe/all";
     }
 
     @GetMapping("/recipe/edit/{recipeId}")
     public String showEditRecipeform(@PathVariable("recipeId") Long recipeId, Model datamodel) {
-        Optional<Recipe> optionalRecipe = recipeRepository.findById(recipeId);
+        Optional<Recipe> optionalRecipe = recipeService.findById(recipeId);
 
         if (optionalRecipe.isPresent()) {
             Recipe recipe = optionalRecipe.get();
@@ -115,7 +108,7 @@ public class RecipeController {
 
     @GetMapping("/recipe/detail/{recipeId}")
     public String showRecipeDetail(@PathVariable Long recipeId, Model model) {
-        Optional<Recipe> recipeOpt = recipeRepository.findById(recipeId);
+        Optional<Recipe> recipeOpt = recipeService.findById(recipeId);
         if (recipeOpt.isEmpty()) {
             return "redirect:/recipe/all";
         }
