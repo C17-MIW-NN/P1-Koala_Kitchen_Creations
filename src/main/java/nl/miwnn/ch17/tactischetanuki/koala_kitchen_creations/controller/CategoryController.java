@@ -32,9 +32,9 @@ public class CategoryController {
         return "categoryOverview";
     }
 
-    @GetMapping("/{categoryId}/recipes")
-    public String showRecipesInCategory(@PathVariable Long categoryId, Model dataModel) {
-        Optional<Category> maybeCategory = categoryRepository.findById(categoryId);
+    @GetMapping("/{categoryName}/recipes")
+    public String showRecipesInCategory(@PathVariable String categoryName, Model dataModel) {
+        Optional<Category> maybeCategory = categoryRepository.findByName(categoryName);
         if (maybeCategory.isEmpty()) {
             return "redirect:/category/all";
         }

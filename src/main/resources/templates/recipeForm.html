@@ -6,7 +6,6 @@
 
 <body>
 <script src="/js/dynamicList.js"></script>
-<script src="/js/stepList.js"></script>
 <div class="page-wrapper">
     <nav th:replace="~{fragments/general :: navbar(${navItems}, '')}"></nav>
 
@@ -34,7 +33,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="selectedCategories" class="form-label">Categories</label>
-                        <select id="selectedCategories" name="selectedCategories" class="form-select category-select"
+                        <select id="selectedCategories" name="categories" class="form-select category-select"
                                 data-searchable="true"
                                 data-creatable="true"
                                 data-creatable-text="New category: &lt;b&gt;{value}&lt;/b&gt;..."
@@ -42,7 +41,7 @@
                             <option th:each="optionCategory : ${availableCategories}"
                                     th:text="${optionCategory.name}"
                                     th:value="${optionCategory.name}"
-                                    th:selected="${formRecipe.categories.contains(optionCategory)}"/>
+                                    th:selected="${formRecipe.categories.contains(optionCategory.name)}"/>
                         </select>
                     </div>
                     <div class="mb-3">
@@ -75,20 +74,20 @@
                         <label class="form-label">Preperation steps</label>
                     </div>
 
-                    <div id="stepsContainer">
-                        <div class="input-group mb-3" th:each="step, stat : *{recipeSteps}">
+                    <div data-list-container id="stepsContainer">
+                        <div data-list-row class="input-group mb-3" th:each="step, stat : *{recipeSteps}">
                             <textarea class="form-control"
-                                th:field="*{recipeSteps[__${stat.index}__].stepDescription}"
+                                th:field="*{recipeSteps[__${stat.index}__]}"
                                       placeholder="Describe step..." ></textarea>
-                            <input type="hidden" th:field="*{recipeSteps[__${stat.index}__].stepId}" />
-                            <input type="hidden" th:field="*{recipeSteps[__${stat.index}__].recipe}">
-                            <button type="button" class="btn btn-danger" onclick="deleteStep(this)">
+<!--                            <input type="hidden" th:field="*{recipeSteps[__${stat.index}__]}" />-->
+<!--                            <input type="hidden" th:field="*{recipeSteps[__${stat.index}__].recipe}">-->
+                            <button type="button" class="btn btn-danger" onclick="deleteListRow(this)">
                                 <i class="bi bi-trash-fill"></i>
                             </button>
                         </div>
                     </div>
 
-                    <button type="button" class="btn btn-secondary mb-3 btn btn-success" onclick="addStep()">
+                    <button type="button" class="btn btn-secondary mb-3 btn btn-success" onclick="addListRow('stepsContainer')">
                         Add step
                     </button>
 

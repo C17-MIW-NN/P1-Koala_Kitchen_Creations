@@ -1,6 +1,7 @@
 package nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.controller;
 
 import lombok.RequiredArgsConstructor;
+import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.dto.RecipeDetailDto;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.*;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.repositories.CategoryRepository;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.service.CategoryService;
@@ -48,35 +49,31 @@ public class RecipeController {
 
     @GetMapping("/recipe/add")
     public String showRecipeForm(Model datamodel) {
-        Recipe newRecipe = new Recipe();
-        newRecipe.addRecipeIngredient(new RecipeIngredients());
-        return returnRecipeForm(datamodel, newRecipe);
+        return returnRecipeForm(datamodel, recipeService.newRecipe());
     }
 
-    public void processSubmittedImage(Recipe recipe, MultipartFile recipeImage, BindingResult result) {
+    public Optional<String> processSubmittedImage(MultipartFile recipeImage, BindingResult result) {
         try {
             if (recipeImage != null && !recipeImage.isEmpty()) {
                 Image image = imageService.saveImage(recipeImage);
-                recipe.setImageURL("/image/" + image.getFileName());
+                return Optional.of("/image/" + image.getFileName());
             }
         } catch (IOException e) {
             result.rejectValue("imageURL", "imageNotSaved", "Image could not be saved");
         }
+        return Optional.empty();
     }
     @PostMapping("/recipe/save")
-    public String saveOrUpdateRecipe(@ModelAttribute("formRecipe") Recipe recipe,
+    public String saveOrUpdateRecipe(@ModelAttribute("formRecipe") RecipeDetailDto recipe,
                                      @RequestParam(value = "recipeImage", required = false) MultipartFile recipeImage,
-                                     @RequestParam("selectedCategories") List<String> formSelectedCategories,
                                      BindingResult result,
                                      RedirectAttributes redirectAttributes )  {
         if (!result.hasErrors()) {
-            processSubmittedImage(recipe, recipeImage, result);
-            Set<Category> selectedCategories = categoryService.findOrCreateByNames(formSelectedCategories);
-            recipe.setCategories(selectedCategories);
+            Optional<String> newImageURL = processSubmittedImage(recipeImage, result);
+            newImageURL.ifPresent(recipe::setImageURL);
             recipeService.save(recipe);
         } else {
             System.err.println("Error saving recipe: " + result.toString());
-
         }
         redirectAttributes.addAttribute("recipeId", recipe.getRecipeId());
         return "redirect:/recipe/detail/{recipeId}";
@@ -90,17 +87,17 @@ public class RecipeController {
 
     @GetMapping("/recipe/edit/{recipeId}")
     public String showEditRecipeform(@PathVariable("recipeId") Long recipeId, Model datamodel) {
-        Optional<Recipe> optionalRecipe = recipeService.findById(recipeId);
+        Optional<RecipeDetailDto> optionalRecipe = recipeService.findById(recipeId);
 
         if (optionalRecipe.isPresent()) {
-            Recipe recipe = optionalRecipe.get();
+            RecipeDetailDto recipe = optionalRecipe.get();
             return returnRecipeForm(datamodel, recipe);
         }
 
         return "redirect:/recipe/all";
     }
 
-    private String returnRecipeForm(Model datamodel, Recipe recipe) {
+    private String returnRecipeForm(Model datamodel, RecipeDetailDto recipe) {
         datamodel.addAttribute("formRecipe", recipe);
         datamodel.addAttribute("availableCategories", categoryRepository.findAll());
         return "recipeForm";
@@ -108,11 +105,11 @@ public class RecipeController {
 
     @GetMapping("/recipe/detail/{recipeId}")
     public String showRecipeDetail(@PathVariable Long recipeId, Model model) {
-        Optional<Recipe> recipeOpt = recipeService.findById(recipeId);
+        Optional<RecipeDetailDto> recipeOpt = recipeService.findById(recipeId);
         if (recipeOpt.isEmpty()) {
             return "redirect:/recipe/all";
         }
-        Recipe recipe = recipeOpt.get();
+        RecipeDetailDto recipe = recipeOpt.get();
 
         List<RecipeStep> steps = recipeStepService.getStepsByRecipe(recipeId);
 

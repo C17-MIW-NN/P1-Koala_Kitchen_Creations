@@ -23,8 +23,8 @@
                     Categories:
                     <a th:each="category : *{recipe.categories}"
                        class="nav-link active badge category-tag rounded-pill text-decoration-none me-2"
-                       th:href="@{/category/{categoryId}/recipes(categoryId=${category.categoryId})}"
-                       th:text="${category.name}"/>
+                       th:href="@{/category/{categoryName}/recipes(categoryName=${category})}"
+                       th:text="${category}"/>
                 </h4>
                 <p class="lead mt-3" th:text="${recipe.description}"></p>
                 <div class="container overflow-hidden">
@@ -41,7 +41,7 @@
                         <div class="col-6">
                             <div class="p-3">Method</div>
                             <ol>
-                                <li th:each="recipeStep : ${steps}" th:text="${recipeStep.stepDescription}">
+                                <li th:each="recipeStep : *{steps}" th:text="${recipeStep.stepDescription}">
                                 </li>
                             </ol>
 

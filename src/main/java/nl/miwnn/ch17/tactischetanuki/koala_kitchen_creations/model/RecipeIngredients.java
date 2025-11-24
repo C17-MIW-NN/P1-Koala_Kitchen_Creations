@@ -16,7 +16,7 @@ public class RecipeIngredients {
 
     @Id
     @GeneratedValue
-    private Long RecipeIngredientsId;
+    private Long recipeIngredientsId;
 
     private String name;
     private String quantity;
@@ -35,6 +35,25 @@ public class RecipeIngredients {
         this.quantity = quantity;
     }
 
+    public RecipeIngredients(Long id, String name, String quantity) {
+        this.recipeIngredientsId = id;
+        this.name = name;
+        this.quantity = quantity;
+    }
+
     public RecipeIngredients() {
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other instanceof RecipeIngredients otherRecipeIngredients) {
+            return name.equals(otherRecipeIngredients.getName()) && quantity.equals(otherRecipeIngredients.quantity);
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return name.hashCode();
     }
 }

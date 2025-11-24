@@ -59,7 +59,10 @@ public class Recipe {
                 ", imageURL='" + imageURL + '\'' +
                 '}';
     }
-
+    public void addCategory(Category category) {
+        this.categories.add(category);
+        category.getRecipes().add(this);
+    }
     public void addRecipeStep(RecipeStep step) {
         step.setRecipe(this);
         this.recipeSteps.add(step);
