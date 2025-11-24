@@ -3,9 +3,11 @@ package nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.controller;
 import com.opencsv.CSVReader;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.*;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.repositories.RecipeRepository;
+import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.repositories.RecipeUserRepository;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.service.CategoryService;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.service.ImageService;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.service.RecipeStepService;
+import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.service.RecipeUserService;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.io.ClassPathResource;
@@ -33,13 +35,16 @@ public class InitializeController {
     private final RecipeStepService recipeStepService;
     private final CategoryService categoryService;
     private final ImageService imageService;
+    private final RecipeUserService recipeUserService;
 
     public InitializeController(RecipeRepository recipeRepository, RecipeStepService recipeStepService,
-                                CategoryService categoryService, ImageService imageService) {
+                                CategoryService categoryService, ImageService imageService,
+                                RecipeUserService recipeUserService) {
         this.recipeRepository = recipeRepository;
         this.recipeStepService = recipeStepService;
         this.categoryService = categoryService;
         this.imageService = imageService;
+        this.recipeUserService = recipeUserService;
     }
 
     @EventListener
@@ -50,6 +55,9 @@ public class InitializeController {
     }
 
     private void initializeDB() {
+        makeUser("Kees", "KeesPL");
+        makeUser("Barbara", "Barbara2000");
+
         List<Image> sampleImages = loadImages("/sampledata/images/");
         loadRecipes("sampledata/recipes_50_detailed.csv", sampleImages);
     }
@@ -67,6 +75,16 @@ public class InitializeController {
     private RecipeIngredients makeRecipeIngredient(String description) {
         String[] ingredientLine = description.split(":");
         return new RecipeIngredients(ingredientLine[0].trim(), ingredientLine[1].trim());
+    }
+
+    private RecipeUser makeUser(String username, String password) {
+        RecipeUser user = new RecipeUser();
+
+        user.setUsername(username);
+        user.setPassword(password);
+
+        recipeUserService.saveUser(user);
+        return user;
     }
 
     private List<Image> loadImages(String folderName) {
