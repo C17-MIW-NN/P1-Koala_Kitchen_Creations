@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.dto.RecipeDetailDto;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.*;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.repositories.CategoryRepository;
+import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.repositories.IngredientRepository;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.service.CategoryService;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.service.ImageService;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.service.RecipeService;
@@ -36,7 +37,7 @@ public class RecipeController {
     private final RecipeStepService recipeStepService;
     private final CategoryRepository categoryRepository;
     private final ImageService imageService;
-    private final CategoryService categoryService;
+    private final IngredientRepository ingredientRepository;
 
 
     @GetMapping({"/recipe/all", "/"})
@@ -100,6 +101,7 @@ public class RecipeController {
     private String returnRecipeForm(Model datamodel, RecipeDetailDto recipe) {
         datamodel.addAttribute("formRecipe", recipe);
         datamodel.addAttribute("availableCategories", categoryRepository.findAll());
+        datamodel.addAttribute("knownIngredients", ingredientRepository.findAll());
         return "recipeForm";
     }
 

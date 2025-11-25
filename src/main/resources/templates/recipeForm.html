@@ -15,6 +15,9 @@
                 <form method="post" id="recipeForm" th:action="@{/recipe/save}" th:object="${formRecipe}"
                       autocomplete="off" data-1p-ignore data-lpignore="true" data-protonpass-ignore="true"
                       enctype="multipart/form-data">
+                    <datalist id="knownIngredients">
+                        <option th:each="ingredient : ${knownIngredients}" th:value="${ingredient.name}"></option>
+                    </datalist>
                     <input type="hidden" th:field="*{recipeId}" />
                     <input type="hidden" name="ingredientCount" th:value="*{recipeIngredients.size()}" />
                     <div class="mb-3">
@@ -56,9 +59,8 @@
                         <div data-list-row class="input-group mb-3"
                             th:each="ingredient, itemStat : *{recipeIngredients}"
                             th:with="idx=${itemStat.index}">
-                            <input class="form-control flex-grow-1" th:field="*{recipeIngredients[__${idx}__].name}"/>
+                            <input list="knownIngredients" class="form-control flex-grow-1" th:field="*{recipeIngredients[__${idx}__].name}"/>
                             <input type="hidden" th:field="*{recipeIngredients[__${idx}__].id}" />
-<!--                            <input type="hidden" th:field="*{recipeIngredients[__${idx}__].recipe}" data-list-keep/>-->
                             <input class="form-control flex-grow-1" th:field="*{recipeIngredients[__${idx}__].quantity}" />
                             <button type="button" class="btn btn-danger" onclick="deleteListRow(this)">
                                 <i class="btn-danger bi bi-trash-fill"></i>

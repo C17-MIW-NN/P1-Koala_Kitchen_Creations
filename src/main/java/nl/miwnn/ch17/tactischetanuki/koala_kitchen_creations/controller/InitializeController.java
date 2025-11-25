@@ -1,7 +1,9 @@
 package nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.controller;
 
 import com.opencsv.CSVReader;
+import lombok.RequiredArgsConstructor;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.*;
+import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.repositories.IngredientRepository;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.repositories.RecipeRepository;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.repositories.RecipeUserRepository;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.service.CategoryService;
@@ -29,6 +31,7 @@ import java.util.stream.Stream;
  * Initialises the database with example data
  */
 
+@RequiredArgsConstructor
 @Controller
 public class InitializeController {
     private final RecipeRepository recipeRepository;
@@ -36,16 +39,7 @@ public class InitializeController {
     private final CategoryService categoryService;
     private final ImageService imageService;
     private final RecipeUserService recipeUserService;
-
-    public InitializeController(RecipeRepository recipeRepository, RecipeStepService recipeStepService,
-                                CategoryService categoryService, ImageService imageService,
-                                RecipeUserService recipeUserService) {
-        this.recipeRepository = recipeRepository;
-        this.recipeStepService = recipeStepService;
-        this.categoryService = categoryService;
-        this.imageService = imageService;
-        this.recipeUserService = recipeUserService;
-    }
+    private final IngredientRepository ingredientRepository;
 
     @EventListener
     private void seed(ContextRefreshedEvent ignoredEvent) {
@@ -74,6 +68,10 @@ public class InitializeController {
 
     private RecipeIngredients makeRecipeIngredient(String description) {
         String[] ingredientLine = description.split(":");
+        String ingredientName = ingredientLine[0].trim();
+        if (!ingredientRepository.existsByName(ingredientName)) {
+            ingredientRepository.save(new Ingredient(ingredientName));
+        }
         return new RecipeIngredients(ingredientLine[0].trim(), ingredientLine[1].trim());
     }
 
