@@ -26,7 +26,7 @@ public class RecipeIngredientMapper {
     public RecipeIngredients toEntity(RecipeIngredientDto dto) {
         return new RecipeIngredients(
                 dto.getId(),
-                ingredientService.findOrCreateByName(dto.getName()),
+                ingredientService.findOrCreateByName(dto.getName(), dto.getUnit()),
                 dto.getQuantity(),
                 dto.getUnit());
     }

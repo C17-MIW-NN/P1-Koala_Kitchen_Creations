@@ -25,8 +25,11 @@ public class Ingredient {
     @Column(unique = true)
     private String name;
 
-    public Ingredient(String name) {
+    private String defaultUnit;
+
+    public Ingredient(String name, String defaultUnit) {
         this();
         this.name = name;
+        this.defaultUnit = defaultUnit;
     }
 }

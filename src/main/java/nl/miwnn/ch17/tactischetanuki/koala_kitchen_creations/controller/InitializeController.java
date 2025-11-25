@@ -66,12 +66,12 @@ public class InitializeController {
 
     private RecipeIngredients makeRecipeIngredient(String description) {
         String[] ingredientLine = description.split(":");
-        String ingredientName = ingredientLine[0].trim();
-        Ingredient ingredient = ingredientService.findOrCreateByName(ingredientName);
         String[] quantityAndUnit = ingredientLine[1].trim().split(" ");
         assert(quantityAndUnit.length == 2);
         String quantity = quantityAndUnit[0].trim();
         String unit = quantityAndUnit[1].trim();
+        String ingredientName = ingredientLine[0].trim();
+        Ingredient ingredient = ingredientService.findOrCreateByName(ingredientName, unit);
         return new RecipeIngredients(ingredient, quantity, unit);
     }
 

@@ -13,8 +13,8 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class IngredientService {
     private final IngredientRepository ingredientRepository;
-    public Ingredient findOrCreateByName(String name) {
+    public Ingredient findOrCreateByName(String name, String suggestedUnit) {
         return ingredientRepository.findByName(name).orElseGet(() ->
-                ingredientRepository.save(new Ingredient(name)));
+                ingredientRepository.save(new Ingredient(name, suggestedUnit)));
     }
 }
