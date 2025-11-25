@@ -25,7 +25,8 @@ public class KoalaKitchenCreationsSecurityConfig {
         httpSecurity
                 .authorizeHttpRequests((request) -> request
                         .requestMatchers("/", "/recipe/all").permitAll()
-                        .requestMatchers("/css/**", "/webjars/**").permitAll()
+                        .requestMatchers("/recipe/detail/*", "/category/all").permitAll()
+                        .requestMatchers("/css/**", "/webjars/**", "image/**", "images/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(AbstractAuthenticationFilterConfigurer::permitAll)

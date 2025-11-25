@@ -32,6 +32,9 @@ public class Recipe {
     @ManyToMany
     private Set<Category> categories;
 
+    @ManyToMany(mappedBy="favorites")
+    private Set<RecipeUser> favoritedBy = new HashSet<>();
+
     @OrderColumn
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<RecipeStep> recipeSteps;

@@ -4,8 +4,9 @@ import lombok.RequiredArgsConstructor;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.dto.RecipeDetailDto;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.*;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.repositories.CategoryRepository;
+import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.service.*;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.repositories.IngredientRepository;
-import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.service.CategoryService;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.service.ImageService;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.service.RecipeService;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.service.RecipeStepService;
@@ -38,6 +39,7 @@ public class RecipeController {
     private final CategoryRepository categoryRepository;
     private final ImageService imageService;
     private final IngredientRepository ingredientRepository;
+    private final RecipeUserService recipeUserService;
 
 
     @GetMapping({"/recipe/all", "/"})
@@ -105,8 +107,16 @@ public class RecipeController {
         return "recipeForm";
     }
 
+    @GetMapping("/recipe/favorites")
+    public String showFavorites(@AuthenticationPrincipal RecipeUser principal, Model model) {
+        RecipeUser userWithFavorites = recipeUserService.getUserWithFavorites(principal.getUsername());
+        model.addAttribute("favorites", userWithFavorites.getFavorites());
+        return "userFavorites";
+    }
+
     @GetMapping("/recipe/detail/{recipeId}")
-    public String showRecipeDetail(@PathVariable Long recipeId, Model model) {
+    public String showRecipeDetail(@PathVariable Long recipeId, @AuthenticationPrincipal RecipeUser principal,
+                                   Model model) {
         Optional<RecipeDetailDto> recipeOpt = recipeService.findById(recipeId);
         if (recipeOpt.isEmpty()) {
             return "redirect:/recipe/all";
@@ -118,6 +128,39 @@ public class RecipeController {
         model.addAttribute("recipe", recipe);
         model.addAttribute("steps", steps);
 
+        if (principal != null) {
+            RecipeUser userWithFavorites = recipeUserService.getUserWithFavorites(principal.getUsername());
+            boolean isFavorite = userWithFavorites.getFavorites().stream().anyMatch(
+                    (favoriteRecipe) -> favoriteRecipe.getRecipeId().equals(recipeId));
+            model.addAttribute("isFavorite", isFavorite);
+        }
         return "recipeDetail";
+    }
+
+    @GetMapping("/recipe/{recipeId}/favorite/add")
+    public String addFavorite(@PathVariable Long recipeId,
+                              @AuthenticationPrincipal RecipeUser principal) {
+        if (principal != null) {
+            recipeUserService.addFavorite(principal.getUsername(), recipeId);
+        }
+        return "redirect:/recipe/detail/" + recipeId;
+    }
+
+    @GetMapping("/recipe/{recipeId}/favorite/remove")
+    public String removeFavorite(@PathVariable Long recipeId,
+                                 @AuthenticationPrincipal RecipeUser principal) {
+        if (principal != null) {
+            recipeUserService.removeFavorite(principal.getUsername(), recipeId);
+        }
+        return "redirect:/recipe/detail/" + recipeId;
+    }
+
+    @GetMapping("/recipe/favorites/remove/{recipeId}")
+    public String removeFromFavorite(@PathVariable Long recipeId,
+                                 @AuthenticationPrincipal RecipeUser principal) {
+        if (principal != null) {
+            recipeUserService.removeFavorite(principal.getUsername(), recipeId);
+        }
+        return "redirect:/recipe/favorites";
     }
 }
