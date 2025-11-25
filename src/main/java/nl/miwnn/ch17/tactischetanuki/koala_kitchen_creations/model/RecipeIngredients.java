@@ -20,6 +20,8 @@ public class RecipeIngredients {
 
     private String quantity;
 
+    private String unit;
+
     @ManyToOne
     private Recipe recipe;
 
@@ -30,14 +32,15 @@ public class RecipeIngredients {
         this.recipe = recipe;
     }
 
-    public RecipeIngredients(Ingredient ingredient, String quantity) {
+    public RecipeIngredients(Ingredient ingredient, String quantity, String unit) {
         this();
         this.ingredient = ingredient;
         this.quantity = quantity;
+        this.unit = unit;
     }
 
-    public RecipeIngredients(Long id, Ingredient ingredient, String quantity) {
-        this(ingredient, quantity);
+    public RecipeIngredients(Long id, Ingredient ingredient, String quantity, String unit) {
+        this(ingredient, quantity, unit);
         this.recipeIngredientsId = id;
     }
 

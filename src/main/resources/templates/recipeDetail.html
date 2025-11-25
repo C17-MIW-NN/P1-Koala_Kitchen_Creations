@@ -36,6 +36,7 @@
                                 <li th:each="recipeIngredient : ${recipe.recipeIngredients}">
                                     <span th:text="${recipeIngredient.name}"></span>
                                     <i th:text="${recipeIngredient.quantity}"></i>
+                                    <i th:text="${recipeIngredient.unit}"></i>
                                 </li>
                             </ul>
                         </div>

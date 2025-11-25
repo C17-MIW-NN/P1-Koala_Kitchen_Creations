@@ -20,12 +20,14 @@ public class RecipeIngredientMapper {
         return new RecipeIngredientDto(
                 entity.getRecipeIngredientsId(),
                 entity.getIngredient().getName(),
-                entity.getQuantity());
+                entity.getQuantity(),
+                entity.getUnit());
     }
     public RecipeIngredients toEntity(RecipeIngredientDto dto) {
         return new RecipeIngredients(
                 dto.getId(),
                 ingredientService.findOrCreateByName(dto.getName()),
-                dto.getQuantity());
+                dto.getQuantity(),
+                dto.getUnit());
     }
 }
