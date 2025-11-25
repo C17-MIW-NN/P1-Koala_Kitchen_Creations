@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head th:replace="~{fragments/general :: baseheader(~{:: title})}">
+    <title>Replace this title</title>
+</head>
+
+<body>
+<div class="page-wrapper">
+    <nav th:replace="~{fragments/general :: navbar(${navItems}, 'Active nav item name')}"></nav>
+
+    <main class="page-main container mt-4">
+        <h2>Mijn favorieten</h2>
+
+        <div class="row">
+            <div class="col-md-4 mb-3" th:each="recipe : ${favorites}">
+                <div class="card h-100">
+                    <img th:if="${recipe.imageURL}" th:src="@{${recipe.imageURL}}" class="card-img-top" alt="recipe image">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title" th:text="${recipe.name}"></h5>
+                        <p th:text="${recipe.description}" class="card-text"></p>
+                        <a th:href="@{'/recipe/detail/' + ${recipe.recipeId}}" class="btn btn-primary mt-auto">Recipe
+                        </a>
+                        <a th:href="@{'/recipe/favorites/remove/' + ${recipe.recipeId}}"
+                           class="btn btn-warning mt-2">★ Delete</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer th:replace="~{fragments/general :: footer}"></footer>
+    <div th:replace="~{fragments/general :: bottomScripts}"></div>
+</div>
+</body>
+</html>
