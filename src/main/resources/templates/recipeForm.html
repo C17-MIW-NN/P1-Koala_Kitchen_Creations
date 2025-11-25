@@ -57,8 +57,8 @@
                             th:each="ingredient, itemStat : *{recipeIngredients}"
                             th:with="idx=${itemStat.index}">
                             <input class="form-control flex-grow-1" th:field="*{recipeIngredients[__${idx}__].name}"/>
-                            <input type="hidden" th:field="*{recipeIngredients[__${idx}__].recipeIngredientsId}" />
-                            <input type="hidden" th:field="*{recipeIngredients[__${idx}__].recipe}" data-list-keep/>
+                            <input type="hidden" th:field="*{recipeIngredients[__${idx}__].id}" />
+<!--                            <input type="hidden" th:field="*{recipeIngredients[__${idx}__].recipe}" data-list-keep/>-->
                             <input class="form-control flex-grow-1" th:field="*{recipeIngredients[__${idx}__].quantity}" />
                             <button type="button" class="btn btn-danger" onclick="deleteListRow(this)">
                                 <i class="btn-danger bi bi-trash-fill"></i>
@@ -79,8 +79,6 @@
                             <textarea class="form-control"
                                 th:field="*{recipeSteps[__${stat.index}__]}"
                                       placeholder="Describe step..." ></textarea>
-<!--                            <input type="hidden" th:field="*{recipeSteps[__${stat.index}__]}" />-->
-<!--                            <input type="hidden" th:field="*{recipeSteps[__${stat.index}__].recipe}">-->
                             <button type="button" class="btn btn-danger" onclick="deleteListRow(this)">
                                 <i class="bi bi-trash-fill"></i>
                             </button>

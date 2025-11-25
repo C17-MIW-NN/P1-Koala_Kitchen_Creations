@@ -26,7 +26,7 @@ public class RecipeDetailDto {
     private String description;
     private String imageURL;
     private List<String> recipeSteps = new ArrayList<>();
-    private List<RecipeIngredients> recipeIngredients = new ArrayList<>();
+    private List<RecipeIngredientDto> recipeIngredients = new ArrayList<>();
     private List<String> categories = new ArrayList<>();
 
 }
