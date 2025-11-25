@@ -8,12 +8,13 @@
 <div class="page-wrapper">
     <nav th:replace="~{fragments/general :: navbar(${navItems}, 'Active nav item name')}"></nav>
 
-    <main class="page-main">
-        <div class="container">
-            <h1>Overview of all users</h1>
-            <ul>
-                <li th:each="user : ${allUsers}" th:text="${user.username}"></li>
-            </ul>
+    <main class="container-fluid py-4">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-10 col-lg-8">
+                <ul>
+                    <li th:each="user : ${allUsers}" th:text="${user.username}"></li>
+                </ul>
+            </div>
         </div>
 
     </main>

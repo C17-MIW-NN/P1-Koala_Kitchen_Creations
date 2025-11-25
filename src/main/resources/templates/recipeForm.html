@@ -9,8 +9,10 @@
 <div class="page-wrapper">
     <nav th:replace="~{fragments/general :: navbar(${navItems}, '')}"></nav>
 
-    <main class="container py-4">
+    <main class="container-fluid py-4">
         <div class="row justify-content-center">
+            <div class="col-md-1 col-lg-2">
+            </div>
             <div class="col-12 col-md-10 col-lg-8">
                 <form method="post" id="recipeForm" th:action="@{/recipe/save}" th:object="${formRecipe}"
                       autocomplete="off" data-1p-ignore data-lpignore="true" data-protonpass-ignore="true"
@@ -21,7 +23,7 @@
                         <label for="recipeName" class="form-label">Name</label>
                         <input type="text" class="form-control" id="recipeName" th:field="*{name}">
                     </div>
-                    <div class="col-md-12">
+                    <div class="mb-3">
                         <label for="imageFile" class="col-form-label">Image recipe</label>
                         <input class="form-control"
                                th:classappend="${#fields.hasErrors('imageURL')} ? 'is-invalid' : ''"
@@ -46,14 +48,15 @@
                     </div>
                     <div class="mb-3">
                         <label for="recipeDescription" class="form-label">Description</label>
-                        <textarea type="text" class="form-control" id="recipeDescription" th:field="*{description}">
+                        <textarea type="text" class="form-control" id="recipeDescription" th:field="*{description}"
+                                  rows="6">
                         </textarea>
                     </div>
-                    <div class="my-3">
+                    <div>
                         <label class="form-label">Ingredients</label>
                     </div>
                     <div data-list-container id="ingredient-list">
-                        <div data-list-row class="input-group mb-3"
+                        <div data-list-row class="input-group mb-1"
                             th:each="ingredient, itemStat : *{recipeIngredients}"
                             th:with="idx=${itemStat.index}">
                             <input class="form-control flex-grow-1" th:field="*{recipeIngredients[__${idx}__].name}"/>
@@ -75,7 +78,7 @@
                     </div>
 
                     <div data-list-container id="stepsContainer">
-                        <div data-list-row class="input-group mb-3" th:each="step, stat : *{recipeSteps}">
+                        <div data-list-row class="input-group mb-1" th:each="step, stat : *{recipeSteps}">
                             <textarea class="form-control"
                                 th:field="*{recipeSteps[__${stat.index}__]}"
                                       placeholder="Describe step..." ></textarea>
@@ -91,15 +94,16 @@
 
                     <button th:if="${formRecipe.recipeId == null}">Add recipe
                     </button>
-
-                    <div class="col-md-1 col-lg-2 d-flex flex-column justify-content-center align-items-center">
-                        <aside class="position-fixed top-50 end-0 translate-middle-y d-flex flex-column gap-2 me-3">
-                            <button type="submit" class="btn btn-primary btn">
-                                <span th:unless="${formRecipe.recipeId == null}">Update recipe</span>
-                            </button>
-                        </aside>
-                    </div>
                 </form>
+            </div>
+            <div class="col-md-1 col-lg-2 justify-content-center p-0">
+                <aside class="sticky-top d-grid dynamic-sticky-top justify-content-center">
+                    <div class="d-flex flex-column flex-shrink-1 gap-2 pt-4">
+                        <button type="submit" form="recipeForm" class="btn btn-primary btn-wrap">
+                            <span th:unless="${formRecipe.recipeId == null}">Update recipe</span>
+                        </button>
+                    </div>
+                </aside>
             </div>
         </div>
     </main>

@@ -4,7 +4,7 @@
 <body>
 
 <!--@thymesVar id="category" type="nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.Category"-->
-<div th:fragment="categoryCard(category)" th:object="${category}" class="col" style="width: 18rem;">
+<div th:fragment="categoryCard(category)" th:object="${category}" class="col-12 col-md-3 col-lg-4">
     <div class="card h-100 link-card">
         <a class="stretched-link" th:href="@{/category/{categoryId}/recipes(categoryId=*{categoryId})}" ></a>
         <div class="card-header">

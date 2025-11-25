@@ -4,6 +4,7 @@
     --category-color: #5e36ac;
     --category-color-hover: #bea1ec;
     --category-font-color: white;
+    --navbar-color: rgb(214,206,181);
 }
 
 * {
@@ -108,3 +109,15 @@ body {
     border-bottom-right-radius: 0.5rem;
 }
 
+.navbar-active {
+    background-color: color-mix(in hsl, var(--navbar-color) 70%, white 30%);
+    border-radius: 10px;
+    outline: 1px solid color-mix(in hsl, var(--navbar-color) 70%, black 30%)
+}
+
+.btn-wrap {
+    white-space: normal !important;
+}
+#recipeForm label {
+    font-weight: bold;
+}
