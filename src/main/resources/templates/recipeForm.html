@@ -89,10 +89,16 @@
                         Add step
                     </button>
 
-                    <button type="submit" class="btn btn-primary btn-lg form-control mb-4">
-                        <span th:if="${formRecipe.recipeId == null}">Add recipe</span>
-                        <span th:unless="${formRecipe.recipeId == null}">Update recipe</span>
-                    </button >
+                    <button th:if="${formRecipe.recipeId == null}">Add recipe
+                    </button>
+
+                    <div class="col-md-1 col-lg-2 d-flex flex-column justify-content-center align-items-center">
+                        <aside class="position-fixed top-50 end-0 translate-middle-y d-flex flex-column gap-2 me-3">
+                            <button type="submit" class="btn btn-primary btn">
+                                <span th:unless="${formRecipe.recipeId == null}">Update recipe</span>
+                            </button>
+                        </aside>
+                    </div>
                 </form>
             </div>
         </div>
@@ -104,7 +110,7 @@
     <script>
         for (let selectElement of document.querySelectorAll("[data-use-bootstrap-select]")) {
             new UseBootstrapSelect(selectElement);
-        }git
+        }
     </script>
 </div>
 </body>
