@@ -4,10 +4,10 @@
 <body>
 
 <!--/*@thymesVar id="recipe" type="nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.Recipe"*/-->
-<div th:fragment="recipeCard(recipe)" th:object="${recipe}" class="col-12 col-md-3 mb-4">
+<div th:fragment="recipeCard(recipe)" th:object="${recipe}" class="col-12 col-md-3 col-lg-4">
     <div class="card h-100 link-card">
         <a class="stretched-link" th:href="@{/recipe/detail/{recipeId}(recipeId=*{recipeId})}" ></a>
-        <div class="card-header">
+        <div class="card-header flex-grow-1" style="min-height: 5rem;">
             <h5 class="card-title">
                 <span th:text="*{name}">Recipe name</span>
             </h5>
@@ -18,7 +18,7 @@
                    th:text="${category.name}" />
             </h6>
         </div>
-        <div class="flex-grow-1 d-flex">
+        <div class="d-flex" style="height: 10rem;">
             <img th:src="@{*{imageURL}}" class="card-img-top recipe-img flex-fill" alt="Recipe image">
         </div>
     </div>
