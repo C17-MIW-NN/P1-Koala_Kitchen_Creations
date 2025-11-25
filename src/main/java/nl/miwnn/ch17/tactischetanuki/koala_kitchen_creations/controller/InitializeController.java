@@ -6,10 +6,7 @@ import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.*;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.repositories.IngredientRepository;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.repositories.RecipeRepository;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.repositories.RecipeUserRepository;
-import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.service.CategoryService;
-import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.service.ImageService;
-import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.service.RecipeStepService;
-import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.service.RecipeUserService;
+import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.service.*;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.io.ClassPathResource;
@@ -40,6 +37,7 @@ public class InitializeController {
     private final ImageService imageService;
     private final RecipeUserService recipeUserService;
     private final IngredientRepository ingredientRepository;
+    private final IngredientService ingredientService;
 
     @EventListener
     private void seed(ContextRefreshedEvent ignoredEvent) {
@@ -69,10 +67,8 @@ public class InitializeController {
     private RecipeIngredients makeRecipeIngredient(String description) {
         String[] ingredientLine = description.split(":");
         String ingredientName = ingredientLine[0].trim();
-        if (!ingredientRepository.existsByName(ingredientName)) {
-            ingredientRepository.save(new Ingredient(ingredientName));
-        }
-        return new RecipeIngredients(ingredientLine[0].trim(), ingredientLine[1].trim());
+        Ingredient ingredient = ingredientService.findOrCreateByName(ingredientName);
+        return new RecipeIngredients(ingredient, ingredientLine[1].trim());
     }
 
     private RecipeUser makeUser(String username, String password) {
