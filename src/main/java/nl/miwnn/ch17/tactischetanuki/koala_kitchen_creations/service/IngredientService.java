@@ -20,9 +20,4 @@ public class IngredientService {
         return ingredientRepository.findByName(name).orElseGet(() ->
                 ingredientRepository.save(new Ingredient(name, suggestedUnit)));
     }
-    public List<RecipeIngredients> copyRecipeIngredients(List<RecipeIngredients> originalRecipeIngredients) {
-        return originalRecipeIngredients.stream().map((recipeIngredient) -> new RecipeIngredients(
-                recipeIngredient.getIngredient(), recipeIngredient.getQuantity(), recipeIngredient.getUnit()
-        )).toList();
-    }
 }

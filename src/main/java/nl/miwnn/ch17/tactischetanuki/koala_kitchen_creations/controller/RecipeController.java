@@ -173,6 +173,19 @@ public class RecipeController {
         return "userFavorites";
     }
 
+    @GetMapping("/recipe/detail/{recipeId}/portionCount/{portionCount}")
+    public String showRecipeDetailWithPortionCount(@PathVariable Long recipeId, @PathVariable Integer portionCount,
+                                                   @AuthenticationPrincipal RecipeUser principal,
+                                                   Model model) {
+        Optional<RecipeDetailDto> recipeOpt = recipeService.findById(recipeId);
+        if (recipeOpt.isEmpty()) {
+            return "redirect:/recipe/all";
+        }
+        RecipeDetailDto originalRecipe = recipeOpt.get();
+        RecipeDetailDto convertedRecipe = recipeService.convertPortionCount(originalRecipe, portionCount);
+        return showRecipeDetails(recipeId, principal, model, convertedRecipe);
+    }
+
     @GetMapping("/recipe/detail/{recipeId}")
     public String showRecipeDetail(@PathVariable Long recipeId, @AuthenticationPrincipal RecipeUser principal,
                                    Model model) {
@@ -182,10 +195,11 @@ public class RecipeController {
         }
         RecipeDetailDto recipe = recipeOpt.get();
 
-        List<RecipeStep> steps = recipeStepService.getStepsByRecipe(recipeId);
+        return showRecipeDetails(recipeId, principal, model, recipe);
+    }
 
+    private String showRecipeDetails(Long recipeId, RecipeUser principal, Model model, RecipeDetailDto recipe) {
         model.addAttribute("recipe", recipe);
-        model.addAttribute("steps", steps);
         model.addAttribute("userCanEditRecipe", canEdit(recipeId, principal));
 
         if (principal != null) {
@@ -196,6 +210,7 @@ public class RecipeController {
         }
         return "recipeDetail";
     }
+
 
     @GetMapping("/recipe/{recipeId}/favorite/add")
     public String addFavorite(@PathVariable Long recipeId,

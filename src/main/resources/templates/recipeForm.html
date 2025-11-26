@@ -60,6 +60,18 @@
                         </select>
                     </div>
                     <div class="mb-3">
+                        <label class="form-label">Number of portions</label>
+                    </div>
+                    <div class="mb-3">
+                        <div th:each="value : ${#numbers.sequence(1,6)}" class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="numberOfPortions"
+                                   th:id="|inlineRadio${value}|" th:value="${value}" th:checked="${formRecipe.numberOfPortions == value}">
+                            <label class="form-check-label" th:for="|inlineRadio${value}|" th:text="${value}">1</label>
+                        </div>
+
+
+                    </div>
+                    <div class="mb-3">
                         <label for="recipeDescription" class="form-label">Description</label>
                         <textarea type="text" class="form-control" id="recipeDescription" th:field="*{description}"
                                   rows="6">
@@ -75,7 +87,8 @@
                             <input list="knownIngredients" class="form-control flex-grow-1"
                                     th:field="*{recipeIngredients[__${idx}__].name}" oninput="updateDefaultUnit(this)"/>
                             <input type="hidden" th:field="*{recipeIngredients[__${idx}__].id}" />
-                            <input class="form-control flex-grow-1" th:field="*{recipeIngredients[__${idx}__].quantity}" />
+                            <input class="form-control flex-grow-0"
+                                   style="width:6em; text-align:right;" th:field="*{recipeIngredients[__${idx}__].quantity}" />
                             <input class="form-control flex-grow-0" style="width: 6em;"
                                    th:field="*{recipeIngredients[__${idx}__].unit}" data-ingredient-unit />
                             <button type="button" class="btn btn-outline-danger" onclick="deleteListRow(this)">

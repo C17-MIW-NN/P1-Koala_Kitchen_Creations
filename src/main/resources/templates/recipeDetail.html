@@ -32,11 +32,30 @@
                     <div class="container overflow-hidden">
                         <div class="row g-2">
                             <div class="col-12 col-md-4 col-lg-4">
-                                <div class="p-3">Ingredients</div>
+                                <div class="p-3">
+                                    <b>Ingredients for <span th:text="${recipe.numberOfPortions}"/> portions</b>
+                                    <div class="btn-group" role="group" aria-label="Change number of portions">
+                                    <a class="btn btn-sm btn-outline-danger bi bi-dash-circle"
+                                       th:classappend="${recipe.numberOfPortions < 2 ? 'disabled' : null}"
+                                        th:href="@{/recipe/detail/{recipeId}/portionCount/{portionCount}
+                                        (recipeId=*{recipeId}, portionCount=${recipe.numberOfPortions+(-1)})}"
+                                        >
+
+                                    </a>
+                                    <a class="btn btn-sm btn-outline-success bi bi-plus-circle"
+                                       th:href="@{/recipe/detail/{recipeId}/portionCount/{portionCount}
+                                       (recipeId=*{recipeId}, portionCount=${recipe.numberOfPortions+1})}">
+
+                                    </a>
+                                    </div>
+                                </div>
                                 <ul>
                                     <li th:each="recipeIngredient : ${recipe.recipeIngredients}">
                                         <span th:text="${recipeIngredient.name}"></span>
-                                        <i th:text="${recipeIngredient.quantity}"></i>
+                                        <i th:text="${recipeIngredient.quantity} % 1 == 0 ?
+                                         ${#numbers.formatDecimal(recipeIngredient.quantity, 0, 0)}
+                                         :${#numbers.formatDecimal(recipeIngredient.quantity, 0, 1)}"></i>
+<!--                                        <i th:text="${#numbers.formatDecimal(recipeIngredient.quantity, 0, 2)}"></i>-->
                                         <i th:text="${recipeIngredient.unit}"></i>
                                 </li>
                                 </ul>
@@ -44,7 +63,7 @@
                             <div class="col-12 col-md-8 col-lg-8">
                                 <div class="p-3">Method</div>
                                 <ol>
-                                    <li th:each="recipeStep : *{steps}" th:text="${recipeStep.stepDescription}">
+                                    <li th:each="recipeStep : *{recipe.recipeSteps}" th:text="${recipeStep}">
                                     </li>
                                 </ol>
 

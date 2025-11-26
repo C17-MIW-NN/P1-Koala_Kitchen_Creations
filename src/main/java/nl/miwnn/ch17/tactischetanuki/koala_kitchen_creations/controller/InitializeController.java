@@ -69,7 +69,7 @@ public class InitializeController {
         String[] ingredientLine = description.split(":");
         String[] quantityAndUnit = ingredientLine[1].trim().split(" ");
         assert(quantityAndUnit.length == 2);
-        String quantity = quantityAndUnit[0].trim();
+        double quantity = Double.parseDouble(quantityAndUnit[0].trim());
         String unit = quantityAndUnit[1].trim();
         String ingredientName = ingredientLine[0].trim();
         Ingredient ingredient = ingredientService.findOrCreateByName(ingredientName, unit);
@@ -127,6 +127,7 @@ public class InitializeController {
                 recipe.setImageURL("/image/" + randomImage.getFileName());
                 RecipeUser randomUser = sampleUsers.get((int) (Math.random() * sampleUsers.size()));
                 recipe.setAuthor(randomUser);
+                recipe.setNumberOfPortions(1 + (int) (Math.random()*3));
                 recipeRepository.save(recipe);
             }
         } catch (IOException e) {

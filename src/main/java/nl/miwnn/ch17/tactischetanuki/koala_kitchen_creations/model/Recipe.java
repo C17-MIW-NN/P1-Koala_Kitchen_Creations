@@ -25,6 +25,7 @@ public class Recipe {
 
     String name;
     private String imageURL;
+    private Integer numberOfPortions;
 
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<RecipeIngredients> recipeIngredients;
