@@ -1,6 +1,7 @@
 package nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.controller;
 
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.service.ImageService;
+import org.springframework.http.CacheControl;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.Image;
+
+import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -36,6 +39,8 @@ public class ImageController {
 
         return ResponseEntity.ok()
                 .contentType(image.getContentType())
+                .cacheControl(CacheControl.maxAge(365, TimeUnit.DAYS)
+                        .cachePublic())
                 .body(image.getData());
     }
 }

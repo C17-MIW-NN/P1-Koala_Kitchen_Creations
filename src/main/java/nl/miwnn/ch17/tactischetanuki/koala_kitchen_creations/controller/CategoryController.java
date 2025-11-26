@@ -44,7 +44,6 @@ public class CategoryController {
         }
         Set<Recipe> favoriteRecipes = recipeUserService.getUserWithFavorites(principal.getUsername()).getFavorites();
         Map<Long, Integer> favoriteCounts = getFavoriteCounts(favoriteRecipes);
-        System.out.println(favoriteCounts);
         dataModel.addAttribute("categories", categories);
         dataModel.addAttribute("formCategory", new Category());
         dataModel.addAttribute("categoryImages", categoryImages);
