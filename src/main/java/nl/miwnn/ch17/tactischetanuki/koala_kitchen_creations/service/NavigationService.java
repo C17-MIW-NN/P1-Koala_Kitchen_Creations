@@ -15,8 +15,7 @@ public class NavigationService {
     private static final List<NavItem> navItems = List.of(
             new NavItem("Recipes", "/recipe/all", false),
             new NavItem("Categories", "/category/all", false),
-            new NavItem("Favorites", "/recipe/favorites", true),
-            new NavItem("Users", "/user/all", true)
+            new NavItem("Favorites", "/recipe/favorites", true)
     );
     public List<NavItem> getNavItems(boolean isAuthenticated) {
         if (isAuthenticated) {

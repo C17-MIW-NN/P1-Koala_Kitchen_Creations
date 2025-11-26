@@ -19,8 +19,8 @@
             </h6>
         </div>
         <div class="d-flex" style="height: 10rem;">
-            <div style="position : absolute" th:if="${favoriteIds != null and favoriteIds.contains(recipe.recipeId)}">⭐</div>
-            <img th:src="@{*{imageURL}}" class="card-img-top recipe-img flex-fill" alt="Recipe image">
+            <div style="position : absolute;" class="fs-3" th:if="${favoriteIds != null and favoriteIds.contains(recipe.recipeId)}">⭐</div>
+            <img th:src="*{imageURL}" class="card-img-bottom recipe-img flex-fill" alt="Recipe image">
         </div>
     </div>
 </div>
