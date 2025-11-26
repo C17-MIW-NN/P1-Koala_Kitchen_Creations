@@ -33,6 +33,7 @@ public class RecipeMapper {
                 entity.getName(),
                 entity.getDescription(),
                 entity.getImageURL(),
+                entity.getNumberOfPortions(),
                 entity.getRecipeSteps().stream().map(RecipeStep::getStepDescription).toList(),
                 entity.getRecipeIngredients().stream().map(recipeIngredientMapper::toDto).toList(),
                 entity.getCategories().stream().map(Category::getName).toList(),
@@ -43,7 +44,7 @@ public class RecipeMapper {
         existingRecipe.setName(dto.getName());
         existingRecipe.setDescription(dto.getDescription());
         existingRecipe.setImageURL(dto.getImageURL());
-
+        existingRecipe.setNumberOfPortions(dto.getNumberOfPortions());
 
         Set<Category> categories = categoryService.findOrCreateByNames(dto.getCategories());
         existingRecipe.getCategories().clear();

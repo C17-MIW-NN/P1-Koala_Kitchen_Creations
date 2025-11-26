@@ -60,6 +60,10 @@
                         </select>
                     </div>
                     <div class="mb-3">
+                        <label for="numberOfPortions" class="form-label">Number of portions</label>
+                        <input type="text" class="form-control" id="numberOfPortions" th:field="*{numberOfPortions}">
+                    </div>
+                    <div class="mb-3">
                         <label for="recipeDescription" class="form-label">Description</label>
                         <textarea type="text" class="form-control" id="recipeDescription" th:field="*{description}"
                                   rows="6">

@@ -32,7 +32,9 @@
                     <div class="container overflow-hidden">
                         <div class="row g-2">
                             <div class="col-12 col-md-4 col-lg-4">
-                                <div class="p-3">Ingredients</div>
+                                <div class="p-3">
+                                    <b>Ingredients for <span th:text="${recipe.numberOfPortions}"/> portions</b>
+                                </div>
                                 <ul>
                                     <li th:each="recipeIngredient : ${recipe.recipeIngredients}">
                                         <span th:text="${recipeIngredient.name}"></span>

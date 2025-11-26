@@ -127,6 +127,7 @@ public class InitializeController {
                 recipe.setImageURL("/image/" + randomImage.getFileName());
                 RecipeUser randomUser = sampleUsers.get((int) (Math.random() * sampleUsers.size()));
                 recipe.setAuthor(randomUser);
+                recipe.setNumberOfPortions(1 + (int) (Math.random()*3));
                 recipeRepository.save(recipe);
             }
         } catch (IOException e) {

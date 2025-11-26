@@ -32,6 +32,7 @@ public class RecipeService {
             newRecipe.setImageURL(originalRecipe.getImageURL());
             newRecipe.setAuthor(newAuthor);
             newRecipe.setCategories(new HashSet<>(originalRecipe.getCategories()));
+            newRecipe.setNumberOfPortions(originalRecipe.getNumberOfPortions());
             newRecipe.setRecipeSteps(originalRecipe.getRecipeSteps().stream()
                     .map(RecipeStep::getStepDescription).map(RecipeStep::new).toList());
             newRecipe.setRecipeIngredients(copyRecipeIngredients(originalRecipe.getRecipeIngredients()));
