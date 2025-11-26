@@ -43,10 +43,21 @@ public class RecipeController {
 
 
     @GetMapping({"/recipe/all", "/"})
-    private String showRecipeOverview(Model datamodel) {
+    private String showRecipeOverview(Model datamodel, @AuthenticationPrincipal RecipeUser principal) {
         ArrayList<Recipe> recipes = new ArrayList<>();
 
         datamodel.addAttribute("recipes", recipeService.findAll());
+
+        if (principal != null) {
+            RecipeUser userWithFavorites = recipeUserService.getUserWithFavorites(principal.getUsername());
+            datamodel.addAttribute("favoriteIds",
+                    userWithFavorites.getFavorites()
+                            .stream()
+                            .map(Recipe::getRecipeId)
+                            .toList());
+        } else {
+            datamodel.addAttribute("favoriteIds", List.of());
+        }
         return "recipeList";
     }
 

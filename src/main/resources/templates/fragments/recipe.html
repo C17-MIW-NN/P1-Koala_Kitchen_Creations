@@ -6,6 +6,11 @@
 <!--/*@thymesVar id="recipe" type="nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.Recipe"*/-->
 <div th:fragment="recipeCard(recipe)" th:object="${recipe}" class="col">
     <div class="card h-100 link-card">
+        <span th:if="${favoriteIds != null and favoriteIds.contains(recipe.recipeId)}"
+              class="position-absolute top-0 end-0 m-2"
+              style="color: gold; font-size: 1.6rem; z-index: 10;">
+            ⭐
+        </span>
         <a class="stretched-link" th:href="@{/recipe/detail/{recipeId}(recipeId=*{recipeId})}" ></a>
         <div class="card-header flex-grow-1" style="min-height: 5rem;">
             <h5 class="card-title">
