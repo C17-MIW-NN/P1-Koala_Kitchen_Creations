@@ -28,5 +28,5 @@ public class RecipeDetailDto {
     private List<String> recipeSteps = new ArrayList<>();
     private List<RecipeIngredientDto> recipeIngredients = new ArrayList<>();
     private List<String> categories = new ArrayList<>();
-
+    private UserAuthorDTO author;
 }

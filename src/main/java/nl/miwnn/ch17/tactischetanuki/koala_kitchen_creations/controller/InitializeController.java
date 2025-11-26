@@ -47,11 +47,12 @@ public class InitializeController {
     }
 
     private void initializeDB() {
-        makeUser("Kees", "KeesPL");
-        makeUser("Barbara", "Barbara2000");
+        List<RecipeUser> sampleUsers = new ArrayList<>();
+        sampleUsers.add(makeUser("Kees", "KeesPL"));
+        sampleUsers.add(makeUser("Barbara", "Barbara2000"));
 
         List<Image> sampleImages = loadImages("/sampledata/images/");
-        loadRecipes("sampledata/recipes_50_detailed.csv", sampleImages);
+        loadRecipes("sampledata/recipes_50_detailed.csv", sampleImages, sampleUsers);
     }
 
     private Recipe makeRecipe(String name, String description, Set<Category> categories,
@@ -111,15 +112,21 @@ public class InitializeController {
         return makeRecipe(name, description, categories, recipeIngredients, steps);
     }
 
-    private void loadRecipes(String filename, List<Image> sampleImages) {
+    private void loadRecipes(String filename, List<Image> sampleImages, List<RecipeUser> sampleUsers) {
         try (CSVReader reader = new CSVReader(new FileReader(new ClassPathResource(filename).getFile()))) {
             // skip header
             reader.skip(1);
 
             for (String[] recipeLine : reader) {
+                // TODO remove this
+                if (Math.random() > 0.05) {
+                    continue;
+                }
                 Recipe recipe = parseRecipeLineAndMakeRecipe(recipeLine);
                 Image randomImage = sampleImages.get((int) (Math.random() * sampleImages.size()));
                 recipe.setImageURL("/image/" + randomImage.getFileName());
+                RecipeUser randomUser = sampleUsers.get((int) (Math.random() * sampleUsers.size()));
+                recipe.setAuthor(randomUser);
                 recipeRepository.save(recipe);
             }
         } catch (IOException e) {

@@ -32,7 +32,7 @@
                 <ul class="navbar-nav ms-auto">
 
                     <th:block th:each="navItem : ${navItems}">
-                        <li class="nav-item" th:if="${!navItem.requiresAuthenticated or #authorization.expression('isAuthenticated()')}">
+                        <li class="nav-item">
                             <a class="nav-link" th:classappend="${activeItem == navItem.name} ? 'active navbar-active'"
                                th:href="@{${navItem.href}}" th:text="${navItem.name}"></a>
                         </li>

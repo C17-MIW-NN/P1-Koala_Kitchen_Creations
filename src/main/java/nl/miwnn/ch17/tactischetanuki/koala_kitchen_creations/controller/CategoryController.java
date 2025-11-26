@@ -1,7 +1,9 @@
 package nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.controller;
 
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.Category;
+import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.RecipeUser;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.repositories.CategoryRepository;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -44,8 +46,9 @@ public class CategoryController {
     }
 
     @PostMapping("/save")
-    public String saveCategory(@ModelAttribute Category formCategory, BindingResult result) {
-        if (!result.hasErrors()) {
+    public String saveCategory(@ModelAttribute Category formCategory, BindingResult result,
+                               @AuthenticationPrincipal RecipeUser principal) {
+        if (!result.hasErrors() && principal != null) {
             categoryRepository.save(formCategory);
         }
         return "redirect:/category/all";

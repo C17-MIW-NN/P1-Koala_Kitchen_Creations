@@ -1,6 +1,7 @@
 package nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.service.mappers;
 
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.dto.NewRecipeUserDTO;
+import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.dto.UserAuthorDTO;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.RecipeUser;
 
 /**
@@ -16,5 +17,9 @@ public class RecipeUserMapper {
         recipeUser.setPassword(newRecipeUserDTO.getPassword());
 
         return recipeUser;
+    }
+
+    public static UserAuthorDTO toAuthorDTO(RecipeUser recipeUser) {
+        return new UserAuthorDTO(recipeUser.getUsername(), recipeUser.getUserId());
     }
 }
