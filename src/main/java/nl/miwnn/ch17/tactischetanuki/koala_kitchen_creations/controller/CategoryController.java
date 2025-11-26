@@ -1,5 +1,6 @@
 package nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.controller;
 
+import lombok.RequiredArgsConstructor;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.Category;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.Recipe;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.RecipeUser;
@@ -22,32 +23,28 @@ import java.util.stream.Collectors;
  */
 @Controller
 @RequestMapping("/category")
+@RequiredArgsConstructor
 public class CategoryController {
     private final CategoryRepository categoryRepository;
     private final RecipeUserService recipeUserService;
-    private final RecipeRepository recipeRepository;
-
-    public CategoryController(CategoryRepository categoryRepository, RecipeUserService recipeUserService, RecipeRepository recipeRepository) {
-        this.categoryRepository = categoryRepository;
-        this.recipeUserService = recipeUserService;
-        this.recipeRepository = recipeRepository;
-    }
 
     @GetMapping("/all")
     public String showCategoryOverview(Model dataModel, @AuthenticationPrincipal RecipeUser principal) {
         List<Category> categories = categoryRepository.findAll();
 
         Map<Long, String> categoryImages = new HashMap<>();
+        String image = "/images/default-category.png";
         for (Category category : categories) {
-            String image = category.getRecipes().stream()
-                    .filter(r -> r.getImageURL() != null && !r.getImageURL().isEmpty())
-                    .map(Recipe::getImageURL)
-                    .findAny()
-                    .orElse("/images/default-category.png");
+            List<String> imageList = category.getRecipes().stream()
+                    .map(Recipe::getImageURL).filter(Objects::nonNull).toList();
+            if (!imageList.isEmpty()) {
+                image = imageList.get((int) (Math.random() * imageList.size()));
+            }
             categoryImages.put(category.getCategoryId(), image);
         }
-        Map<Long, Integer> favoriteCounts = getFavoriteCounts(recipeRepository.findAll(), principal);
-
+        Set<Recipe> favoriteRecipes = recipeUserService.getUserWithFavorites(principal.getUsername()).getFavorites();
+        Map<Long, Integer> favoriteCounts = getFavoriteCounts(favoriteRecipes);
+        System.out.println(favoriteCounts);
         dataModel.addAttribute("categories", categories);
         dataModel.addAttribute("formCategory", new Category());
         dataModel.addAttribute("categoryImages", categoryImages);
@@ -88,9 +85,8 @@ public class CategoryController {
         return Collections.emptySet();
     }
 
-    private Map<Long, Integer> getFavoriteCounts(List<Recipe> recipes, RecipeUser user) {
-        return recipes.stream()
-                .filter(r -> r.getFavoritedBy().contains(user))
+    private Map<Long, Integer> getFavoriteCounts(Set<Recipe> favoriteRecipes) {
+        return favoriteRecipes.stream()
                 .map(Recipe::getCategories).flatMap(Collection::stream)
                 .collect(Collectors.toMap(
                         Category::getCategoryId,

@@ -118,10 +118,10 @@ public class InitializeController {
             reader.skip(1);
 
             for (String[] recipeLine : reader) {
-                // TODO remove this
-                if (Math.random() > 0.05) {
-                    continue;
-                }
+//                // TODO remove this
+//                if (Math.random() > 0.05) {
+//                    continue;
+//                }
                 Recipe recipe = parseRecipeLineAndMakeRecipe(recipeLine);
                 Image randomImage = sampleImages.get((int) (Math.random() * sampleImages.size()));
                 recipe.setImageURL("/image/" + randomImage.getFileName());
