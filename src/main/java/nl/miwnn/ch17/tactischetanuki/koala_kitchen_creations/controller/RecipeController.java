@@ -96,12 +96,15 @@ public class RecipeController {
         if (!result.hasErrors() && canEdit(recipe.getRecipeId(), principal)) {
             Optional<String> newImageURL = processSubmittedImage(recipeImage, result);
             newImageURL.ifPresent(recipe::setImageURL);
-            recipeService.save(recipe);
+            Recipe savedRecipe = recipeService.save(recipe, Optional.of(principal));
+            savedRecipe.setAuthor(principal);
+            redirectAttributes.addAttribute("recipeId", savedRecipe.getRecipeId());
+            return "redirect:/recipe/detail/{recipeId}";
         } else {
             System.err.println("Error saving recipe: " + result.toString());
+            return "redirect:/";
         }
-        redirectAttributes.addAttribute("recipeId", recipe.getRecipeId());
-        return "redirect:/recipe/detail/{recipeId}";
+
     }
 
     @GetMapping("/recipe/delete/{recipeId}")

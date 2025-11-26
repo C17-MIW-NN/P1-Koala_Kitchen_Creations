@@ -1,9 +1,8 @@
-package nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.mapper;
+package nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.service.mappers;
 
 import lombok.RequiredArgsConstructor;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.dto.RecipeIngredientDto;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.RecipeIngredients;
-import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.repositories.IngredientRepository;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.service.IngredientService;
 import org.springframework.stereotype.Component;
 

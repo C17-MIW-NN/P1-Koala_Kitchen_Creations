@@ -106,16 +106,16 @@
                     <button type="button" class="btn btn-secondary mb-3 btn btn-success" onclick="addListRow('stepsContainer')">
                         Add step
                     </button>
-
-                    <button th:if="${formRecipe.recipeId == null}">Add recipe
-                    </button>
                 </form>
             </div>
             <div class="col-md-1 col-lg-2 justify-content-center p-0">
                 <aside class="sticky-top d-grid dynamic-sticky-top justify-content-center">
                     <div class="d-flex flex-column flex-shrink-1 gap-2 pt-4">
-                        <button type="submit" form="recipeForm" class="btn btn-primary btn-wrap">
-                            <span th:unless="${formRecipe.recipeId == null}">Update recipe</span>
+                        <button type="submit" form="recipeForm" class="btn btn-primary btn-wrap"
+                                th:unless="${formRecipe.recipeId == null}">Update recipe
+                        </button>
+                        <button type="submit" form="recipeForm" class="btn btn-primary btn-wrap"
+                                th:if="${formRecipe.recipeId == null}">Add recipe
                         </button>
                     </div>
                 </aside>
