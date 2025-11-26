@@ -78,4 +78,13 @@ public class RecipeService {
                 recipeIngredient.getIngredient(), recipeIngredient.getQuantity(), recipeIngredient.getUnit()
         )).toList();
     }
+
+    public RecipeDetailDto convertPortionCount(RecipeDetailDto originalRecipe, Integer changedPortionCount) {
+        float conversionFactor = (float) changedPortionCount / originalRecipe.getNumberOfPortions();
+        for (RecipeIngredientDto ingredient : originalRecipe.getRecipeIngredients()) {
+            ingredient.setQuantity(ingredient.getQuantity() * conversionFactor);
+        }
+        originalRecipe.setNumberOfPortions(changedPortionCount);
+        return originalRecipe;
+    }
 }
