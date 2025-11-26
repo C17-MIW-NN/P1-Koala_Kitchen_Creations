@@ -1,4 +1,4 @@
-package nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.mapper;
+package nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.service.mappers;
 
 import lombok.RequiredArgsConstructor;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.dto.RecipeDetailDto;
@@ -8,9 +8,7 @@ import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.RecipeIngredi
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.RecipeStep;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.repositories.RecipeIngredientsRepository;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.service.CategoryService;
-import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.service.RecipeService;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.service.RecipeStepService;
-import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.service.mappers.RecipeUserMapper;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

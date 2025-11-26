@@ -4,17 +4,14 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.dto.RecipeDetailDto;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.dto.RecipeIngredientDto;
-import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.mapper.RecipeMapper;
-import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.Category;
+import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.service.mappers.RecipeMapper;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.Recipe;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.RecipeStep;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.RecipeUser;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.repositories.RecipeRepository;
-import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.service.mappers.RecipeUserMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * @author Josse Muller
@@ -56,20 +53,21 @@ public class RecipeService {
     }
 
     @Transactional
-    public Recipe save(RecipeDetailDto dto) {
+    public Recipe save(RecipeDetailDto dto, Optional<RecipeUser> author) {
         Recipe existingRecipe;
         if (dto.getRecipeId() == null) {
-            existingRecipe = new Recipe();
+            existingRecipe = recipeRepository.save(new Recipe());
         } else {
             existingRecipe = recipeRepository.findById(dto.getRecipeId()).orElseGet(Recipe::new);
         }
-        Recipe updatedRecipe = recipeMapper.updateRecipe(dto, existingRecipe);
-
-        return updatedRecipe;
+        Recipe updatedRecipe =  recipeMapper.updateRecipe(dto, existingRecipe);
+        author.ifPresent(updatedRecipe::setAuthor);
+        return recipeRepository.save(updatedRecipe);
     }
     public RecipeDetailDto newRecipe() {
         RecipeDetailDto newRecipe = new RecipeDetailDto();
         newRecipe.setRecipeIngredients(List.of(new RecipeIngredientDto()));
+        newRecipe.setRecipeSteps(List.of(""));
         return newRecipe;
     }
 }
