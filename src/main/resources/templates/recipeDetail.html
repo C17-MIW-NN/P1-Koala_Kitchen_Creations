@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org">
 <head th:replace="~{fragments/general :: baseheader(~{:: title})}">
     <title th:text="${recipe.name}"></title>
 </head>
@@ -55,23 +55,28 @@
 
                 <div class="col-12 col-md-1 col-lg-2 justify-content-center p-0">
                     <aside class="sticky-top d-grid dynamic-sticky-top justify-content-center">
-                        <div class="d-flex flex-column flex-shrink-1 gap-2 pt-4">
+                        <div class="d-flex flex-column flex-shrink-1 gap-2 pt-4" sec:authorize="isAuthenticated()" >
                             <a th:if="${isFavorite}"
                                th:href="@{'/recipe/' + ${recipe.recipeId} + '/favorite/remove'}"
                                class="btn btn-warning">
-                                ★ Delete
+                                ★ Remove
                             </a>
                             <a th:unless="${isFavorite}"
                                th:href="@{'/recipe/' + ${recipe.recipeId} + '/favorite/add'}"
                                class="btn btn-warning">
                                 ☆ Add
                             </a>
-                            <a class="btn btn-primary btn-wrap" th:href="@{/recipe/edit/{recipeId}(recipeId=*{recipeId})}">
-                                Edit recipe
+                            <a class="btn btn-primary btn-wrap" th:href="@{/recipe/edit/{recipeId}(recipeId=*{recipeId})}"
+                                th:if="${userCanEditRecipe}">
+                                Edit
                             </a>
-                            <a class="btn btn-wrap btn-danger"
+                            <a class="btn btn-primary btn-wrap" th:href="@{/recipe/copy/{recipeId}(recipeId=*{recipeId})}"
+                                th:unless="${userCanEditRecipe}">
+                                Edit copy
+                            </a>
+                            <a class="btn btn-wrap btn-danger" th:if="${userCanEditRecipe}"
                                th:href="@{/recipe/delete/{recipeId}(recipeId=*{recipeId})}">
-                                Delete recipe
+                                Delete
                             </a>
                         </div>
                     </aside>

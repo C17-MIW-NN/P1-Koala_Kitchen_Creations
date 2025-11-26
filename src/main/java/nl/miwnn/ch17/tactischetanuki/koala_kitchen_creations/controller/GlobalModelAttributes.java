@@ -25,7 +25,8 @@ public class GlobalModelAttributes {
 
     @ModelAttribute("navItems")
     public List<NavItem> populateNavItems(@AuthenticationPrincipal RecipeUser principal) {
-        return navigationService.getNavItems();
+        boolean isAuthenticated = principal != null;
+        return navigationService.getNavItems(isAuthenticated);
     }
 
 

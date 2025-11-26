@@ -18,7 +18,11 @@ public class NavigationService {
             new NavItem("Favorites", "/recipe/favorites", true),
             new NavItem("Users", "/user/all", true)
     );
-    public List<NavItem> getNavItems() {
-        return navItems;
+    public List<NavItem> getNavItems(boolean isAuthenticated) {
+        if (isAuthenticated) {
+            return navItems;
+        } else {
+            return navItems.stream().filter((navItem) -> !navItem.requiresAuthenticated).toList();
+        }
     }
 }

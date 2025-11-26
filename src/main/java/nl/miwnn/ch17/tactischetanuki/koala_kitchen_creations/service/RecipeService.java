@@ -5,11 +5,16 @@ import lombok.RequiredArgsConstructor;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.dto.RecipeDetailDto;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.dto.RecipeIngredientDto;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.mapper.RecipeMapper;
+import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.Category;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.Recipe;
+import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.RecipeStep;
+import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.RecipeUser;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.repositories.RecipeRepository;
+import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.service.mappers.RecipeUserMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author Josse Muller
@@ -21,6 +26,21 @@ import java.util.*;
 public class RecipeService {
     private final RecipeMapper recipeMapper;
     private final RecipeRepository recipeRepository;
+    private final IngredientService ingredientService;
+
+    public Optional<Recipe> copyRecipe(Long recipeId, RecipeUser newAuthor) {
+        return recipeRepository.findById(recipeId).map((originalRecipe) -> {
+            Recipe newRecipe = new Recipe(originalRecipe.getName() + " à la " + newAuthor.getUsername(),
+                    originalRecipe.getDescription());
+            newRecipe.setImageURL(originalRecipe.getImageURL());
+            newRecipe.setAuthor(newAuthor);
+            newRecipe.setCategories(new HashSet<>(originalRecipe.getCategories()));
+            newRecipe.setRecipeSteps(originalRecipe.getRecipeSteps().stream()
+                    .map(RecipeStep::getStepDescription).map(RecipeStep::new).toList());
+            newRecipe.setRecipeIngredients(ingredientService.copyRecipeIngredients(originalRecipe.getRecipeIngredients()));
+            return recipeRepository.save(newRecipe);
+        });
+    }
 
     public Optional<RecipeDetailDto> findById(Long id) {
         return recipeRepository.findById(id).map(recipeMapper::toDto);

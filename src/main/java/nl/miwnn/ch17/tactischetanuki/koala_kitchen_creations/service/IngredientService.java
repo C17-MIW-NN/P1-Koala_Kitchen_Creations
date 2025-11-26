@@ -2,8 +2,11 @@ package nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.service;
 
 import lombok.RequiredArgsConstructor;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.Ingredient;
+import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.RecipeIngredients;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.repositories.IngredientRepository;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 /**
  * @author Josse Muller
@@ -16,5 +19,10 @@ public class IngredientService {
     public Ingredient findOrCreateByName(String name, String suggestedUnit) {
         return ingredientRepository.findByName(name).orElseGet(() ->
                 ingredientRepository.save(new Ingredient(name, suggestedUnit)));
+    }
+    public List<RecipeIngredients> copyRecipeIngredients(List<RecipeIngredients> originalRecipeIngredients) {
+        return originalRecipeIngredients.stream().map((recipeIngredient) -> new RecipeIngredients(
+                recipeIngredient.getIngredient(), recipeIngredient.getQuantity(), recipeIngredient.getUnit()
+        )).toList();
     }
 }

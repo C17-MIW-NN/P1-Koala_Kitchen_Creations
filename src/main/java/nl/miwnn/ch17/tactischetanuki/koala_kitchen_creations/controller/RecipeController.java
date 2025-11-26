@@ -55,6 +55,16 @@ public class RecipeController {
         return returnRecipeForm(datamodel, recipeService.newRecipe());
     }
 
+    private boolean canEdit(Long recipeId, RecipeUser user) {
+        if (user == null) {
+            return false;
+        } else if (recipeId == null) {
+            return true;
+        } else {
+            return recipeService.findById(recipeId).map((recipeDetailDto ->
+                    recipeDetailDto.getAuthor().getId().equals(user.getUserId()))).orElse(false);
+        }
+    }
     public Optional<String> processSubmittedImage(MultipartFile recipeImage, BindingResult result) {
         try {
             if (recipeImage != null && !recipeImage.isEmpty()) {
@@ -66,12 +76,24 @@ public class RecipeController {
         }
         return Optional.empty();
     }
+
+    @GetMapping("/recipe/copy/{recipeId}")
+    public String copyRecipe (@PathVariable("recipeId") Long recipeId,
+                              @AuthenticationPrincipal RecipeUser principal) {
+        if (principal == null) {
+            return "redirect:/recipe/detail/" + recipeId;
+        }
+        Long copyId = recipeService.copyRecipe(recipeId, principal).orElseThrow().getRecipeId();
+        return "redirect:/recipe/edit/" + copyId;
+    }
     @PostMapping("/recipe/save")
     public String saveOrUpdateRecipe(@ModelAttribute("formRecipe") RecipeDetailDto recipe,
                                      @RequestParam(value = "recipeImage", required = false) MultipartFile recipeImage,
                                      BindingResult result,
-                                     RedirectAttributes redirectAttributes )  {
-        if (!result.hasErrors()) {
+                                     RedirectAttributes redirectAttributes,
+                                     @AuthenticationPrincipal RecipeUser principal
+                                     )  {
+        if (!result.hasErrors() && canEdit(recipe.getRecipeId(), principal)) {
             Optional<String> newImageURL = processSubmittedImage(recipeImage, result);
             newImageURL.ifPresent(recipe::setImageURL);
             recipeService.save(recipe);
@@ -83,20 +105,26 @@ public class RecipeController {
     }
 
     @GetMapping("/recipe/delete/{recipeId}")
-    public String deleteRecipe(@PathVariable("recipeId") Long recipeId) {
-        recipeService.deleteById(recipeId);
+    public String deleteRecipe(@PathVariable("recipeId") Long recipeId,
+                               @AuthenticationPrincipal RecipeUser principal) {
+        if (canEdit(recipeId, principal)) {
+            recipeService.deleteById(recipeId);
+        } else {
+            System.out.println("Not allowed to delete recipe.");
+            return "redirect:/recipe/detail/" + recipeId;
+        }
         return "redirect:/recipe/all";
     }
 
     @GetMapping("/recipe/edit/{recipeId}")
-    public String showEditRecipeform(@PathVariable("recipeId") Long recipeId, Model datamodel) {
-        Optional<RecipeDetailDto> optionalRecipe = recipeService.findById(recipeId);
-
-        if (optionalRecipe.isPresent()) {
-            RecipeDetailDto recipe = optionalRecipe.get();
+    public String showEditRecipeform(@PathVariable("recipeId") Long recipeId,
+                                     @AuthenticationPrincipal RecipeUser principal,
+                                     Model datamodel) {
+        if (recipeId != null && canEdit(recipeId, principal)) {
+            // Cannot throw if canEdit returns true
+            RecipeDetailDto recipe = recipeService.findById(recipeId).orElseThrow();
             return returnRecipeForm(datamodel, recipe);
         }
-
         return "redirect:/recipe/all";
     }
 
@@ -127,6 +155,7 @@ public class RecipeController {
 
         model.addAttribute("recipe", recipe);
         model.addAttribute("steps", steps);
+        model.addAttribute("userCanEditRecipe", canEdit(recipeId, principal));
 
         if (principal != null) {
             RecipeUser userWithFavorites = recipeUserService.getUserWithFavorites(principal.getUsername());
