@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.dto.RecipeDetailDto;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.dto.RecipeIngredientDto;
+import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.RecipeIngredients;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.service.mappers.RecipeMapper;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.Recipe;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.RecipeStep;
@@ -23,7 +24,6 @@ import java.util.*;
 public class RecipeService {
     private final RecipeMapper recipeMapper;
     private final RecipeRepository recipeRepository;
-    private final IngredientService ingredientService;
 
     public Optional<Recipe> copyRecipe(Long recipeId, RecipeUser newAuthor) {
         return recipeRepository.findById(recipeId).map((originalRecipe) -> {
@@ -34,7 +34,7 @@ public class RecipeService {
             newRecipe.setCategories(new HashSet<>(originalRecipe.getCategories()));
             newRecipe.setRecipeSteps(originalRecipe.getRecipeSteps().stream()
                     .map(RecipeStep::getStepDescription).map(RecipeStep::new).toList());
-            newRecipe.setRecipeIngredients(ingredientService.copyRecipeIngredients(originalRecipe.getRecipeIngredients()));
+            newRecipe.setRecipeIngredients(copyRecipeIngredients(originalRecipe.getRecipeIngredients()));
             return recipeRepository.save(newRecipe);
         });
     }
@@ -64,10 +64,17 @@ public class RecipeService {
         author.ifPresent(updatedRecipe::setAuthor);
         return recipeRepository.save(updatedRecipe);
     }
+
     public RecipeDetailDto newRecipe() {
         RecipeDetailDto newRecipe = new RecipeDetailDto();
         newRecipe.setRecipeIngredients(List.of(new RecipeIngredientDto()));
         newRecipe.setRecipeSteps(List.of(""));
         return newRecipe;
+    }
+
+    public List<RecipeIngredients> copyRecipeIngredients(List<RecipeIngredients> originalRecipeIngredients) {
+        return originalRecipeIngredients.stream().map((recipeIngredient) -> new RecipeIngredients(
+                recipeIngredient.getIngredient(), recipeIngredient.getQuantity(), recipeIngredient.getUnit()
+        )).toList();
     }
 }
