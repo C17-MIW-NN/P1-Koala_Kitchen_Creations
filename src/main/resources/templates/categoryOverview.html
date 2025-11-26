@@ -11,12 +11,16 @@
     <main class="container-fluid py-4">
         <div class="row justify-content-center">
             <div class="col-12 col-md-10 col-lg-8">
-                <div th:replace="~{fragments/category :: categoryList(${categories})}"></div>
-                <br />
-                <br />
-                <a class="btn btn-primary" onclick="new bootstrap.Modal(document.getElementById('newForm'), {}).toggle()">
-                    Add category
-                </a>
+                <div th:replace="~{fragments/category :: categoryList(${categories},${categoryImages},
+                ${favoriteCounts})}"></div>
+
+                    <!-- Add category knop -->
+                    <div class="mt-4">
+                        <a class="btn btn-primary" onclick="new bootstrap.Modal(document.getElementById('newForm'), {}).toggle()">
+                            Add category
+                        </a>
+
+                    </div>
             </div>
         </div>
     </main>
