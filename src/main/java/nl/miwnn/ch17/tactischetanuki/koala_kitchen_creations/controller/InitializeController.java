@@ -69,7 +69,7 @@ public class InitializeController {
         String[] ingredientLine = description.split(":");
         String[] quantityAndUnit = ingredientLine[1].trim().split(" ");
         assert(quantityAndUnit.length == 2);
-        String quantity = quantityAndUnit[0].trim();
+        double quantity = Double.parseDouble(quantityAndUnit[0].trim());
         String unit = quantityAndUnit[1].trim();
         String ingredientName = ingredientLine[0].trim();
         Ingredient ingredient = ingredientService.findOrCreateByName(ingredientName, unit);
@@ -119,9 +119,9 @@ public class InitializeController {
 
             for (String[] recipeLine : reader) {
                 // TODO remove this
-                if (Math.random() > 0.05) {
-                    continue;
-                }
+//                if (Math.random() > 0.05) {
+//                    continue;
+//                }
                 Recipe recipe = parseRecipeLineAndMakeRecipe(recipeLine);
                 Image randomImage = sampleImages.get((int) (Math.random() * sampleImages.size()));
                 recipe.setImageURL("/image/" + randomImage.getFileName());

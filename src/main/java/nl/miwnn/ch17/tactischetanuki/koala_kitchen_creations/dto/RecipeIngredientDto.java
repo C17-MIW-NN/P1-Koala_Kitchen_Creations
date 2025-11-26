@@ -15,7 +15,7 @@ public class RecipeIngredientDto {
 
     private Long id;
     private String name;
-    private String quantity;
+    private double quantity;
     private String unit;
 
 }

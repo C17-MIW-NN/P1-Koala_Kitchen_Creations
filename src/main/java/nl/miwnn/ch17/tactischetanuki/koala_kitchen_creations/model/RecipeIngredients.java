@@ -18,7 +18,7 @@ public class RecipeIngredients {
     @GeneratedValue
     private Long recipeIngredientsId;
 
-    private String quantity;
+    private double quantity;
 
     private String unit;
 
@@ -32,14 +32,14 @@ public class RecipeIngredients {
         this.recipe = recipe;
     }
 
-    public RecipeIngredients(Ingredient ingredient, String quantity, String unit) {
+    public RecipeIngredients(Ingredient ingredient, double quantity, String unit) {
         this();
         this.ingredient = ingredient;
         this.quantity = quantity;
         this.unit = unit;
     }
 
-    public RecipeIngredients(Long id, Ingredient ingredient, String quantity, String unit) {
+    public RecipeIngredients(Long id, Ingredient ingredient, double quantity, String unit) {
         this(ingredient, quantity, unit);
         this.recipeIngredientsId = id;
     }

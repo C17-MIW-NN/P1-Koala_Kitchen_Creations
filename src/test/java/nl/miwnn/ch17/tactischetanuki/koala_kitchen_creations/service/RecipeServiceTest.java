@@ -93,8 +93,8 @@ class RecipeServiceTest {
         Ingredient ingredient2 = new Ingredient("Ingredient2", "unit2");
 
         List<RecipeIngredients> originalRecipeIngredients = List.of(
-                new RecipeIngredients(1L, ingredient1, "quantity1", ingredient1.getDefaultUnit()),
-                new RecipeIngredients(2L, ingredient2, "quantity2", "unit2")
+                new RecipeIngredients(1L, ingredient1, 10, ingredient1.getDefaultUnit()),
+                new RecipeIngredients(2L, ingredient2, 0.5, "unit2")
         );
         originalRecipe.setRecipeIngredients(originalRecipeIngredients);
 
