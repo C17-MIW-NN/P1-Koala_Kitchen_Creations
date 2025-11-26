@@ -1,7 +1,9 @@
 package nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.controller;
 
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.NavItem;
+import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.RecipeUser;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.service.NavigationService;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
@@ -22,8 +24,9 @@ public class GlobalModelAttributes {
     }
 
     @ModelAttribute("navItems")
-    public List<NavItem> populateNavItems() {
+    public List<NavItem> populateNavItems(@AuthenticationPrincipal RecipeUser principal) {
         return navigationService.getNavItems();
     }
+
 
 }

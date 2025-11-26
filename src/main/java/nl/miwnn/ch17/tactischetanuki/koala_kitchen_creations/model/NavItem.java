@@ -11,4 +11,5 @@ import lombok.Value;
 public class NavItem {
     public String name;
     public String href;
+    public boolean requiresAuthenticated;
 }

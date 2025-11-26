@@ -78,8 +78,8 @@
                             <input class="form-control flex-grow-1" th:field="*{recipeIngredients[__${idx}__].quantity}" />
                             <input class="form-control flex-grow-0" style="width: 6em;"
                                    th:field="*{recipeIngredients[__${idx}__].unit}" data-ingredient-unit />
-                            <button type="button" class="btn btn-danger" onclick="deleteListRow(this)">
-                                <i class="btn-danger bi bi-trash-fill"></i>
+                            <button type="button" class="btn btn-outline-danger" onclick="deleteListRow(this)">
+                                <i class="bi bi-trash-fill"></i>
                             </button>
                         </div>
                     </div>
@@ -97,7 +97,7 @@
                             <textarea class="form-control"
                                 th:field="*{recipeSteps[__${stat.index}__]}"
                                       placeholder="Describe step..." ></textarea>
-                            <button type="button" class="btn btn-danger" onclick="deleteListRow(this)">
+                            <button type="button" class="btn btn-outline-danger" onclick="deleteListRow(this)">
                                 <i class="bi bi-trash-fill"></i>
                             </button>
                         </div>
