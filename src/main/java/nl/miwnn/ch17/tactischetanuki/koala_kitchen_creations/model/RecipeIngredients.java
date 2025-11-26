@@ -18,42 +18,33 @@ public class RecipeIngredients {
     @GeneratedValue
     private Long recipeIngredientsId;
 
-    private String name;
     private String quantity;
+
+    private String unit;
 
     @ManyToOne
     private Recipe recipe;
 
+    @ManyToOne
+    private Ingredient ingredient;
+
     public RecipeIngredients(Recipe recipe) {
         this.recipe = recipe;
-        this.name = name;
-        this.quantity = quantity;
     }
 
-    public RecipeIngredients(String name, String quantity) {
-        this.name = name;
+    public RecipeIngredients(Ingredient ingredient, String quantity, String unit) {
+        this();
+        this.ingredient = ingredient;
         this.quantity = quantity;
+        this.unit = unit;
     }
 
-    public RecipeIngredients(Long id, String name, String quantity) {
+    public RecipeIngredients(Long id, Ingredient ingredient, String quantity, String unit) {
+        this(ingredient, quantity, unit);
         this.recipeIngredientsId = id;
-        this.name = name;
-        this.quantity = quantity;
     }
 
     public RecipeIngredients() {
     }
 
-    @Override
-    public boolean equals(Object other) {
-        if (other instanceof RecipeIngredients otherRecipeIngredients) {
-            return name.equals(otherRecipeIngredients.getName()) && quantity.equals(otherRecipeIngredients.quantity);
-        }
-        return false;
-    }
-
-    @Override
-    public int hashCode() {
-        return name.hashCode();
-    }
 }

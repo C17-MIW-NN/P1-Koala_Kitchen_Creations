@@ -7,10 +7,30 @@
 <body>
 <div class="page-wrapper">
     <nav th:replace="~{fragments/general :: navbar(${navItems}, 'Active nav item name')}"></nav>
+    <div>
+        <main class="container-fluid py-4">
+            <div class="row">
+                <div class="col-md-1 col-lg-2">
+                </div>
+                <div class="col-12 col-md-10 col-lg-8">
+                    <h1 class="text-center">
+                        <span th:text="${recipe.name}" />
+                    </h1>
+                    <!-- Page content -->
+                </div>
 
-    <main class="page-main">
-
-    </main>
+                <div class="col-md-1 col-lg-2 justify-content-center p-0">
+                    <aside class="sticky-top d-grid dynamic-sticky-top justify-content-center">
+                        <div class="d-flex flex-column flex-shrink-1 gap-2 pt-4">
+                            <a class="btn btn-primary btn-wrap">
+                                Example sidebar button
+                            </a>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        </main>
+    </div>
 
     <footer th:replace="~{fragments/general :: footer}"></footer>
     <div th:replace="~{fragments/general :: bottomScripts}"></div>

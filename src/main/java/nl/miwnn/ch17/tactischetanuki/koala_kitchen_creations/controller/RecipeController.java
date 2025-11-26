@@ -6,6 +6,10 @@ import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.*;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.repositories.CategoryRepository;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.service.*;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.repositories.IngredientRepository;
+import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.service.ImageService;
+import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.service.RecipeService;
+import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.service.RecipeStepService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -34,7 +38,7 @@ public class RecipeController {
     private final RecipeStepService recipeStepService;
     private final CategoryRepository categoryRepository;
     private final ImageService imageService;
-    private final CategoryService categoryService;
+    private final IngredientRepository ingredientRepository;
     private final RecipeUserService recipeUserService;
 
 
@@ -99,6 +103,7 @@ public class RecipeController {
     private String returnRecipeForm(Model datamodel, RecipeDetailDto recipe) {
         datamodel.addAttribute("formRecipe", recipe);
         datamodel.addAttribute("availableCategories", categoryRepository.findAll());
+        datamodel.addAttribute("knownIngredients", ingredientRepository.findAll());
         return "recipeForm";
     }
 

@@ -1,13 +1,12 @@
 package nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.controller;
 
 import com.opencsv.CSVReader;
+import lombok.RequiredArgsConstructor;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.*;
+import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.repositories.IngredientRepository;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.repositories.RecipeRepository;
 import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.repositories.RecipeUserRepository;
-import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.service.CategoryService;
-import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.service.ImageService;
-import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.service.RecipeStepService;
-import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.service.RecipeUserService;
+import nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.service.*;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.io.ClassPathResource;
@@ -29,6 +28,7 @@ import java.util.stream.Stream;
  * Initialises the database with example data
  */
 
+@RequiredArgsConstructor
 @Controller
 public class InitializeController {
     private final RecipeRepository recipeRepository;
@@ -36,16 +36,8 @@ public class InitializeController {
     private final CategoryService categoryService;
     private final ImageService imageService;
     private final RecipeUserService recipeUserService;
-
-    public InitializeController(RecipeRepository recipeRepository, RecipeStepService recipeStepService,
-                                CategoryService categoryService, ImageService imageService,
-                                RecipeUserService recipeUserService) {
-        this.recipeRepository = recipeRepository;
-        this.recipeStepService = recipeStepService;
-        this.categoryService = categoryService;
-        this.imageService = imageService;
-        this.recipeUserService = recipeUserService;
-    }
+    private final IngredientRepository ingredientRepository;
+    private final IngredientService ingredientService;
 
     @EventListener
     private void seed(ContextRefreshedEvent ignoredEvent) {
@@ -74,7 +66,13 @@ public class InitializeController {
 
     private RecipeIngredients makeRecipeIngredient(String description) {
         String[] ingredientLine = description.split(":");
-        return new RecipeIngredients(ingredientLine[0].trim(), ingredientLine[1].trim());
+        String[] quantityAndUnit = ingredientLine[1].trim().split(" ");
+        assert(quantityAndUnit.length == 2);
+        String quantity = quantityAndUnit[0].trim();
+        String unit = quantityAndUnit[1].trim();
+        String ingredientName = ingredientLine[0].trim();
+        Ingredient ingredient = ingredientService.findOrCreateByName(ingredientName, unit);
+        return new RecipeIngredients(ingredient, quantity, unit);
     }
 
     private RecipeUser makeUser(String username, String password) {

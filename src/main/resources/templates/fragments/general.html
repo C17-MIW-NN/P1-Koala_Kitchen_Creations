@@ -3,43 +3,48 @@
 
 <head th:fragment="baseheader(title)">
     <meta charset="UTF-8">
-    <title th:replace="${title}">This is the base title</title>
+    <title th:replace="${title}"></title>
 
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap-icons/font/bootstrap-icons.min.css}">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/use-bootstrap-select@2.2.1/dist/use-bootstrap-select.min.css">
     <script src="https://cdn.jsdelivr.net/npm/use-bootstrap-select@2.2.1/dist/use-bootstrap-select.min.js"></script>
-
     <link rel="stylesheet" type="text/css" href="/css/style.css" />
 </head>
 
 <body>
 
-<!--/*@thymesVar id="navItems" type="java.util.List<nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.NavItem>"*/-->
+<!--/* @thymesVar id="navItems" type="java.util.List<nl.miwnn.ch17.tactischetanuki.koala_kitchen_creations.model.NavItem>" */-->
 <nav th:fragment="navbar(navItems, activeItem)" class="navbar navbar-expand-lg navbar-light sticky-top
-        justify-content-center fs-3" style="background-color: rgb(214,206,181);">
-    <div class="container">
+        justify-content-center fs-3 w-100" style="background-color: var(--navbar-color);" id="navbar">
+    <div class="container-fluid justify-content-center w-100">
         <div class="row justify-content-center w-100">
-            <div class="col-lg-8 col-md-10 col-12 d-flex align-items-center">
-                <a class="navbar-brand me-auto" th:href="@{/}">
+            <div class="col-lg-8 col-md-10 col-sm-12 align-items-center d-flex flex-wrap flex-lg-nowrap">
+                <a class="navbar-brand" th:href="@{/}">
                     <img th:src="@{/images/logoKoalaKitchenCreations.png}" alt="KoalaKitchenCreations" style="height:80px;" >
                 </a>
-                <ul class="navbar-nav">
+                <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarItems"
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse w-100  w-lg-auto flex-lg-grow-1" id="navbarItems">
+                <ul class="navbar-nav ms-auto">
 
-                    <li class="nav-item" th:each="navItem : ${navItems}">
-                        <a class="nav-link" th:classappend="${activeItem == navItem.name} ? 'active'"
-                           th:href="@{${navItem.href}}" th:text="${navItem.name}" ></a>
-                    </li>
-                    <li class="nav-item" th:if="${#authorization.expression('isAuthenticated()')}">
-                        <a class="nav-link" th:href="@{/recipe/favorites}">Favorieten</a>
-                    </li>
-                    <li class="nav-item" sec:authorize="isAuthenticated()">
-                        <a class="nav-link" th:href="@{/user/all}">Users</a>
+                    <th:block th:each="navItem : ${navItems}">
+                        <li class="nav-item" th:if="${!navItem.requiresAuthenticated or #authorization.expression('isAuthenticated()')}">
+                            <a class="nav-link" th:classappend="${activeItem == navItem.name} ? 'active navbar-active'"
+                               th:href="@{${navItem.href}}" th:text="${navItem.name}"></a>
+                        </li>
+                    </th:block>
+                    <li>
+                        <a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/login}">Login</a>
+                        <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/logout}">
+                            Logout <span sec:authentication="name"></span>
+                        </a>
                     </li>
                 </ul>
-                    <a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/login}">Login</a>
-                    <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/logout}">Logout <span sec:authentication="name"></span></a>
+                </div>
             </div>
         </div>
 
@@ -56,6 +61,7 @@
 
 <div th:fragment="bottomScripts">
     <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+    <script src="/js/stickyTop.js"></script>
 </div>
 
 </body>

@@ -7,74 +7,77 @@
 <body>
 <div class="page-wrapper">
     <nav th:replace="~{fragments/general :: navbar(${navItems}, '')}"></nav>
+    <div>
+        <div class="w-100">
+            <img th:src="${recipe.imageURL}" class="img-fluid w-100 banner-img">
+        </div>
 
-    <div class="w-100">
-        <img th:src="${recipe.imageURL}" class="img-fluid w-100 banner-img">
-    </div>
-
-    <main class="container py-4">
-        <div class="row">
-            <div class="col-md-1 col-lg-2">
-            </div>
-            <div class="col-12 col-md-10 col-lg-8">
-                <h1 class="text-center">
-                    <span th:text="${recipe.name}" />
-                </h1>
-                <h4 th:if="${recipe.categories.size() > 0}">
-                    Categories:
-                    <a th:each="category : *{recipe.categories}"
-                       class="nav-link active badge category-tag rounded-pill text-decoration-none me-2"
-                       th:href="@{/category/{categoryName}/recipes(categoryName=${category})}"
-                       th:text="${category}"/>
-                </h4>
-                <p class="lead mt-3" th:text="${recipe.description}"></p>
-                <div class="container overflow-hidden">
-                    <div class="row g-2">
-                        <div class="col-6">
-                            <div class="p-3">Ingredients</div>
-                            <ul>
-                                <li th:each="recipeIngredient : ${recipe.recipeIngredients}">
-                                    <span th:text="${recipeIngredient.name}"></span>
-                                    <i th:text="${recipeIngredient.quantity}"></i>
+        <main class="container-fluid py-4">
+            <div class="row">
+                <div class="col-md-1 col-lg-2">
+                </div>
+                <div class="col-12 col-md-10 col-lg-8">
+                    <h1 class="text-center">
+                        <span th:text="${recipe.name}" />
+                    </h1>
+                    <h4 th:if="${recipe.categories.size() > 0}">
+                        Categories:
+                        <a th:each="category : *{recipe.categories}"
+                           class="nav-link active badge category-tag rounded-pill text-decoration-none me-2"
+                           th:href="@{/category/{categoryName}/recipes(categoryName=${category})}"
+                           th:text="${category}"/>
+                    </h4>
+                    <p class="lead mt-3" th:text="${recipe.description}"></p>
+                    <div class="container overflow-hidden">
+                        <div class="row g-2">
+                            <div class="col-12 col-md-4 col-lg-4">
+                                <div class="p-3">Ingredients</div>
+                                <ul>
+                                    <li th:each="recipeIngredient : ${recipe.recipeIngredients}">
+                                        <span th:text="${recipeIngredient.name}"></span>
+                                        <i th:text="${recipeIngredient.quantity}"></i>
+                                        <i th:text="${recipeIngredient.unit}"></i>
                                 </li>
-                            </ul>
-                        </div>
-                        <div class="col-6">
-                            <div class="p-3">Method</div>
-                            <ol>
-                                <li th:each="recipeStep : *{steps}" th:text="${recipeStep.stepDescription}">
-                                </li>
-                            </ol>
+                                </ul>
+                            </div>
+                            <div class="col-12 col-md-8 col-lg-8">
+                                <div class="p-3">Method</div>
+                                <ol>
+                                    <li th:each="recipeStep : *{steps}" th:text="${recipeStep.stepDescription}">
+                                    </li>
+                                </ol>
 
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="col-md-1 col-lg-2 d-flex flex-column justify-content-center align-items-center">
-                <aside class="position-fixed top-50 end-0 translate-middle-y d-flex flex-column gap-2 me-3">
-                    <a th:if="${isFavorite}"
-                       th:href="@{'/recipe/' + ${recipe.recipeId} + '/favorite/remove'}"
-                       class="btn btn-warning">
-                        ★ Delete
-                    </a>
-                    <a th:unless="${isFavorite}"
-                       th:href="@{'/recipe/' + ${recipe.recipeId} + '/favorite/add'}"
-                       class="btn btn-warning">
-                        ☆ Add
-                    </a>
-                    <a class="btn btn-primary" th:href="@{/recipe/edit/{recipeId}(recipeId=*{recipeId})}">
-                        Edit recipe
-                    </a>
-                    <a class="btn btn-primary btn btn-danger"
-                       th:href="@{/recipe/delete/{recipeId}(recipeId=*{recipeId})}">
-                        Delete recipe
-                    </a>
-                </aside>
+                <div class="col-12 col-md-1 col-lg-2 justify-content-center p-0">
+                    <aside class="sticky-top d-grid dynamic-sticky-top justify-content-center">
+                        <div class="d-flex flex-column flex-shrink-1 gap-2 pt-4">
+                            <a th:if="${isFavorite}"
+                               th:href="@{'/recipe/' + ${recipe.recipeId} + '/favorite/remove'}"
+                               class="btn btn-warning">
+                                ★ Delete
+                            </a>
+                            <a th:unless="${isFavorite}"
+                               th:href="@{'/recipe/' + ${recipe.recipeId} + '/favorite/add'}"
+                               class="btn btn-warning">
+                                ☆ Add
+                            </a>
+                            <a class="btn btn-primary btn-wrap" th:href="@{/recipe/edit/{recipeId}(recipeId=*{recipeId})}">
+                                Edit recipe
+                            </a>
+                            <a class="btn btn-wrap btn-danger"
+                               th:href="@{/recipe/delete/{recipeId}(recipeId=*{recipeId})}">
+                                Delete recipe
+                            </a>
+                        </div>
+                    </aside>
+                </div>
             </div>
-        </div>
-    </main>
-
+        </main>
+    </div>
 
 
     <footer th:replace="~{fragments/general :: footer}"></footer>
