@@ -125,3 +125,11 @@ body {
 .dynamic-sticky-top {
     top: 0;
 }
+
+.favorite-star {
+    color: gold;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    line-height: 1;
+}

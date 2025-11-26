@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * @author Jantine van der Schaaf
@@ -44,22 +45,38 @@ public class RecipeController {
 
     @GetMapping({"/recipe/all", "/"})
     private String showRecipeOverview(Model datamodel, @AuthenticationPrincipal RecipeUser principal) {
-        ArrayList<Recipe> recipes = new ArrayList<>();
+        List<Recipe> allRecipes = recipeService.findAll();
 
-        datamodel.addAttribute("recipes", recipeService.findAll());
-
+        Set<Long> favoriteIds = new HashSet<>();
         if (principal != null) {
             RecipeUser userWithFavorites = recipeUserService.getUserWithFavorites(principal.getUsername());
-            datamodel.addAttribute("favoriteIds",
-                    userWithFavorites.getFavorites()
+            favoriteIds = userWithFavorites.getFavorites()
                             .stream()
                             .map(Recipe::getRecipeId)
-                            .toList());
-        } else {
-            datamodel.addAttribute("favoriteIds", List.of());
+                            .collect(Collectors.toSet());
         }
+
+        List<Recipe> sortedRecipes = sortRecipesWithPriority(allRecipes, favoriteIds);
+
+        datamodel.addAttribute("recipes", sortedRecipes);
+        datamodel.addAttribute("favoriteIds", favoriteIds);
         return "recipeList";
     }
+
+    private List<Recipe> sortRecipesWithPriority(List<Recipe> recipes, Set<Long> favoriteIds) {
+        Map<Long, Integer> recipePriority = new HashMap<>();
+        for (Recipe r : recipes) {
+            recipePriority.put(r.getRecipeId(), favoriteIds.contains(r.getRecipeId()) ? 2 : 1);
+        }
+
+        return recipes.stream()
+                .sorted(Comparator.comparingInt((Recipe r) -> recipePriority.get(r.getRecipeId()))
+                        .reversed()
+                        .thenComparing(Recipe::getName, String.CASE_INSENSITIVE_ORDER))
+                .toList();
+    }
+
+
 
     @GetMapping("/recipe/add")
     public String showRecipeForm(Model datamodel) {
