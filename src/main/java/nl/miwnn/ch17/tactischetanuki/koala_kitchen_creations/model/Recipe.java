@@ -42,6 +42,9 @@ public class Recipe {
     @Column(columnDefinition = "TEXT")
     String description;
 
+    @ManyToOne
+    RecipeUser author;
+
     public Recipe(String name, String description) {
         this();
         this.name = name;
